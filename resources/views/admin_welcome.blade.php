@@ -296,14 +296,7 @@
 
 
 
-        .lol {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            flex-wrap: wrap;
-            text-align: center;
-            align-content: center;
-        }
+
 
         #profile_picture_image_preview {
             width: 100%;
@@ -316,6 +309,21 @@
         }
 
         #profile_picture_image_preview.show {
+            display: block;
+        }
+
+
+        #timeline_picture_image_preview {
+            width: 100%;
+            /* max-width: 300px; */
+            /* border: 1px solid #ccc; */
+            box-shadow: 0px 3px 8px #ccc;
+            border-radius: 5px;
+            padding: 4px;
+            display: none;
+        }
+
+        #timeline_picture_image_preview.show {
             display: block;
         }
 
@@ -334,14 +342,14 @@
                         <div class="cover">
                             <div class="gray-shade"></div>
                             <figure>
-                                <img src="{{ asset('image/timelinephoto.jpg') }}" class="img-fluid" alt="profile cover">
+                                <img src="{{ asset('image/' . $user->timeline_picture) }}" class="img-fluid" alt="profile cover">
                             </figure>
                             <div class="cover-body d-flex justify-content-between align-items-center">
                                 <div>
                                     <a href="" data-toggle="modal" style="text-decoration: none;"
                                         data-target="#profile_picture">
-                                        <img class="profile-pic"
-                                            src="{{ asset('image/'.$user->profile_picture) }}" alt="profile">
+                                        <img class="profile-pic" src="{{ asset('image/' . $user->profile_picture) }}"
+                                            alt="profile">
                                     </a>
                                     <span class="profile-name">{{ $user->name }}</span>
                                 </div>
@@ -1124,13 +1132,25 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                <form action="{{ route('admin_update_timeline_picture') }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <img src="" id="timeline_picture_image_preview" alt="" style="width:100%;">
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="timeline_picture_image"
+                                    name="timeline_picture" required accept='image/*' onchange="showTimelineImage()">
+                                <label class="custom-file-label" for="timeline_picture_image">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -1149,8 +1169,7 @@
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
-                        <img src="" id="profile_picture_image_preview"
-                        alt="" style="width:100%;">
+                        <img src="" id="profile_picture_image_preview" alt="" style="width:100%;">
                         <div class="input-group mb-3">
                             <div class="custom-file">
                                 <input type="file" class="custom-file-input" id="profile_picture_image"
@@ -1173,15 +1192,27 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        const imageUploader = document.getElementById("profile_picture_image");
-        const imagePreview = document.getElementById("profile_picture_image_preview");
+        const imageUploader_profile_picture = document.getElementById("profile_picture_image");
+        const imagePreview_profile_picture = document.getElementById("profile_picture_image_preview");
 
         function showImage() {
             let reader = new FileReader();
-            reader.readAsDataURL(imageUploader.files[0]);
+            reader.readAsDataURL(imageUploader_profile_picture.files[0]);
             reader.onload = function(e) {
-                imagePreview.classList.add("show");
-                imagePreview.src = e.target.result;
+                imagePreview_profile_picture.classList.add("show");
+                imagePreview_profile_picture.src = e.target.result;
+            };
+        }
+
+        const imageUploader_timeline_picture = document.getElementById("timeline_picture_image");
+        const imagePreview_timeline_picture = document.getElementById("timeline_picture_image_preview");
+
+        function showTimelineImage() {
+            let reader = new FileReader();
+            reader.readAsDataURL(imageUploader_timeline_picture.files[0]);
+            reader.onload = function(e) {
+                imagePreview_timeline_picture.classList.add("show");
+                imagePreview_timeline_picture.src = e.target.result;
             };
         }
 

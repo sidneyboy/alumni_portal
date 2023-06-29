@@ -66,4 +66,20 @@ class HomeController extends Controller
 
         return redirect('home');
     }
+
+    public function admin_update_timeline_picture(Request $request)
+    {
+        //dd($request->all());
+        $destinationPath = 'image';
+        $myimage = $request->timeline_picture->getClientOriginalName();
+        $request->timeline_picture->move(public_path($destinationPath), $myimage);
+
+
+        User::where('id', $request->input('user_id'))
+            ->update([
+                'timeline_picture' => $myimage,
+            ]);
+
+        return redirect('home');
+    }
 }

@@ -7,6 +7,8 @@ use App\Models\Announcements;
 use App\Models\Announcements_attachments;
 use App\Models\Announcement_replies;
 use App\Models\User;
+use App\Models\Wall;
+use App\Models\Wall_attachments;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -36,14 +38,31 @@ class HomeController extends Controller
             $announcement_counter = Announcements_attachments::where('announcements_id', $announcement->id)
                 ->get();
         } else {
-            $announcement_counter = 0;
+            $announcement_counter[] = 0;
         }
+
+        $latest_announcement_photos = Announcements_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::orderBy('id', 'desc')->get();
 
         return view('admin_welcome', [
             'user' => $user,
+            'wall' => $wall,
             'date_now' => $date_now,
             'announcement' => $announcement,
             'announcement_counter' => $announcement_counter,
+            'latest_announcement_photos' => $latest_announcement_photos,
+            'latest_wall_photos' => $latest_wall_photos,
         ]);
     }
 
@@ -100,25 +119,30 @@ class HomeController extends Controller
     public function admin_post_announcement(Request $request)
     {
         //dd($request->all());
-
         $new = new Announcements([
             'subject' => $request->input('subject'),
             'body' => $request->input('body'),
+            'user_id' => auth()->user()->id,
         ]);
 
         $new->save();
 
-        foreach ($request->file('images') as $key => $images) {
-            $destinationPath = 'announcement_photos';
-            $myimage = uniqid() . '-' . $images->getClientOriginalName();
-            $images->move(public_path($destinationPath), $myimage);
+        $file_images = $request->file('images');
 
-            $new_announcement_attachments = new Announcements_attachments([
-                'announcements_id' => $new->id,
-                'attachment' => $myimage,
-            ]);
+        if (isset($file_images)) {
+            foreach ($request->file('images') as $key => $images) {
+                $destinationPath = 'announcement_photos';
+                $myimage = uniqid() . '-' . $images->getClientOriginalName();
+                $images->move(public_path($destinationPath), $myimage);
 
-            $new_announcement_attachments->save();
+                $new_announcement_attachments = new Announcements_attachments([
+                    'announcements_id' => $new->id,
+                    'attachment' => $myimage,
+                    'user_id' => auth()->user()->id,
+                ]);
+
+                $new_announcement_attachments->save();
+            }
         }
 
         return redirect('home');
@@ -134,6 +158,40 @@ class HomeController extends Controller
         ]);
 
         $new_comment_reply->save();
+
+        return redirect('home');
+    }
+
+    public function admin_post_wall(Request $request)
+    {
+        //dd($request->all());
+
+        $new = new Wall([
+            'body' => $request->input('body'),
+            'user_id' => auth()->user()->id,
+            'user_type' => 'admin',
+        ]);
+
+        $new->save();
+
+        $file_images = $request->file('wall_images');
+
+        if (isset($file_images)) {
+            foreach ($request->file('wall_images') as $key => $images) {
+                $destinationPath = 'announcement_photos';
+                $myimage = uniqid() . '-' . $images->getClientOriginalName();
+                $images->move(public_path($destinationPath), $myimage);
+
+                $wall_attachments = new Wall_attachments([
+                    'wall_id' => $new->id,
+                    'attachment' => $myimage,
+                    'user_id' => auth()->user()->id,
+                    'user_type' => 'admin',
+                ]);
+
+                $wall_attachments->save();
+            }
+        }
 
         return redirect('home');
     }

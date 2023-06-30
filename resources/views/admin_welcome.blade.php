@@ -341,7 +341,7 @@
         }
 
         .gedf-card {
-            margin-bottom: 2.77rem;
+            /* margin-bottom: 2.77rem; */
         }
 
 
@@ -657,7 +657,6 @@
                     </div>
                 </div>
 
-
                 <div class="col-md-8 col-xl-6 middle-wrapper">
                     <div class="row">
                         <div class="col-md-12 grid-margin">
@@ -673,7 +672,40 @@
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
                                 <div class="tab-pane active" id="wall" role="tabpanel">
+                                    <div class="card rounded">
+                                        <form action="{{ route('admin_post_wall') }}" method="post"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="card-body">
+                                                <div class="form-group">
+                                                    <textarea name="body" class="form-control" cols="30" rows="3" placeholder="What on your mind?"></textarea>
+                                                </div>
+                                                <br />
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">Upload</span>
+                                                    </div>
+                                                    <div class="custom-file">
+                                                        <input type="file" name="wall_images[]"
+                                                            class="custom-file-input" id="upload_wall_image" multiple>
+                                                        <label class="custom-file-label"
+                                                            for="upload_wall_image">Choose
+                                                            file</label>
+                                                    </div>
+                                                </div>
+                                                <div class="img-thumbs img-thumbs-hidden" id="upload_wall_image_prev">
+                                                </div>
 
+                                                <div class="row">
+                                                    <div class="col-md-6"></div>
+                                                    <div class="col-md-6">
+                                                        <button class="btn btn-sm btn-block btn-primary"
+                                                            type="submit">POST</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                                 <div class="tab-pane" id="annoucement" role="tabpanel">
                                     <div class="card rounded">
@@ -758,13 +790,13 @@
                                         </p>
                                         <div class="container profile">
                                             <div class="profile-img-list">
-                                                <div class="profile-img-list-item main"><a href="#"
-                                                        class="profile-img-list-link"><span
-                                                            class="profile-img-content"
-                                                            style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
-                                                </div>
-
-                                                @if (count($announcement_counter) > 5)
+                                                @if (count($announcement_counter) == 0)
+                                                @elseif(count($announcement_counter) > 5)
+                                                    <div class="profile-img-list-item main"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
+                                                    </div>
                                                     @foreach ($announcement->attachments as $item)
                                                         <div class="profile-img-list-item"><a href="#"
                                                                 class="profile-img-list-link"><span
@@ -780,6 +812,11 @@
                                                         </a>
                                                     </div>
                                                 @elseif(count($announcement_counter) <= 5)
+                                                    <div class="profile-img-list-item main"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
+                                                    </div>
                                                     @foreach ($announcement->attachments as $item)
                                                         <div class="profile-img-list-item"><a href="#"
                                                                 class="profile-img-list-link"><span
@@ -801,7 +838,8 @@
                                             <div class="collapse" id="collapseExample">
                                                 <div class="form-group">
                                                     <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                    <input type="hidden" name="announcement_id" value="{{ $announcement->id }}">
+                                                    <input type="hidden" name="announcement_id"
+                                                        value="{{ $announcement->id }}">
                                                 </div>
                                                 <button class="btn btn-sm float-right btn-primary">Reply</button>
                                             </div>
@@ -811,6 +849,106 @@
                             </div>
                         </div>
                     @endif
+                    @foreach ($wall as $wall_item)
+                        <div class="row">
+                            <div class="col-md-12 grid-margin">
+                                <div class="card gedf-card">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="mr-2">
+                                                    <img class="rounded-circle" width="45"
+                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
+                                                </div>
+                                                <div class="ml-2">
+                                                    <div class="h5 m-0">{{ '@' . $user->name }}</div>
+                                                    <div class="h7 text-muted">{{ $user->name }}</div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-link dropdown-toggle" type="button"
+                                                        id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                        <i class="fa fa-ellipsis-h"></i>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right"
+                                                        aria-labelledby="gedf-drop1">
+                                                        <div class="h6 dropdown-header">Configuration</div>
+                                                        <a class="dropdown-item" href="#">Disable</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
+                                        <p class="card-text">
+                                            {{ $wall_item->body }}
+                                        </p>
+                                        <div class="container profile">
+                                            <div class="profile-img-list">
+                                                @if (count($wall_item->attachments) == 0)
+                                                @elseif(count($wall_item->attachments) > 5)
+                                                    <div class="profile-img-list-item main"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
+                                                    </div>
+                                                    @foreach ($wall_item->attachments_limit_3 as $item)
+                                                        <div class="profile-img-list-item"><a href="#"
+                                                                class="profile-img-list-link"><span
+                                                                    class="profile-img-content"
+                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
+                                                        </div>
+                                                    @endforeach
+                                                    <div class="profile-img-list-item with-number">
+                                                        <a href="#" class="profile-img-list-link">
+                                                            <span class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span>
+                                                            <div class="profile-img-number">+{{ count($wall_item->attachments) }}</div>
+                                                        </a>
+                                                    </div>
+                                                @elseif(count($wall_item->attachments_limit_3) <= 5)
+                                                    <div class="profile-img-list-item main"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
+                                                    </div>
+                                                    @foreach ($announcement->attachments as $item)
+                                                        <div class="profile-img-list-item"><a href="#"
+                                                                class="profile-img-list-link"><span
+                                                                    class="profile-img-content"
+                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
+                                                        </div>
+                                                    @endforeach
+                                                @endif
+
+                                           
+                                            </div>
+                                        </div>
+                                        <a class="card-link" data-toggle="collapse" href="#collapseExample"
+                                            role="button" aria-expanded="false" aria-controls="collapseExample">
+                                            <i class="fa fa-comment"></i> Comment
+                                        </a>
+                                    </div>
+                                    <div class="card-footer">
+                                        {{-- <form action="{{ route('admin_reply_announcement') }}" method="post">
+                                            @csrf
+                                            <div class="collapse" id="collapseExample">
+                                                <div class="form-group">
+                                                    <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
+                                                    <input type="hidden" name="announcement_id"
+                                                        value="{{ $announcement->id }}">
+                                                </div>
+                                                <button class="btn btn-sm float-right btn-primary">Reply</button>
+                                            </div>
+                                        </form> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
 
 
@@ -822,60 +960,20 @@
                                     <h6 class="card-title">latest photos</h6>
                                     <div class="latest-photos">
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            @foreach ($latest_announcement_photos as $item)
                                                 <figure>
                                                     <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar1.png" alt>
+                                                        src="{{ asset('announcement_photos/' . $item->attachment) }}"
+                                                        alt>
                                                 </figure>
-                                            </div>
-                                            <div class="col-md-4">
+                                            @endforeach
+                                            @foreach ($latest_wall_photos as $item)
                                                 <figure>
                                                     <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar2.png" alt>
+                                                        src="{{ asset('announcement_photos/' . $item->attachment) }}"
+                                                        alt>
                                                 </figure>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <figure>
-                                                    <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar3.png" alt>
-                                                </figure>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <figure>
-                                                    <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar4.png" alt>
-                                                </figure>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <figure>
-                                                    <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar5.png" alt>
-                                                </figure>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <figure>
-                                                    <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar6.png" alt>
-                                                </figure>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <figure class="mb-0">
-                                                    <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar7.png" alt>
-                                                </figure>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <figure class="mb-0">
-                                                    <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar8.png" alt>
-                                                </figure>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <figure class="mb-0">
-                                                    <img class="img-fluid"
-                                                        src="https://bootdey.com/img/Content/avatar/avatar9.png" alt>
-                                                </figure>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -1190,6 +1288,55 @@
                 imagePreview_timeline_picture.src = e.target.result;
             };
         }
+
+
+
+
+        var upload_wall_image = document.getElementById('upload_wall_image'),
+            upload_wall_image_prev = document.getElementById('upload_wall_image_prev'),
+            upload_wall_imageForm = document.getElementById('form-upload'),
+            totalFiles, previewTitle, previewTitleText, img;
+
+        upload_wall_image.addEventListener('change', wall_prev_image, true);
+
+        function wall_prev_image(event) {
+            totalFiles = upload_wall_image.files.length;
+
+            if (!!totalFiles) {
+                upload_wall_image_prev.classList.remove('img-thumbs-hidden');
+            }
+
+            for (var i = 0; i < totalFiles; i++) {
+                wrapper = document.createElement('div');
+                wrapper.classList.add('wrapper-thumb');
+                removeBtn = document.createElement("span");
+                nodeRemove = document.createTextNode('x');
+                removeBtn.classList.add('remove-btn');
+                removeBtn.appendChild(nodeRemove);
+                img = document.createElement('img');
+                img.src = URL.createObjectURL(event.target.files[i]);
+                img.classList.add('img-preview-thumb');
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+                upload_wall_image_prev.appendChild(wrapper);
+
+                $('.remove-btn').click(function() {
+                    $(this).parent('.wrapper-thumb').remove();
+                });
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
 
 
 

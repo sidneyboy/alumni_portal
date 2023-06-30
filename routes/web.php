@@ -29,6 +29,9 @@ Route::post('/admin_update_timeline_picture', [App\Http\Controllers\HomeControll
 Route::post('/admin_post_announcement', [App\Http\Controllers\HomeController::class, 'admin_post_announcement'])->name('admin_post_announcement');
 Route::post('/admin_reply_announcement', [App\Http\Controllers\HomeController::class, 'admin_reply_announcement'])->name('admin_reply_announcement');
 
+Route::post('/admin_post_wall', [App\Http\Controllers\HomeController::class, 'admin_post_wall'])->name('admin_post_wall');
+
+
 
 Route::post('/graduate_registration', [App\Http\Controllers\Graduates_registration_controller::class, 'graduate_registration'])->name('graduate_registration');
 

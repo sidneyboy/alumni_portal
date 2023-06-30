@@ -24,4 +24,9 @@ class Announcements extends Model
     {
         return $this->hasOne('App\Models\Announcements_attachments', 'announcements_id')->take(1);
     }
+
+    public function admin_photos()
+    {
+        return $this->hasMany('App\Models\Announcements_attachments', 'announcements_id')->orderBy('id','desc')->take(8);
+    }
 }

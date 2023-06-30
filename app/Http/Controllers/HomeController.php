@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Announcements;
+use App\Models\Announcements_attachments;
+use App\Models\Announcement_replies;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -27,9 +31,19 @@ class HomeController extends Controller
         date_default_timezone_set('Asia/Manila');
         $date_now = date('Y-m-d');
         $user = User::find(auth()->user()->id);
+        $announcement = Announcements::orderBy('id', 'desc')->take(1)->first();
+        if ($announcement) {
+            $announcement_counter = Announcements_attachments::where('announcements_id', $announcement->id)
+                ->get();
+        } else {
+            $announcement_counter = 0;
+        }
+
         return view('admin_welcome', [
             'user' => $user,
             'date_now' => $date_now,
+            'announcement' => $announcement,
+            'announcement_counter' => $announcement_counter,
         ]);
     }
 
@@ -79,6 +93,47 @@ class HomeController extends Controller
             ->update([
                 'timeline_picture' => $myimage,
             ]);
+
+        return redirect('home');
+    }
+
+    public function admin_post_announcement(Request $request)
+    {
+        //dd($request->all());
+
+        $new = new Announcements([
+            'subject' => $request->input('subject'),
+            'body' => $request->input('body'),
+        ]);
+
+        $new->save();
+
+        foreach ($request->file('images') as $key => $images) {
+            $destinationPath = 'announcement_photos';
+            $myimage = uniqid() . '-' . $images->getClientOriginalName();
+            $images->move(public_path($destinationPath), $myimage);
+
+            $new_announcement_attachments = new Announcements_attachments([
+                'announcements_id' => $new->id,
+                'attachment' => $myimage,
+            ]);
+
+            $new_announcement_attachments->save();
+        }
+
+        return redirect('home');
+    }
+
+    public function admin_reply_announcement(Request $request)
+    {
+        $new_comment_reply = new Announcement_replies([
+            'announcements_id' => $request->input('announcement_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
 
         return redirect('home');
     }

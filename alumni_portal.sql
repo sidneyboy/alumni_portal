@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 29, 2023 at 09:53 AM
+-- Generation Time: Jun 30, 2023 at 05:11 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 8.1.2
 
@@ -20,6 +20,79 @@ SET time_zone = "+00:00";
 --
 -- Database: `alumni_portal`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE `announcements` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `announcements`
+--
+
+INSERT INTO `announcements` (`id`, `subject`, `body`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'What is Lorem Ipsum?', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements_attachments`
+--
+
+CREATE TABLE `announcements_attachments` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `announcements_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `attachment` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `announcements_attachments`
+--
+
+INSERT INTO `announcements_attachments` (`id`, `announcements_id`, `attachment`, `status`, `created_at`, `updated_at`) VALUES
+(1, 1, '649e3e85b2ed9-fsdfsdf.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33'),
+(2, 1, '649e3e85b3cd1-hfghfghgfh.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33'),
+(3, 1, '649e3e85b4aa5-nfghfghgfh.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33'),
+(4, 1, '649e3e85b58c5-qasdfasdasd.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33'),
+(5, 1, '649e3e85b6955-qweqwe.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33'),
+(6, 1, '649e3e85b751f-qweqweqweqweqwe.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcement_replies`
+--
+
+CREATE TABLE `announcement_replies` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `announcements_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `announcement_replies`
+--
+
+INSERT INTO `announcement_replies` (`id`, `announcements_id`, `user_id`, `content`, `status`, `user_type`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 'asdasdasdasd', NULL, 'admin', '2023-06-29 19:10:26', '2023-06-29 19:10:26');
 
 -- --------------------------------------------------------
 
@@ -91,7 +164,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
 (5, '2023_06_29_022352_create_graduates_profiles_table', 2),
 (6, '2023_06_29_052127_add_pictures_to_user', 3),
-(7, '2023_06_29_053400_add_about_to_user', 4);
+(7, '2023_06_29_053400_add_about_to_user', 4),
+(8, '2023_06_30_001852_create_announcements_table', 5),
+(9, '2023_06_30_002220_create_announcements_replies_table', 6),
+(10, '2023_06_30_002338_create_announcements_attachments_table', 6),
+(11, '2023_06_30_024740_create_announcement_replies_table', 7),
+(12, '2023_06_30_030727_create_announcement_replies_table', 8);
 
 -- --------------------------------------------------------
 
@@ -138,8 +216,8 @@ CREATE TABLE `users` (
   `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `profile_picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `timeline_picture` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `profile_picture` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `timeline_picture` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `date_of_birth` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `about` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
@@ -150,11 +228,31 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `profile_picture`, `timeline_picture`, `gender`, `date_of_birth`, `about`) VALUES
-(1, 'John Sidney Salazar', 'admin@gmail.com', NULL, '$2y$10$KSOQEnXsNbOcutrAWPctj.5EfTgs5LnFW4Zyfe315MVBd5bLKdVy6', NULL, '2023-06-28 18:14:54', '2023-06-28 23:51:07', 'cowd_logo_with_slogan.png', '1374076.jpg', 'Male', '1993-06-29', 'Hi! I\'m Amiah the Senior UI Designer at Vibrant. We hope you enjoy the design and quality of Social.');
+(1, 'John Sidney Salazar', 'admin@gmail.com', NULL, '$2y$10$KSOQEnXsNbOcutrAWPctj.5EfTgs5LnFW4Zyfe315MVBd5bLKdVy6', NULL, '2023-06-28 18:14:54', '2023-06-29 17:11:13', 'images.jpg', 'cropped-school-header (1).jpg', 'Male', '1993-06-29', 'Hi! I\'m Amiah the Senior UI Designer at Vibrant. We hope you enjoy the design and quality of Social.');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `announcements_attachments`
+--
+ALTER TABLE `announcements_attachments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `announcements_attachments_announcements_id_index` (`announcements_id`);
+
+--
+-- Indexes for table `announcement_replies`
+--
+ALTER TABLE `announcement_replies`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `announcement_replies_announcements_id_index` (`announcements_id`);
 
 --
 -- Indexes for table `failed_jobs`
@@ -201,6 +299,24 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT for table `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `announcements_attachments`
+--
+ALTER TABLE `announcements_attachments`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT for table `announcement_replies`
+--
+ALTER TABLE `announcement_replies`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `failed_jobs`
 --
 ALTER TABLE `failed_jobs`
@@ -216,7 +332,7 @@ ALTER TABLE `graduates_profiles`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -229,6 +345,22 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `announcements_attachments`
+--
+ALTER TABLE `announcements_attachments`
+  ADD CONSTRAINT `announcements_attachments_announcements_id_foreign` FOREIGN KEY (`announcements_id`) REFERENCES `announcements` (`id`);
+
+--
+-- Constraints for table `announcement_replies`
+--
+ALTER TABLE `announcement_replies`
+  ADD CONSTRAINT `announcement_replies_announcements_id_foreign` FOREIGN KEY (`announcements_id`) REFERENCES `announcements` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

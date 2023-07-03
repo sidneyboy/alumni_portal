@@ -431,6 +431,194 @@
             margin-top: -0.8125rem;
             text-align: center;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Social feed */
+        .social-feed-separated .social-feed-box {
+            margin-left: 62px;
+        }
+
+        .social-feed-separated .social-avatar {
+            float: left;
+            padding: 0;
+        }
+
+        .social-feed-separated .social-avatar img {
+            width: 52px;
+            height: 52px;
+            border: 1px solid #e7eaec;
+        }
+
+        .social-feed-separated .social-feed-box .social-avatar {
+            padding: 15px 15px 0 15px;
+            float: none;
+        }
+
+        .social-feed-box {
+            /*padding: 15px;*/
+            border: 1px solid #e7eaec;
+            background: #fff;
+            margin-bottom: 15px;
+        }
+
+        .article .social-feed-box {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .article .social-feed-box:last-child {
+            margin-bottom: 0;
+            border-bottom: 1px solid #e7eaec;
+        }
+
+        .article .social-feed-box p {
+            font-size: 13px;
+            line-height: 18px;
+        }
+
+        .social-action {
+            margin: 15px;
+        }
+
+        .social-avatar {
+            padding: 15px 15px 0 15px;
+        }
+
+        .social-comment .social-comment {
+            margin-left: 45px;
+        }
+
+        .social-avatar img {
+            height: 40px;
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .social-avatar .media-body a {
+            font-size: 14px;
+            display: block;
+        }
+
+        .social-body {
+            padding: 15px;
+        }
+
+        .social-body img {
+            margin-bottom: 10px;
+        }
+
+        .social-footer {
+            border-top: 1px solid #e7eaec;
+            padding: 10px 15px;
+            background: #f9f9f9;
+        }
+
+        .social-footer .social-comment img {
+            width: 32px;
+            margin-right: 10px;
+        }
+
+        .social-comment:first-child {
+            margin-top: 0;
+        }
+
+        .social-comment {
+            margin-top: 15px;
+        }
+
+        .social-comment textarea {
+            font-size: 12px;
+        }
+
+
+        .form-control,
+        .single-line {
+            background-color: #FFFFFF;
+            background-image: none;
+            border: 1px solid #e5e6e7;
+            border-radius: 1px;
+            color: inherit;
+            display: block;
+            padding: 6px 12px;
+            transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+            width: 100%;
+            font-size: 14px;
+        }
+
+
+        .ibox {
+            clear: both;
+            margin-bottom: 25px;
+            margin-top: 0;
+            padding: 0;
+        }
+
+        .ibox.collapsed .ibox-content {
+            display: none;
+        }
+
+        .ibox.collapsed .fa.fa-chevron-up:before {
+            content: "\f078";
+        }
+
+        .ibox.collapsed .fa.fa-chevron-down:before {
+            content: "\f077";
+        }
+
+        .ibox:after,
+        .ibox:before {
+            display: table;
+        }
+
+        .ibox-title {
+            -moz-border-bottom-colors: none;
+            -moz-border-left-colors: none;
+            -moz-border-right-colors: none;
+            -moz-border-top-colors: none;
+            background-color: #ffffff;
+            border-color: #e7eaec;
+            border-image: none;
+            border-style: solid solid none;
+            border-width: 3px 0 0;
+            color: inherit;
+            margin-bottom: 0;
+            padding: 14px 15px 7px;
+            min-height: 48px;
+        }
+
+        .ibox-content {
+            background-color: #ffffff;
+            color: inherit;
+            padding: 15px 20px 20px 20px;
+            border-color: #e7eaec;
+            border-image: none;
+            border-style: solid solid none;
+            border-width: 1px 0;
+        }
+
+        .ibox-footer {
+            color: inherit;
+            border-top: 1px solid #e7eaec;
+            font-size: 90%;
+            background: #ffffff;
+            padding: 10px 15px;
+        }
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -831,13 +1019,13 @@
                                             role="button" aria-expanded="false" aria-controls="collapseExample">
                                             <i class="fa fa-comment"></i> Comment
                                         </a>
-                                        <a class="card-link" href="{{ url('announcement',['id' => $announcement->id]) }}">
+                                        <a class="card-link"
+                                            href="{{ url('announcement', ['id' => $announcement->id]) }}">
                                             <span
                                                 class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span>
                                             See Comments
                                         </a>
-                                    </div>
-                                    <div class="card-footer">
+                                        <br /><br />
                                         <form action="{{ route('admin_reply_announcement') }}" method="post">
                                             @csrf
                                             <div class="collapse" id="collapseExample">
@@ -850,111 +1038,53 @@
                                             </div>
                                         </form>
                                     </div>
+                                    <div class="social-footer" id="reloader">
+                                        @foreach ($announcement->announcement_reply as $announcement_reply_details)
+                                            @if ($announcement_reply_details->user_type == 'admin')
+                                                <div class="social-comment">
+                                                    <a href class="pull-left">
+                                                        <img alt="image"
+                                                            src="{{ asset('image/' . $announcement_reply_details->user_admin->profile_picture) }}">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">
+                                                            {{ $announcement_reply_details->user_admin->name }}
+                                                        </a>
+                                                        {{ $announcement_reply_details->content }}
+                                                        <br>
+
+                                                        <small
+                                                            class="text-muted">{{ date('F j, Y', strtotime($announcement_reply_details->created_at)) }}</small>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <div class="social-comment">
+                                                    <a href class="pull-left">
+                                                        <img alt="image"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">
+                                                            Andrew Williams
+                                                        </a>
+                                                        Internet tend to repeat predefined chunks as necessary, making
+                                                        this
+                                                        the first true generator on the
+                                                        Internet. It uses a dictionary of over 200 Latin words.
+                                                        <br>
+                                                        <a href="#" class="small"><i
+                                                                class="fa fa-thumbs-up"></i>
+                                                            26 Like this!</a> -
+                                                        <small class="text-muted">12.06.2014</small>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     @endif
-                    @foreach ($wall as $wall_item)
-                        <div class="row">
-                            <div class="col-md-12 grid-margin">
-                                <div class="card gedf-card">
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-2">
-                                                    <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
-                                                </div>
-                                                <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . $user->name }}</div>
-                                                    <div class="h7 text-muted">{{ $user->name }}</div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle" type="button"
-                                                        id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-h"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right"
-                                                        aria-labelledby="gedf-drop1">
-                                                        <div class="h6 dropdown-header">Configuration</div>
-                                                        <a class="dropdown-item" href="#">Disable</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                                        <p class="card-text">
-                                            {{ $wall_item->body }}
-                                        </p>
-                                        <div class="container profile">
-                                            <div class="profile-img-list">
-                                                @if (count($wall_item->attachments) == 0)
-                                                @elseif(count($wall_item->attachments) > 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($wall_item->attachments_limit_3 as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                    <div class="profile-img-list-item with-number">
-                                                        <a href="#" class="profile-img-list-link">
-                                                            <span class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span>
-                                                            <div class="profile-img-number">
-                                                                +{{ count($wall_item->attachments) }}</div>
-                                                        </a>
-                                                    </div>
-                                                @elseif(count($wall_item->attachments_limit_3) <= 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($announcement->attachments as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-
-
-                                            </div>
-                                        </div>
-                                        <a class="card-link" data-toggle="collapse" href="#collapseExample"
-                                            role="button" aria-expanded="false" aria-controls="collapseExample">
-                                            <i class="fa fa-comment"></i> Comment
-                                        </a>
-                                    </div>
-                                    <div class="card-footer">
-                                        {{-- <form action="{{ route('admin_reply_announcement') }}" method="post">
-                                            @csrf
-                                            <div class="collapse" id="collapseExample">
-                                                <div class="form-group">
-                                                    <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                    <input type="hidden" name="announcement_id"
-                                                        value="{{ $announcement->id }}">
-                                                </div>
-                                                <button class="btn btn-sm float-right btn-primary">Reply</button>
-                                            </div>
-                                        </form> --}}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
                 </div>
 
 
@@ -1271,6 +1401,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        setTimeout(function() {
+            // window.location.reload(1);
+        }, 5000);
+
+
+
+
         const imageUploader_profile_picture = document.getElementById("profile_picture_image");
         const imagePreview_profile_picture = document.getElementById("profile_picture_image_preview");
 

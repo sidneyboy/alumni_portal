@@ -88,7 +88,7 @@ class HomeController extends Controller
         // $path_profile_picture = $profile_picture->storeAs('/profile_picture/', $profile_picture_name);
 
         $destinationPath = 'image';
-        $myimage = $request->profile_picture->getClientOriginalName();
+        $myimage = uniqid() . '-' . $request->profile_picture->getClientOriginalName();
         $request->profile_picture->move(public_path($destinationPath), $myimage);
 
 
@@ -104,7 +104,7 @@ class HomeController extends Controller
     {
         //dd($request->all());
         $destinationPath = 'image';
-        $myimage = $request->timeline_picture->getClientOriginalName();
+        $myimage = uniqid() . '-' . $request->timeline_picture->getClientOriginalName();
         $request->timeline_picture->move(public_path($destinationPath), $myimage);
 
 
@@ -150,6 +150,7 @@ class HomeController extends Controller
 
     public function admin_reply_announcement(Request $request)
     {
+
         $new_comment_reply = new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
             'user_id' => auth()->user()->id,
@@ -159,7 +160,7 @@ class HomeController extends Controller
 
         $new_comment_reply->save();
 
-        return redirect('home');
+        return redirect()->route('announcement', ['id' => $request->input('announcement_id')]);
     }
 
     public function admin_post_wall(Request $request)
@@ -194,5 +195,41 @@ class HomeController extends Controller
         }
 
         return redirect('home');
+    }
+
+    public function announcement($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $announcement = Announcements::find($id);
+        if ($announcement) {
+            $announcement_counter = Announcements_attachments::where('announcements_id', $announcement->id)
+                ->get();
+        } else {
+            $announcement_counter[] = 0;
+        }
+
+        $latest_announcement_photos = Announcements_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('home_announcement', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'announcement' => $announcement,
+            'announcement_counter' => $announcement_counter,
+            'latest_announcement_photos' => $latest_announcement_photos,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
     }
 }

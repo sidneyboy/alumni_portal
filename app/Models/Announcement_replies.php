@@ -16,4 +16,14 @@ class Announcement_replies extends Model
         'status',
         'user_type',
     ];
+
+    public function user_admin()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id')->select('name','profile_picture');
+    }
+
+    public function user_regular()
+    {
+        return $this->belongsTo('App\Models\Graduates_profile', 'user_id');
+    }
 }

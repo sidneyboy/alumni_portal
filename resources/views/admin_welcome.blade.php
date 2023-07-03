@@ -831,6 +831,10 @@
                                             role="button" aria-expanded="false" aria-controls="collapseExample">
                                             <i class="fa fa-comment"></i> Comment
                                         </a>
+                                        <a class="card-link" data-toggle="collapse" href="#collapseExampleseecomments"
+                                            role="button" aria-expanded="false" aria-controls="collapseExampleseecomments">
+                                            <span class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span> See Comments
+                                        </a>
                                     </div>
                                     <div class="card-footer">
                                         <form action="{{ route('admin_reply_announcement') }}" method="post">
@@ -906,7 +910,8 @@
                                                         <a href="#" class="profile-img-list-link">
                                                             <span class="profile-img-content"
                                                                 style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span>
-                                                            <div class="profile-img-number">+{{ count($wall_item->attachments) }}</div>
+                                                            <div class="profile-img-number">
+                                                                +{{ count($wall_item->attachments) }}</div>
                                                         </a>
                                                     </div>
                                                 @elseif(count($wall_item->attachments_limit_3) <= 5)
@@ -924,7 +929,7 @@
                                                     @endforeach
                                                 @endif
 
-                                           
+
                                             </div>
                                         </div>
                                         <a class="card-link" data-toggle="collapse" href="#collapseExample"

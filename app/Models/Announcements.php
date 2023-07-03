@@ -29,4 +29,9 @@ class Announcements extends Model
     {
         return $this->hasMany('App\Models\Announcements_attachments', 'announcements_id')->orderBy('id','desc')->take(8);
     }
+
+    public function announcement_reply()
+    {
+        return $this->hasMany('App\Models\Announcement_replies', 'announcements_id');
+    }
 }

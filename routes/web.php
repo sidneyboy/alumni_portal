@@ -29,10 +29,15 @@ Route::post('/admin_update_timeline_picture', [App\Http\Controllers\HomeControll
 Route::post('/admin_post_announcement', [App\Http\Controllers\HomeController::class, 'admin_post_announcement'])->name('admin_post_announcement');
 Route::post('/admin_reply_announcement', [App\Http\Controllers\HomeController::class, 'admin_reply_announcement'])->name('admin_reply_announcement');
 
+Route::post('admin_announcement/admin_reply_announcement_once_more', [App\Http\Controllers\HomeController::class, 'admin_reply_announcement_once_more'])->name('admin_reply_announcement_once_more');
+
+
+
 Route::post('/admin_post_wall', [App\Http\Controllers\HomeController::class, 'admin_post_wall'])->name('admin_post_wall');
 
-Route::get('/announcement/{id}', [App\Http\Controllers\HomeController::class, 'announcement'])->name('announcement');
+Route::get('/admin_announcement/{id}', [App\Http\Controllers\HomeController::class, 'admin_announcement'])->name('admin_announcement');
 
+Route::post('/home_announcement_get_comments/', [App\Http\Controllers\HomeController::class, 'home_announcement_get_comments'])->name('home_announcement_get_comments');
 
 
 

@@ -150,7 +150,21 @@ class HomeController extends Controller
 
     public function admin_reply_announcement(Request $request)
     {
+        //return $request->input();
+        $new_comment_reply = new Announcement_replies([
+            'announcements_id' => $request->input('announcement_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
 
+        $new_comment_reply->save();
+
+        return redirect()->route('announcement', ['id' => $request->input('announcement_id')]);
+    }
+
+    public function admin_reply_announcement_once_more(Request $request)
+    {
         $new_comment_reply = new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
             'user_id' => auth()->user()->id,
@@ -197,7 +211,7 @@ class HomeController extends Controller
         return redirect('home');
     }
 
-    public function announcement($id)
+    public function admin_announcement($id)
     {
         date_default_timezone_set('Asia/Manila');
         $date_now = date('Y-m-d');
@@ -223,13 +237,23 @@ class HomeController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
-        return view('home_announcement', [
+        return view('admin_announcement', [
             'user' => $user,
             'date_now' => $date_now,
             'announcement' => $announcement,
             'announcement_counter' => $announcement_counter,
             'latest_announcement_photos' => $latest_announcement_photos,
             'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function admin_announcement_get_comments(Request $request)
+    {
+        $announcement_replies = Announcement_replies::where('announcements_id', $request->input('announcement_id'))
+            ->get();
+
+        return view('admin_announcement_get_comments', [
+            'announcement_replies' => $announcement_replies,
         ]);
     }
 }

@@ -831,7 +831,7 @@
                                             role="button" aria-expanded="false" aria-controls="collapseExample">
                                             <i class="fa fa-comment"></i> Comment
                                         </a>
-                                        <a class="card-link" href="{{ url('announcement',['id' => $announcement->id]) }}">
+                                        <a class="card-link" href="{{ url('admin_announcement',['id' => $announcement->id]) }}">
                                             <span
                                                 class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span>
                                             See Comments

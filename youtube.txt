@@ -1,0 +1,6 @@
+https://www.youtube.com/watch?v=f7CjL6rffkM 
+
+	--- laravel realtime chat system
+
+https://www.youtube.com/watch?v=G4FQBr3HKIk&t=927s
+	--- laravel realtime notification

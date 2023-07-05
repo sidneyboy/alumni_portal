@@ -34,4 +34,9 @@ class Wall extends Model
     {
         return $this->hasMany('App\Models\Wall_attachments', 'wall_id')->orderBy('id', 'desc')->take(8);
     }
+
+    public function wall_replies()
+    {
+        return $this->hasMany('App\Models\Wall_replies', 'wall_id');
+    }
 }

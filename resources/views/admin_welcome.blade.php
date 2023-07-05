@@ -482,30 +482,19 @@
                                             d="M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7m0-18H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7m0-18v18">
                                         </path>
                                     </svg>
-                                    <a class="pt-1px d-none d-md-block" href="#">Timeline</a>
+                                    <a class="pt-1px d-none d-md-block" href="{{ url('home') }}">Timeline</a>
                                 </li>
                                 <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                         viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                         stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-user mr-1 icon-md">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
+                                        class="feather feather-image mr-1 icon-md">
+                                        <rect x="3" y="3" width="18" height="18" rx="2"
+                                            ry="2"></rect>
+                                        <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                        <polyline points="21 15 16 10 5 21"></polyline>
                                     </svg>
-                                    <a class="pt-1px d-none d-md-block" href="#">About</a>
-                                </li>
-                                <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-users mr-1 icon-md">
-                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="9" cy="7" r="4"></circle>
-                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                    </svg>
-                                    <a class="pt-1px d-none d-md-block" href="#">Friends <span
-                                            class="text-muted tx-12">3,765</span></a>
+                                    <a class="pt-1px d-none d-md-block" href="{{ url('admin_photos') }}">Photos</a>
                                 </li>
                                 <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -517,18 +506,7 @@
                                         <circle cx="8.5" cy="8.5" r="1.5"></circle>
                                         <polyline points="21 15 16 10 5 21"></polyline>
                                     </svg>
-                                    <a class="pt-1px d-none d-md-block" href="#">Photos</a>
-                                </li>
-                                <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-video mr-1 icon-md">
-                                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                        <rect x="1" y="5" width="15" height="14"
-                                            rx="2" ry="2"></rect>
-                                    </svg>
-                                    <a class="pt-1px d-none d-md-block" href="#">Videos</a>
+                                    <a class="pt-1px d-none d-md-block" href="{{ url('admin_messenger') }}">Messenger</a>
                                 </li>
                             </ul>
                         </div>
@@ -606,53 +584,6 @@
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label>
                                 <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
                             </div>
-                            {{-- <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Email:</label>
-                                <p class="text-muted"><a href="/cdn-cgi/l/email-protection" class="__cf_email__"
-                                        data-cfemail="ee838bae80818c828b9b87c08d8183">[email&#160;protected]</a></p>
-                            </div>
-                            <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Website:</label>
-                                <p class="text-muted">www.nobleui.com</p>
-                            </div> --}}
-                            {{-- <div class="mt-3 d-flex social-links">
-                                <a href="javascript:;"
-                                    class="btn d-flex align-items-center justify-content-center border mr-2 btn-icon github">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-github"
-                                        data-toggle="tooltip" title data-original-title="github.com/nobleui">
-                                        <path
-                                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <a href="javascript:;"
-                                    class="btn d-flex align-items-center justify-content-center border mr-2 btn-icon twitter">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-twitter" data-toggle="tooltip" title
-                                        data-original-title="twitter.com/nobleui">
-                                        <path
-                                            d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
-                                        </path>
-                                    </svg>
-                                </a>
-                                <a href="javascript:;"
-                                    class="btn d-flex align-items-center justify-content-center border mr-2 btn-icon instagram">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                        stroke-linecap="round" stroke-linejoin="round"
-                                        class="feather feather-instagram" data-toggle="tooltip" title
-                                        data-original-title="instagram.com/nobleui">
-                                        <rect x="2" y="2" width="20" height="20"
-                                            rx="5" ry="5"></rect>
-                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                                    </svg>
-                                </a>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -831,7 +762,8 @@
                                             role="button" aria-expanded="false" aria-controls="collapseExample">
                                             <i class="fa fa-comment"></i> Comment
                                         </a>
-                                        <a class="card-link" href="{{ url('admin_announcement',['id' => $announcement->id]) }}">
+                                        <a class="card-link"
+                                            href="{{ url('admin_announcement', ['id' => $announcement->id]) }}">
                                             <span
                                                 class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span>
                                             See Comments
@@ -933,23 +865,32 @@
 
                                             </div>
                                         </div>
-                                        <a class="card-link" data-toggle="collapse" href="#collapseExample"
-                                            role="button" aria-expanded="false" aria-controls="collapseExample">
+                                        <a class="card-link" data-toggle="collapse"
+                                            href="#collapseExampleadmin_wall_reply{{ $wall_item->id }}"
+                                            role="button" aria-expanded="false"
+                                            aria-controls="collapseExampleadmin_wall_reply{{ $wall_item->id }}">
                                             <i class="fa fa-comment"></i> Comment
+                                        </a>
+                                        <a class="card-link"
+                                            href="{{ url('admin_wall', ['id' => $wall_item->id]) }}">
+                                            <span
+                                                class="badge badge-dark">{{ count($wall_item->wall_replies) }}</span>
+                                            See Comments
                                         </a>
                                     </div>
                                     <div class="card-footer">
-                                        {{-- <form action="{{ route('admin_reply_announcement') }}" method="post">
+                                        <form action="{{ route('admin_wall_reply') }}" method="post">
                                             @csrf
-                                            <div class="collapse" id="collapseExample">
+                                            <div class="collapse"
+                                                id="collapseExampleadmin_wall_reply{{ $wall_item->id }}">
                                                 <div class="form-group">
                                                     <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                    <input type="hidden" name="announcement_id"
-                                                        value="{{ $announcement->id }}">
+                                                    <input type="hidden" name="wall_id"
+                                                        value="{{ $wall_item->id }}">
                                                 </div>
                                                 <button class="btn btn-sm float-right btn-primary">Reply</button>
                                             </div>
-                                        </form> --}}
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -985,157 +926,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 grid-margin">
-                            <div class="card rounded">
-                                <div class="card-body">
-                                    <h6 class="card-title">suggestions for you</h6>
-                                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                src="https://bootdey.com/img/Content/avatar/avatar2.png" alt>
-                                            <div class="ml-2">
-                                                <p>Mike Popescu</p>
-                                                <p class="tx-11 text-muted">12 Mutual Friends</p>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-user-plus" data-toggle="tooltip" title
-                                                data-original-title="Connect">
-                                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="8.5" cy="7" r="4"></circle>
-                                                <line x1="20" y1="8" x2="20" y2="14">
-                                                </line>
-                                                <line x1="23" y1="11" x2="17" y2="11">
-                                                </line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                src="https://bootdey.com/img/Content/avatar/avatar3.png" alt>
-                                            <div class="ml-2">
-                                                <p>Mike Popescu</p>
-                                                <p class="tx-11 text-muted">12 Mutual Friends</p>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-user-plus" data-toggle="tooltip" title
-                                                data-original-title="Connect">
-                                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="8.5" cy="7" r="4"></circle>
-                                                <line x1="20" y1="8" x2="20" y2="14">
-                                                </line>
-                                                <line x1="23" y1="11" x2="17" y2="11">
-                                                </line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                src="https://bootdey.com/img/Content/avatar/avatar4.png" alt>
-                                            <div class="ml-2">
-                                                <p>Mike Popescu</p>
-                                                <p class="tx-11 text-muted">12 Mutual Friends</p>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-user-plus" data-toggle="tooltip" title
-                                                data-original-title="Connect">
-                                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="8.5" cy="7" r="4"></circle>
-                                                <line x1="20" y1="8" x2="20" y2="14">
-                                                </line>
-                                                <line x1="23" y1="11" x2="17" y2="11">
-                                                </line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                src="https://bootdey.com/img/Content/avatar/avatar5.png" alt>
-                                            <div class="ml-2">
-                                                <p>Mike Popescu</p>
-                                                <p class="tx-11 text-muted">12 Mutual Friends</p>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-user-plus" data-toggle="tooltip" title
-                                                data-original-title="Connect">
-                                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="8.5" cy="7" r="4"></circle>
-                                                <line x1="20" y1="8" x2="20" y2="14">
-                                                </line>
-                                                <line x1="23" y1="11" x2="17" y2="11">
-                                                </line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-2 pb-2 border-bottom">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                src="https://bootdey.com/img/Content/avatar/avatar6.png" alt>
-                                            <div class="ml-2">
-                                                <p>Mike Popescu</p>
-                                                <p class="tx-11 text-muted">12 Mutual Friends</p>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-user-plus" data-toggle="tooltip" title
-                                                data-original-title="Connect">
-                                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="8.5" cy="7" r="4"></circle>
-                                                <line x1="20" y1="8" x2="20" y2="14">
-                                                </line>
-                                                <line x1="23" y1="11" x2="17" y2="11">
-                                                </line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <div class="d-flex align-items-center hover-pointer">
-                                            <img class="img-xs rounded-circle"
-                                                src="https://bootdey.com/img/Content/avatar/avatar7.png" alt>
-                                            <div class="ml-2">
-                                                <p>Mike Popescu</p>
-                                                <p class="tx-11 text-muted">12 Mutual Friends</p>
-                                            </div>
-                                        </div>
-                                        <button class="btn btn-icon">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-user-plus" data-toggle="tooltip" title
-                                                data-original-title="Connect">
-                                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                                <circle cx="8.5" cy="7" r="4"></circle>
-                                                <line x1="20" y1="8" x2="20" y2="14">
-                                                </line>
-                                                <line x1="23" y1="11" x2="17" y2="11">
-                                                </line>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
 

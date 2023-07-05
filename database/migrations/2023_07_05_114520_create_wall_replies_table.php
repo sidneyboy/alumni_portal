@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('walls', function (Blueprint $table) {
+        Schema::create('wall_replies', function (Blueprint $table) {
             $table->id();
-            $table->Integer('user_id')->nullable();
-            $table->longText('body')->nullable();
+            $table->BigInteger('wall_id')->unsigned()->index()->nullable();
+            $table->foreign('wall_id')->references('id')->on('walls');
+            $table->integer('user_id');
+            $table->longText('content');
             $table->string('status')->nullable();
             $table->string('user_type');
             $table->timestamps();
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('walls');
+        Schema::dropIfExists('wall_replies');
     }
 };

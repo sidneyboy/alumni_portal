@@ -9,6 +9,8 @@ use App\Models\Announcement_replies;
 use App\Models\User;
 use App\Models\Wall;
 use App\Models\Wall_attachments;
+use App\Models\Wall_replies;
+use DB;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -160,7 +162,7 @@ class HomeController extends Controller
 
         $new_comment_reply->save();
 
-        return redirect()->route('announcement', ['id' => $request->input('announcement_id')]);
+        return redirect()->route('admin_announcement', ['id' => $request->input('announcement_id')]);
     }
 
     public function admin_reply_announcement_once_more(Request $request)
@@ -174,7 +176,7 @@ class HomeController extends Controller
 
         $new_comment_reply->save();
 
-        return redirect()->route('announcement', ['id' => $request->input('announcement_id')]);
+        return redirect()->route('admin_announcement', ['id' => $request->input('announcement_id')]);
     }
 
     public function admin_post_wall(Request $request)
@@ -254,6 +256,98 @@ class HomeController extends Controller
 
         return view('admin_announcement_get_comments', [
             'announcement_replies' => $announcement_replies,
+        ]);
+    }
+
+    public function admin_wall_reply(Request $request)
+    {
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        return redirect()->route('admin_wall', ['id' => $request->input('wall_id')]);
+    }
+
+    public function admin_wall_reply_once_more(Request $request)
+    {
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        return redirect()->route('admin_wall', ['id' => $request->input('wall_id')]);
+    }
+
+    public function admin_wall($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $latest_announcement_photos = Announcements_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::find($id);
+
+        return view('admin_wall', [
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_announcement_photos' => $latest_announcement_photos,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function admin_wall_get_comments(Request $request)
+    {
+        $wall_replies = Wall_replies::where('wall_id', $request->input('wall_id'))
+            ->get();
+
+        return view('admin_wall_get_comments', [
+            'wall_replies' => $wall_replies,
+        ]);
+    }
+
+    public function admin_photos()
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $announcement_photos = DB::table("announcements_attachments")
+            ->select(
+                "attachment"
+            );
+        $wall_photos = DB::table("wall_attachments")
+            ->select(
+                "attachment"
+            )
+            ->unionAll($announcement_photos)
+            ->get();
+
+
+        return view('admin_photos', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'wall_photos' => $wall_photos,
         ]);
     }
 }

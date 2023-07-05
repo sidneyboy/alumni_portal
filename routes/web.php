@@ -30,16 +30,20 @@ Route::post('/admin_post_announcement', [App\Http\Controllers\HomeController::cl
 Route::post('/admin_reply_announcement', [App\Http\Controllers\HomeController::class, 'admin_reply_announcement'])->name('admin_reply_announcement');
 
 Route::post('admin_announcement/admin_reply_announcement_once_more', [App\Http\Controllers\HomeController::class, 'admin_reply_announcement_once_more'])->name('admin_reply_announcement_once_more');
-
-
-
 Route::post('/admin_post_wall', [App\Http\Controllers\HomeController::class, 'admin_post_wall'])->name('admin_post_wall');
-
 Route::get('/admin_announcement/{id}', [App\Http\Controllers\HomeController::class, 'admin_announcement'])->name('admin_announcement');
+Route::post('/admin_announcement_get_comments/', [App\Http\Controllers\HomeController::class, 'admin_announcement_get_comments'])->name('admin_announcement_get_comments');
 
-Route::post('/home_announcement_get_comments/', [App\Http\Controllers\HomeController::class, 'home_announcement_get_comments'])->name('home_announcement_get_comments');
+Route::post('/admin_wall_reply', [App\Http\Controllers\HomeController::class, 'admin_wall_reply'])->name('admin_wall_reply');
+Route::get('/admin_wall/{id}', [App\Http\Controllers\HomeController::class, 'admin_wall'])->name('admin_wall');
+Route::post('admin_wall/admin_wall_reply_once_more/', [App\Http\Controllers\HomeController::class, 'admin_wall_reply_once_more'])->name('admin_wall_reply_once_more');
+Route::post('/admin_wall_get_comments/', [App\Http\Controllers\HomeController::class, 'admin_wall_get_comments'])->name('admin_wall_get_comments');
+
+
+Route::get('/admin_about/', [App\Http\Controllers\HomeController::class, 'admin_about'])->name('admin_about');
+Route::get('/admin_photos/', [App\Http\Controllers\HomeController::class, 'admin_photos'])->name('admin_photos');
+
 
 
 
 Route::post('/graduate_registration', [App\Http\Controllers\Graduates_registration_controller::class, 'graduate_registration'])->name('graduate_registration');
-

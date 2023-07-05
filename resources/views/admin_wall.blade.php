@@ -450,6 +450,9 @@
 
 
 
+
+
+
         /* Social feed */
         .social-feed-separated .social-feed-box {
             margin-left: 62px;
@@ -685,7 +688,6 @@
                                     </svg>
                                     <a class="pt-1px d-none d-md-block" href="{{ url('admin_photos') }}">Photos</a>
                                 </li>
-                              
                             </ul>
                         </div>
                     </div>
@@ -857,113 +859,112 @@
                             </div>
                         </div>
                     </div>
-                    @if ($announcement)
-                        <div class="row">
-                            <div class="col-md-12 grid-margin">
-                                <div class="card gedf-card">
-                                    <div class="card-header">
+
+                    <div class="row">
+                        <div class="col-md-12 grid-margin">
+                            <div class="card gedf-card">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-2">
-                                                    <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
-                                                </div>
-                                                <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . $user->name }}</div>
-                                                    <div class="h7 text-muted">{{ $user->name }}</div>
-                                                </div>
+                                            <div class="mr-2">
+                                                <img class="rounded-circle" width="45"
+                                                    src="{{ asset('/image/' . $user->profile_picture) }}" alt>
                                             </div>
-                                            <div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle" type="button"
-                                                        id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-h"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right"
-                                                        aria-labelledby="gedf-drop1">
-                                                        <div class="h6 dropdown-header">Configuration</div>
-                                                        <a class="dropdown-item" href="#">Disable</a>
-                                                    </div>
+                                            <div class="ml-2">
+                                                <div class="h5 m-0">{{ '@' . $user->name }}</div>
+                                                <div class="h7 text-muted">{{ $user->name }}</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="dropdown">
+                                                <button class="btn btn-link dropdown-toggle" type="button"
+                                                    id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-h"></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right"
+                                                    aria-labelledby="gedf-drop1">
+                                                    <div class="h6 dropdown-header">Configuration</div>
+                                                    <a class="dropdown-item" href="#">Disable</a>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                                        <a class="card-link" href="#">
-                                            <h5 class="card-title">{{ $announcement->subject }}</h5>
-                                        </a>
-                                        <p class="card-text">
-                                            {{ $announcement->body }}
-                                        </p>
-                                        <div class="container profile">
-                                            <div class="profile-img-list">
-                                                @if (count($announcement_counter) == 0)
-                                                @elseif(count($announcement_counter) > 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($announcement->attachments as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                    <div class="profile-img-list-item with-number">
-                                                        <a href="#" class="profile-img-list-link">
-                                                            <span class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span>
-                                                            <div class="profile-img-number">+12</div>
-                                                        </a>
-                                                    </div>
-                                                @elseif(count($announcement_counter) <= 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($announcement->attachments as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <a class="card-link" data-toggle="collapse" href="#collapseExample"
-                                            role="button" aria-expanded="false" aria-controls="collapseExample">
-                                            <i class="fa fa-comment"></i> Comment
-                                        </a>
-                                        <a class="card-link"
-                                            href="{{ url('admin_announcement', ['id' => $announcement->id]) }}">
-                                            <span
-                                                class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span>
-                                            See Comments
-                                        </a>
-                                        <br /><br />
-                                        <form action="admin_reply_announcement_once_more" method="post">
-                                            @csrf
-                                            <div class="collapse" id="collapseExample">
-                                                <div class="form-group">
-                                                    <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                    <input type="hidden" name="announcement_id"
-                                                        value="{{ $announcement->id }}">
-                                                </div>
-                                                <button class="btn btn-sm float-right btn-primary">Reply</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div class="show_announcement_comments"></div>
                                 </div>
+                                <div class="card-body">
+                                    <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
+                                    <p class="card-text">
+                                        {{ $wall->body }}
+                                    </p>
+                                    <div class="container profile">
+                                        <div class="profile-img-list">
+                                            @if (count($wall->attachments) == 0)
+                                            @elseif(count($wall->attachments) > 5)
+                                                <div class="profile-img-list-item main"><a href="#"
+                                                        class="profile-img-list-link"><span
+                                                            class="profile-img-content"
+                                                            style="background-image: url({{ asset('announcement_photos/' . $wall->attachments_one->attachment) }})"></span></a>
+                                                </div>
+                                                @foreach ($wall->attachments_limit_3 as $item)
+                                                    <div class="profile-img-list-item"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
+                                                    </div>
+                                                @endforeach
+                                                <div class="profile-img-list-item with-number">
+                                                    <a href="#" class="profile-img-list-link">
+                                                        <span class="profile-img-content"
+                                                            style="background-image: url({{ asset('announcement_photos/' . $wall->attachments_one->attachment) }})"></span>
+                                                        <div class="profile-img-number">
+                                                            +{{ count($wall->attachments) }}</div>
+                                                    </a>
+                                                </div>
+                                            @elseif(count($wall->attachments_limit_3) <= 5)
+                                                <div class="profile-img-list-item main"><a href="#"
+                                                        class="profile-img-list-link"><span
+                                                            class="profile-img-content"
+                                                            style="background-image: url({{ asset('announcement_photos/' . $wall->attachments_one->attachment) }})"></span></a>
+                                                </div>
+                                                @foreach ($wall->attachments as $item)
+                                                    <div class="profile-img-list-item"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <a class="card-link" data-toggle="collapse"
+                                        href="#collapseExampleadmin_wall_reply{{ $wall->id }}" role="button"
+                                        aria-expanded="false"
+                                        aria-controls="collapseExampleadmin_wall_reply{{ $wall->id }}">
+                                        <i class="fa fa-comment"></i> Comment
+                                    </a>
+                                    <a class="card-link" href="{{ url('admin_wall', ['id' => $wall->id]) }}">
+                                        <span class="badge badge-dark">{{ count($wall->wall_replies) }}</span>
+                                        See Comments
+                                    </a>
+                                </div>
+                                <div class="card-footer">
+                                    <form action="{{ route('admin_wall_reply_once_more') }}" method="post">
+                                        @csrf
+                                        <div class="collapse"
+                                            id="collapseExampleadmin_wall_reply{{ $wall->id }}">
+                                            <div class="form-group">
+                                                <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
+                                                <input type="hidden" name="wall_id" value="{{ $wall->id }}">
+                                            </div>
+                                            <button class="btn btn-sm float-right btn-primary">Reply</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="show_wall_comments"></div>
                             </div>
                         </div>
-                    @endif
+                    </div>
+
                 </div>
 
 
@@ -994,7 +995,7 @@
                                 </div>
                             </div>
                         </div>
-                        
+                     
                     </div>
                 </div>
 
@@ -1125,26 +1126,27 @@
             </div>
         </div>
     </div>
-    <input type="hidden" id="announcement_id" value="{{ $announcement->id }}">
+
+    <input type="hidden" id="wall_id" value="{{ $wall->id }}">
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
-        $.ajaxSetup({
+         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
 
         function list_comments() {
-            announcement_id = $('#announcement_id').val();
+            wall_id = $('#wall_id').val();
             $.ajax({
                 type: "POST",
-                url: "/admin_announcement_get_comments",
-                data: 'announcement_id=' + announcement_id,
+                url: "/admin_wall_get_comments",
+                data: 'wall_id=' + wall_id,
                 success: function(res) {
-                    $('.show_announcement_comments').html(res);
+                    $('.show_wall_comments').html(res);
                 }
             });
         }
@@ -1156,6 +1158,8 @@
             }, 5000);
 
         });
+
+
 
 
 

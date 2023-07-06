@@ -251,6 +251,14 @@ class HomeController extends Controller
         $new_comment_reply->save();
 
         return redirect()->route('admin_announcement', ['id' => $request->input('announcement_id')]);
+
+        // $user = User::select('user_type')->find(auth()->user()->id);
+
+        // if ($user->user_type == 'admin') {
+        //     return redirect()->route('admin_wall', ['id' => $request->input('wall_id')]);
+        // } else {
+        //     return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
+        // }
     }
 
     public function admin_reply_announcement_once_more(Request $request)
@@ -390,7 +398,49 @@ class HomeController extends Controller
 
         $new_comment_reply->save();
 
-        return redirect()->route('admin_wall', ['id' => $request->input('wall_id')]);
+        $user = User::select('user_type')->find(auth()->user()->id);
+
+        if ($user->user_type == 'admin') {
+            return redirect()->route('admin_wall', ['id' => $request->input('wall_id')]);
+        } else {
+            return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
+        }
+    }
+
+    public function user_wall_reply(Request $request)
+    {
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
+    }
+
+    public function user_wall($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::find($id);
+
+        return view('user_wall', [
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
     }
 
     public function admin_wall_reply_once_more(Request $request)
@@ -405,6 +455,20 @@ class HomeController extends Controller
         $new_comment_reply->save();
 
         return redirect()->route('admin_wall', ['id' => $request->input('wall_id')]);
+    }
+
+    public function user_wall_reply_once_more(Request $request)
+    {
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
     }
 
     public function admin_wall($id)
@@ -465,6 +529,25 @@ class HomeController extends Controller
 
 
         return view('admin_photos', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'wall_photos' => $wall_photos,
+        ]);
+    }
+
+    public function user_photos()
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+
+        $wall_photos = Wall_attachments::select("attachment")
+            ->where('user_id', $user->id)
+            ->get();
+
+
+        return view('user_photos', [
             'user' => $user,
             'date_now' => $date_now,
             'wall_photos' => $wall_photos,

@@ -7,6 +7,7 @@
 
     <title>Social Media</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         body {
@@ -431,6 +432,197 @@
             margin-top: -0.8125rem;
             text-align: center;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* Social feed */
+        .social-feed-separated .social-feed-box {
+            margin-left: 62px;
+        }
+
+        .social-feed-separated .social-avatar {
+            float: left;
+            padding: 0;
+        }
+
+        .social-feed-separated .social-avatar img {
+            width: 52px;
+            height: 52px;
+            border: 1px solid #e7eaec;
+        }
+
+        .social-feed-separated .social-feed-box .social-avatar {
+            padding: 15px 15px 0 15px;
+            float: none;
+        }
+
+        .social-feed-box {
+            /*padding: 15px;*/
+            border: 1px solid #e7eaec;
+            background: #fff;
+            margin-bottom: 15px;
+        }
+
+        .article .social-feed-box {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+
+        .article .social-feed-box:last-child {
+            margin-bottom: 0;
+            border-bottom: 1px solid #e7eaec;
+        }
+
+        .article .social-feed-box p {
+            font-size: 13px;
+            line-height: 18px;
+        }
+
+        .social-action {
+            margin: 15px;
+        }
+
+        .social-avatar {
+            padding: 15px 15px 0 15px;
+        }
+
+        .social-comment .social-comment {
+            margin-left: 45px;
+        }
+
+        .social-avatar img {
+            height: 40px;
+            width: 40px;
+            margin-right: 10px;
+        }
+
+        .social-avatar .media-body a {
+            font-size: 14px;
+            display: block;
+        }
+
+        .social-body {
+            padding: 15px;
+        }
+
+        .social-body img {
+            margin-bottom: 10px;
+        }
+
+        .social-footer {
+            border-top: 1px solid #e7eaec;
+            padding: 10px 15px;
+            background: #f9f9f9;
+        }
+
+        .social-footer .social-comment img {
+            width: 32px;
+            margin-right: 10px;
+        }
+
+        .social-comment:first-child {
+            margin-top: 0;
+        }
+
+        .social-comment {
+            margin-top: 15px;
+        }
+
+        .social-comment textarea {
+            font-size: 12px;
+        }
+
+
+        .form-control,
+        .single-line {
+            background-color: #FFFFFF;
+            background-image: none;
+            border: 1px solid #e5e6e7;
+            border-radius: 1px;
+            color: inherit;
+            display: block;
+            padding: 6px 12px;
+            transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+            width: 100%;
+            font-size: 14px;
+        }
+
+
+        .ibox {
+            clear: both;
+            margin-bottom: 25px;
+            margin-top: 0;
+            padding: 0;
+        }
+
+        .ibox.collapsed .ibox-content {
+            display: none;
+        }
+
+        .ibox.collapsed .fa.fa-chevron-up:before {
+            content: "\f078";
+        }
+
+        .ibox.collapsed .fa.fa-chevron-down:before {
+            content: "\f077";
+        }
+
+        .ibox:after,
+        .ibox:before {
+            display: table;
+        }
+
+        .ibox-title {
+            -moz-border-bottom-colors: none;
+            -moz-border-left-colors: none;
+            -moz-border-right-colors: none;
+            -moz-border-top-colors: none;
+            background-color: #ffffff;
+            border-color: #e7eaec;
+            border-image: none;
+            border-style: solid solid none;
+            border-width: 3px 0 0;
+            color: inherit;
+            margin-bottom: 0;
+            padding: 14px 15px 7px;
+            min-height: 48px;
+        }
+
+        .ibox-content {
+            background-color: #ffffff;
+            color: inherit;
+            padding: 15px 20px 20px 20px;
+            border-color: #e7eaec;
+            border-image: none;
+            border-style: solid solid none;
+            border-width: 1px 0;
+        }
+
+        .ibox-footer {
+            color: inherit;
+            border-top: 1px solid #e7eaec;
+            font-size: 90%;
+            background: #ffffff;
+            padding: 10px 15px;
+        }
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -441,7 +633,9 @@
         <div class="profile-page tx-13">
             <div class="row">
                 <div class="col-12 grid-margin">
-                    @include('layouts/user_menu')
+                    <div class="profile-header">
+                        @include('layouts/user_menu')
+                    </div>
                 </div>
             </div>
             <div class="row profile-body">
@@ -454,8 +648,8 @@
                                     <button class="btn p-0" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                            stroke-linecap="round" stroke-linejoin="round"
+                                            viewbox="0 0 24 24" fill="none" stroke="currentColor"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                                             class="feather feather-more-horizontal icon-lg text-muted pb-3px">
                                             <circle cx="12" cy="12" r="1"></circle>
                                             <circle cx="19" cy="12" r="1"></circle>
@@ -477,6 +671,15 @@
                                                 <path d="M18 9a9 9 0 0 1-9 9"></path>
                                             </svg> <span class>Update</span>
                                         </button>
+
+                                        {{-- <a class="dropdown-item d-flex align-items-center" href="#">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
+                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                                class="feather feather-eye icon-sm mr-2">
+                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg> <span class>View all</span></a> --}}
                                     </div>
                                 </div>
                             </div>
@@ -489,34 +692,22 @@
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Date of Birth:</label>
                                 <p class="text-muted">
-                                    @if ($user->date_of_birth != null)
-                                        {{ date('F j, Y', strtotime($user->date_of_birth)) }}
-                                    @else
-                                        N/A
-                                    @endif
+                                    {{ date('F j, Y', strtotime($user->date_of_birth)) }}</p>
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Age:</label>
                                 <p class="text-muted">
-                                    @if ($user->date_of_birth != null)
-                                        @php
-                                            $dateOfBirth = date('d-m-Y', strtotime($user->date_of_birth));
-                                            $today = $date_now;
-                                            $diff = date_diff(date_create($dateOfBirth), date_create($today));
-                                            echo $diff->format('%y');
-                                        @endphp
-                                    @else
-                                        N/A
-                                    @endif
+                                    @php
+                                        $dateOfBirth = date('d-m-Y', strtotime($user->date_of_birth));
+                                        $today = $date_now;
+                                        $diff = date_diff(date_create($dateOfBirth), date_create($today));
+                                        echo $diff->format('%y');
+                                    @endphp
                                 </p>
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label>
-                                @if ($user->date_of_birth != null)
-                                    <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
-                                @else
-                                    N/A
-                                @endif
+                                <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
                             </div>
                         </div>
                     </div>
@@ -527,7 +718,8 @@
                         <div class="col-md-12 grid-margin">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#wall"
+                                        role="tab">Wall</a>
                                 </li>
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
@@ -571,117 +763,112 @@
                         </div>
                     </div>
 
-                    @foreach ($wall as $wall_item)
-                        <div class="row">
-                            <div class="col-md-12 grid-margin">
-                                <div class="card gedf-card">
-                                    <div class="card-header">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin">
+                            <div class="card gedf-card">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-2">
-                                                    <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
-                                                </div>
-                                                <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . $user->name }}
-                                                        {{ $user->middle_name }} {{ $user->last_name }}</div>
-                                                    <div class="h7 text-muted">{{ $user->name }}</div>
-                                                </div>
+                                            <div class="mr-2">
+                                                <img class="rounded-circle" width="45"
+                                                    src="{{ asset('/image/' . $user->profile_picture) }}" alt>
                                             </div>
-                                            <div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle" type="button"
-                                                        id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-h"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right"
-                                                        aria-labelledby="gedf-drop1">
-                                                        <div class="h6 dropdown-header">Configuration</div>
-                                                        <a class="dropdown-item" href="#">Disable</a>
-                                                    </div>
+                                            <div class="ml-2">
+                                                <div class="h5 m-0">{{ '@' . $user->name }}</div>
+                                                <div class="h7 text-muted">{{ $user->name }} {{ $user->middle_name }}
+                                                    {{ $user->last_name }}</div>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <div class="dropdown">
+                                                <button class="btn btn-link dropdown-toggle" type="button"
+                                                    id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
+                                                    <i class="fa fa-ellipsis-h"></i>
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right"
+                                                    aria-labelledby="gedf-drop1">
+                                                    <div class="h6 dropdown-header">Configuration</div>
+                                                    <a class="dropdown-item" href="#">Disable</a>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                                        <p class="card-text">
-                                            {{ $wall_item->body }}
-                                        </p>
-                                        <div class="container profile">
-                                            <div class="profile-img-list">
-                                                @if (count($wall_item->attachments) == 0)
-                                                @elseif(count($wall_item->attachments) > 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($wall_item->attachments_limit_3 as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                    <div class="profile-img-list-item with-number">
-                                                        <a href="#" class="profile-img-list-link">
-                                                            <span class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span>
-                                                            <div class="profile-img-number">
-                                                                +{{ count($wall_item->attachments) }}</div>
-                                                        </a>
-                                                    </div>
-                                                @elseif(count($wall_item->attachments_limit_3) <= 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($announcement->attachments as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-
-
-                                            </div>
-                                        </div>
-                                        <a class="card-link" data-toggle="collapse"
-                                            href="#collapseExampleuser_wall_reply{{ $wall_item->id }}"
-                                            role="button" aria-expanded="false"
-                                            aria-controls="collapseExampleuser_wall_reply{{ $wall_item->id }}">
-                                            <i class="fa fa-comment"></i> Comment
-                                        </a>
-                                        <a class="card-link"
-                                            href="{{ url('user_wall', ['id' => $wall_item->id]) }}">
-                                            <span
-                                                class="badge badge-dark">{{ count($wall_item->wall_replies) }}</span>
-                                            See Comments
-                                        </a>
-                                    </div>
-                                    <div class="card-footer">
-                                        <form action="{{ route('user_wall_reply') }}" method="post">
-                                            @csrf
-                                            <div class="collapse"
-                                                id="collapseExampleuser_wall_reply{{ $wall_item->id }}">
-                                                <div class="form-group">
-                                                    <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                    <input type="hidden" name="wall_id"
-                                                        value="{{ $wall_item->id }}">
-                                                </div>
-                                                <button class="btn btn-sm float-right btn-primary">Reply</button>
-                                            </div>
-                                        </form>
                                     </div>
                                 </div>
+                                <div class="card-body">
+                                    <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
+                                    <p class="card-text">
+                                        {{ $wall->body }}
+                                    </p>
+                                    <div class="container profile">
+                                        <div class="profile-img-list">
+                                            @if (count($wall->attachments) == 0)
+                                            @elseif(count($wall->attachments) > 5)
+                                                <div class="profile-img-list-item main"><a href="#"
+                                                        class="profile-img-list-link"><span
+                                                            class="profile-img-content"
+                                                            style="background-image: url({{ asset('announcement_photos/' . $wall->attachments_one->attachment) }})"></span></a>
+                                                </div>
+                                                @foreach ($wall->attachments_limit_3 as $item)
+                                                    <div class="profile-img-list-item"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
+                                                    </div>
+                                                @endforeach
+                                                <div class="profile-img-list-item with-number">
+                                                    <a href="#" class="profile-img-list-link">
+                                                        <span class="profile-img-content"
+                                                            style="background-image: url({{ asset('announcement_photos/' . $wall->attachments_one->attachment) }})"></span>
+                                                        <div class="profile-img-number">
+                                                            +{{ count($wall->attachments) }}</div>
+                                                    </a>
+                                                </div>
+                                            @elseif(count($wall->attachments_limit_3) <= 5)
+                                                <div class="profile-img-list-item main"><a href="#"
+                                                        class="profile-img-list-link"><span
+                                                            class="profile-img-content"
+                                                            style="background-image: url({{ asset('announcement_photos/' . $wall->attachments_one->attachment) }})"></span></a>
+                                                </div>
+                                                @foreach ($wall->attachments as $item)
+                                                    <div class="profile-img-list-item"><a href="#"
+                                                            class="profile-img-list-link"><span
+                                                                class="profile-img-content"
+                                                                style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <a class="card-link" data-toggle="collapse"
+                                        href="#collapseExampleauser_wall_reply{{ $wall->id }}" role="button"
+                                        aria-expanded="false"
+                                        aria-controls="collapseExampleauser_wall_reply{{ $wall->id }}">
+                                        <i class="fa fa-comment"></i> Comment
+                                    </a>
+                                    <a class="card-link" href="{{ url('user_wall', ['id' => $wall->id]) }}">
+                                        <span class="badge badge-dark">{{ count($wall->wall_replies) }}</span>
+                                        See Comments
+                                    </a>
+                                </div>
+                                <div class="card-footer">
+                                    <form action="{{ route('user_wall_reply_once_more') }}" method="post">
+                                        @csrf
+                                        <div class="collapse"
+                                            id="collapseExampleauser_wall_reply{{ $wall->id }}">
+                                            <div class="form-group">
+                                                <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
+                                                <input type="hidden" name="wall_id" value="{{ $wall->id }}">
+                                            </div>
+                                            <button class="btn btn-sm float-right btn-primary">Reply</button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="show_wall_comments"></div>
                             </div>
                         </div>
-                    @endforeach
+                    </div>
+
                 </div>
 
 
@@ -718,13 +905,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }}
-                        {{ $user->middle_name }} {{ $user->last_name }}'s Profile</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }} {{ $user->middle_name }}
+                        {{ $user->last_name }}'s Profile</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('user_update_profile') }}" method="post">
+                <form action="{{ route('admin_update_profile') }}">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -782,7 +969,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('user_update_timeline_picture') }}" method="post"
+                <form action="{{ route('admin_update_timeline_picture') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -815,7 +1002,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('user_update_profile_picture') }}" method="post"
+                <form action="{{ route('admin_update_profile_picture') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -837,11 +1024,44 @@
             </div>
         </div>
     </div>
+
+    <input type="hidden" id="wall_id" value="{{ $wall->id }}">
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function list_comments() {
+            wall_id = $('#wall_id').val();
+            $.ajax({
+                type: "POST",
+                url: "/admin_wall_get_comments",
+                data: 'wall_id=' + wall_id,
+                success: function(res) {
+                    $('.show_wall_comments').html(res);
+                }
+            });
+        }
+
+        $(function() {
+            list_comments();
+            setInterval(function() {
+                list_comments();
+            }, 5000);
+
+        });
+
+
+
+
+
+
         const imageUploader_profile_picture = document.getElementById("profile_picture_image");
         const imagePreview_profile_picture = document.getElementById("profile_picture_image_preview");
 

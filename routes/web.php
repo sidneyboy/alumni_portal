@@ -62,6 +62,13 @@ Route::post('/user_update_timeline_picture/', [App\Http\Controllers\HomeControll
 Route::post('/user_update_profile_picture/', [App\Http\Controllers\HomeController::class, 'user_update_profile_picture'])->name('user_update_profile_picture');
 Route::post('/user_update_profile/', [App\Http\Controllers\HomeController::class, 'user_update_profile'])->name('user_update_profile');
 Route::post('/user_post_wall/', [App\Http\Controllers\HomeController::class, 'user_post_wall'])->name('user_post_wall');
+Route::post('/user_wall_reply/', [App\Http\Controllers\HomeController::class, 'user_wall_reply'])->name('user_wall_reply');
+Route::get('/user_wall/{id}', [App\Http\Controllers\HomeController::class, 'user_wall'])->name('user_wall');
+Route::post('/user_wall_reply_once_more/', [App\Http\Controllers\HomeController::class, 'user_wall_reply_once_more'])->name('user_wall_reply_once_more');
+
+Route::get('/user_photos/', [App\Http\Controllers\HomeController::class, 'user_photos'])->name('user_photos');
+
+Route::get('/user_view_user/', [App\Http\Controllers\HomeController::class, 'user_view_user'])->name('user_view_user');
 
 
 

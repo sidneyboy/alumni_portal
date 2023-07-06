@@ -97,12 +97,12 @@
                         <span id='message'></span>
                         <div class="form-outline mb-3">
                             <input id="confirm_password" type="password" class="form-control form-control-lg"
-                                name="confirm_password" placeholder="Confirm Password" autocomplete="new-password"
+                                name="password_confirmation" placeholder="Confirm Password" autocomplete="new-password"
                                 required>
                             <label class="form-label" for="confirm_password">Confirm Password</label>
                         </div>
                         <div class="text-center text-lg-end mt-4 pt-2">
-                            <button type="submit" class="btn btn-primary btn-lg"
+                            <button type="submit" id="submit" class="btn btn-primary btn-lg"
                                 style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button>
                             <p class="small fw-bold mt-2 pt-1 mb-0">Already have an account? <a
                                     href="{{ url('login') }}" class="link-danger">Login</a></p>
@@ -148,6 +148,7 @@
     $('#password, #confirm_password').on('keyup', function() {
         if ($('#password').val() == $('#confirm_password').val()) {
             $('#message').html('Password Matched').css('color', 'green');
+          
         } else
             $('#message').html('Password Not Matching').css('color', 'red');
     });

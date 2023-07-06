@@ -49,7 +49,7 @@
                             </div>
                         @endif
                     </div>
-                    <form autocomplete="off" action="{{ route('login_authenticator') }}" method="POST">
+                    <form autocomplete="off" action="{{ route('login') }}" method="POST">
                         @csrf
                         <!-- Email input -->
                         <div class="form-outline mb-4">

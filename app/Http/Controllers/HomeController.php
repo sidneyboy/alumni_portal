@@ -12,6 +12,7 @@ use App\Models\Wall_attachments;
 use App\Models\Wall_replies;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -30,43 +31,62 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
+    }
+
     public function index()
     {
+        $user = User::find(auth()->user()->id);
         date_default_timezone_set('Asia/Manila');
         $date_now = date('Y-m-d');
-        $user = User::find(auth()->user()->id);
-        $announcement = Announcements::orderBy('id', 'desc')->take(1)->first();
-        if ($announcement) {
-            $announcement_counter = Announcements_attachments::where('announcements_id', $announcement->id)
+
+        if ($user->user_type == 'admin') {
+            User::where('id', auth()->user()->id)
+                ->update(['status' => 1]);
+
+
+            $announcement = Announcements::orderBy('id', 'desc')->take(1)->first();
+            if ($announcement) {
+                $announcement_counter = Announcements_attachments::where('announcements_id', $announcement->id)
+                    ->get();
+            } else {
+                $announcement_counter[] = 0;
+            }
+
+            $latest_announcement_photos = Announcements_attachments::select('attachment')
+                ->where('user_id', auth()->user()->id)
+                ->take(3)
+                ->orderBy('id', 'desc')
                 ->get();
+
+            $latest_wall_photos = Wall_attachments::select('attachment')
+                ->where('user_id', auth()->user()->id)
+                ->take(3)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $wall = Wall::orderBy('id', 'desc')->get();
+
+            return view('admin_welcome', [
+                'user' => $user,
+                'wall' => $wall,
+                'date_now' => $date_now,
+                'announcement' => $announcement,
+                'announcement_counter' => $announcement_counter,
+                'latest_announcement_photos' => $latest_announcement_photos,
+                'latest_wall_photos' => $latest_wall_photos,
+            ]);
         } else {
-            $announcement_counter[] = 0;
+            User::where('id', auth()->user()->id)
+                ->update(['status' => 1]);
+            return 'under construction';
         }
-
-        $latest_announcement_photos = Announcements_attachments::select('attachment')
-            ->where('user_id', auth()->user()->id)
-            ->take(3)
-            ->orderBy('id', 'desc')
-            ->get();
-
-        $latest_wall_photos = Wall_attachments::select('attachment')
-            ->where('user_id', auth()->user()->id)
-            ->take(3)
-            ->orderBy('id', 'desc')
-            ->get();
-
-        $wall = Wall::orderBy('id', 'desc')->get();
-
-        return view('admin_welcome', [
-            'user' => $user,
-            'wall' => $wall,
-            'date_now' => $date_now,
-            'announcement' => $announcement,
-            'announcement_counter' => $announcement_counter,
-            'latest_announcement_photos' => $latest_announcement_photos,
-            'latest_wall_photos' => $latest_wall_photos,
-        ]);
     }
+
 
     public function admin_update_profile(Request $request)
     {
@@ -348,6 +368,99 @@ class HomeController extends Controller
             'user' => $user,
             'date_now' => $date_now,
             'wall_photos' => $wall_photos,
+        ]);
+    }
+
+    public function admin_user_list(Request $request)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $user_list = User::select('id', 'name', 'last_name', 'middle_name', 'timeline_picture', 'profile_picture', 'created_at', 'user_type', 'status')
+            ->whereNotIn('id', [auth()->user()->id])
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('admin_user_list', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'user_list' => $user_list,
+        ]);
+    }
+
+    public function admin_update_user_type(Request $request)
+    {
+        User::where('id', $request->input('user_list_id'))
+            ->update(['user_type' => $request->input('user_type')[$request->input('user_list_id')]]);
+
+        return redirect('admin_user_list');
+    }
+
+    public function user_view_timeline($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', $id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::where('user_id', $id)->orderBy('id', 'desc')->get();
+
+        $user = User::find($id);
+
+        return view('user_view_timeline', [
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function user_view_photos($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find($id);
+
+        $announcement_photos = DB::table("announcements_attachments")
+            ->select(
+                "attachment"
+            )->where('user_id', $id);
+        $wall_photos = DB::table("wall_attachments")
+            ->select(
+                "attachment"
+            )
+            ->where('user_id', $id)
+            ->unionAll($announcement_photos)
+            ->get();
+
+
+        return view('user_view_photos', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'wall_photos' => $wall_photos,
+        ]);
+    }
+
+    public function admin_user_search(Request $request)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $user_list = User::select('id', 'name', 'last_name', 'middle_name', 'timeline_picture', 'profile_picture', 'created_at', 'user_type', 'status')
+            ->where('last_name', 'like', '%' . $request->input('search_name') . '%')
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('admin_user_search', [
+            'user_list' => $user_list,
+            'user' => $user,
+            'date_now' => $date_now,
         ]);
     }
 }

@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style type="text/css">
         body {
             background-color: #f9fafb;
@@ -439,156 +439,30 @@
 
 
 
-
-
-
-        .margin30 {
-            margin-bottom: 30px;
-        }
-
-        .item-img-wrap {
-            position: relative;
-            text-align: center;
+        .friend-list .friend-card {
+            border-radius: 4px;
+            border-bottom: 1px solid #f1f2f2;
             overflow: hidden;
+            margin-bottom: 20px;
         }
 
-        .item-img-wrap img {
-            -moz-transition: all 200ms linear;
-            -o-transition: all 200ms linear;
-            -webkit-transition: all 200ms linear;
-            transition: all 200ms linear;
-            width: 100%;
+        .friend-list .friend-card .card-info {
+            padding: 0 20px 10px;
         }
 
-        /************************image hover effect*******************/
-        .item-img-wrap {
-            position: relative;
-            text-align: center;
-            overflow: hidden;
+        .friend-list .friend-card .card-info img.profile-photo-lg {
+            margin-top: -60px;
+            border: 7px solid #fff;
         }
 
-        .item-img-wrap img {
-            -moz-transition: all 200ms linear;
-            -o-transition: all 200ms linear;
-            -webkit-transition: all 200ms linear;
-            transition: all 200ms linear;
-            width: 100%;
+        img.profile-photo-lg {
+            height: 80px;
+            width: 80px;
+            border-radius: 50%;
         }
 
-        .item-img-overlay {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            left: 0;
-            top: 0;
-        }
-
-        .item-img-overlay span {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0;
-            left: 0;
-            background: url(http://bootstraplovers.com/templates/assan-2.2/main-template/img/plus.png) no-repeat center center rgba(0, 0, 0, 0.7);
-            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-            filter: alpha(opacity=0);
-            opacity: 0;
-            -moz-transition: opacity 250ms linear;
-            -o-transition: opacity 250ms linear;
-            -webkit-transition: opacity 250ms linear;
-            transition: opacity 250ms linear;
-        }
-
-        .item-img-wrap:hover .item-img-overlay span {
-            opacity: 1;
-        }
-
-        .item-img-wrap:hover img {
-            -moz-transform: scale(1.1);
-            -o-transform: scale(1.1);
-            -ms-transform: scale(1.1);
-            -webkit-transform: scale(1.1);
-            transform: scale(1.1);
-        }
-
-
-        /*************pagination***********/
-        .gallery-bottom .pagination {
-            margin-top: 0px;
-        }
-
-        .pagination>li>a,
-        .pagination>li>span {
-            background-color: #ccc;
-            padding: 3px 9px;
-            color: #fff;
-            border: 0px;
-        }
-
-        .pagination>li>a {
-            margin-right: 5px;
-        }
-
-        .pagination>.active>a,
-        .pagination>.active>span,
-        .pagination>.active>a:hover,
-        .pagination>.active>span:hover,
-        .pagination>.active>a:focus,
-        .pagination>.active>span:focus {
-            background-color: #32c5d2;
-        }
-
-
-        #demo {
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-
-        .green {
-            background-color: #6fb936;
-        }
-
-        .thumb {
-            margin-bottom: 30px;
-        }
-
-        .page-top {
-            margin-top: 85px;
-        }
-
-
-        img.zoom {
-            width: 100%;
-            height: 200px;
-            border-radius: 5px;
-            object-fit: cover;
-            -webkit-transition: all .3s ease-in-out;
-            -moz-transition: all .3s ease-in-out;
-            -o-transition: all .3s ease-in-out;
-            -ms-transition: all .3s ease-in-out;
-        }
-
-
-        .transition {
-            -webkit-transform: scale(1.2);
-            -moz-transform: scale(1.2);
-            -o-transform: scale(1.2);
-            transform: scale(1.2);
-        }
-
-        .modal-header {
-
-            border-bottom: none;
-        }
-
-        .modal-title {
-            color: #000;
-        }
-
-        .modal-footer {
-            display: none;
+        .text-green {
+            color: #8dc63f;
         }
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
@@ -611,15 +485,96 @@
                 <div class="col-md-12 col-xl-12 middle-wrapper">
                     <div class="card rounded">
                         <div class="card-body">
-                            <div class="container">
+                            <div class="row">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
+                                    <form action="{{ route('admin_user_search') }}" method="get">
+                                        @csrf
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div class="form-group">
+                                                    <input type="text" name="search_name" class="form-control form-control-sm"
+                                                        placeholder="Search Name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <button type="submit"
+                                                        class="btn btn-sm btn-block btn-primary">Search</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="friend-list">
                                 <div class="row">
-                                    @foreach ($wall_photos as $wall_photos)
-                                        <div class="col-lg-3 col-md-4 col-xs-6 thumb">
-                                            <a href="{{ asset('announcement_photos/' . $wall_photos->attachment) }}"
-                                                class="fancybox" rel="ligthbox">
-                                                <img src="{{ asset('announcement_photos/' . $wall_photos->attachment) }}"
-                                                    class="zoom img-fluid " alt="">
-                                            </a>
+                                    @foreach ($user_list as $data)
+                                        <div class="col-md-4 col-sm-6">
+                                            <div class="friend-card">
+                                                <img src="{{ asset('image/' . $data->timeline_picture) }}"
+                                                    alt="profile-cover"
+                                                    style="width:400px;height:100px;object-fit: contain;"
+                                                    class="img-responsive cover">
+                                                <div class="card-info">
+                                                    <img src="{{ asset('image/' . $data->profile_picture) }}"
+                                                        alt="user" class="profile-photo-lg">
+                                                    <div class="friend-info">
+                                                        <h6><a href="{{ urL('user_view_timeline', ['id' => $data->id]) }}"
+                                                                class="profile-link">{{ ucfirst($data->name) }}
+                                                                {{ ucfirst($data->middle_name) }}
+                                                                {{ ucfirst($data->last_name) }}</a>
+
+                                                            @if ($data->status == 1)
+                                                                <span style="font-size:11px;color:green">Online</span>
+                                                            @else
+                                                                <span style="font-size:11px;color:red">Offline</span>
+                                                            @endif
+                                                        </h6>
+                                                        Joined:
+                                                        {{ date('F j, Y', strtotime($data->created_at)) }}
+                                                        <hr>
+                                                        <form action="{{ route('admin_update_user_type') }}"
+                                                            method="post">
+                                                            @csrf
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <div class="form-group">
+                                                                        <select name="user_type[{{ $data->id }}]"
+                                                                            class="form-control form-control-sm">
+                                                                            <option value="{{ $data->user_type }}"
+                                                                                selected>
+                                                                                {{ Str::ucfirst($data->user_type) }} -
+                                                                                Current
+                                                                            </option>
+                                                                            @if ($data->user_type == 'admin')
+                                                                                <option value="user">User</option>
+                                                                                <option value="coordinator">Coordinator
+                                                                                </option>
+                                                                            @elseif($data->user_type == 'user')
+                                                                                <option value="admin">Admin</option>
+                                                                                <option value="coordinator">Coordinator
+                                                                                </option>
+                                                                            @elseif($data->user_type == 'coordinator')
+                                                                                <option value="admin">Admin</option>
+                                                                                <option value="user">User</option>
+                                                                            @endif
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <input type="hidden" value="{{ $data->id }}"
+                                                                        name="user_list_id">
+                                                                    <div class="form-group">
+                                                                        <button class="btn btn-sm btn-block btn-primary"
+                                                                            type="submit">Update</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     @endforeach
                                 </div>
@@ -635,7 +590,8 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }} {{ $user->middle_name }}
+                        <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }}
+                            {{ $user->middle_name }}
                             {{ $user->last_name }}'s Profile</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>

@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.1.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 05, 2023 at 03:13 PM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.1.17
+-- Generation Time: Jul 06, 2023 at 11:01 AM
+-- Server version: 10.4.22-MariaDB
+-- PHP Version: 8.1.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -29,9 +29,9 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `announcements` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `body` longtext NOT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `body` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
@@ -54,8 +54,8 @@ INSERT INTO `announcements` (`id`, `subject`, `body`, `status`, `created_at`, `u
 CREATE TABLE `announcements_attachments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `announcements_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `attachment` longtext NOT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `attachment` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
@@ -88,9 +88,9 @@ CREATE TABLE `announcement_replies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `announcements_id` bigint(20) UNSIGNED DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `content` longtext NOT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `user_type` varchar(255) NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -130,11 +130,11 @@ INSERT INTO `announcement_replies` (`id`, `announcements_id`, `user_id`, `conten
 
 CREATE TABLE `failed_jobs` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `uuid` varchar(255) NOT NULL,
-  `connection` text NOT NULL,
-  `queue` text NOT NULL,
-  `payload` longtext NOT NULL,
-  `exception` longtext NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -146,29 +146,22 @@ CREATE TABLE `failed_jobs` (
 
 CREATE TABLE `graduates_profiles` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `first_name` varchar(255) NOT NULL,
-  `middle_name` varchar(255) NOT NULL,
-  `last_name` varchar(255) NOT NULL,
-  `address` text DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `gender` int(11) DEFAULT NULL,
   `date_of_birth` date DEFAULT NULL,
   `year_graduated` date DEFAULT NULL,
   `profile_last_updated` date DEFAULT NULL,
-  `graduate_picture_id` varchar(255) DEFAULT NULL,
-  `email` varchar(255) NOT NULL,
-  `password` varchar(255) NOT NULL,
+  `graduate_picture_id` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `user_type` varchar(255) DEFAULT NULL
+  `user_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `graduates_profiles`
---
-
-INSERT INTO `graduates_profiles` (`id`, `first_name`, `middle_name`, `last_name`, `address`, `gender`, `date_of_birth`, `year_graduated`, `profile_last_updated`, `graduate_picture_id`, `email`, `password`, `status`, `created_at`, `updated_at`, `user_type`) VALUES
-(4, 'John Sidney', 'Llanes', 'Salazar', NULL, NULL, NULL, NULL, NULL, NULL, 'user@gmail.com', '$2y$10$CLYGO/qsi6PLAO7GeyKyou2XNAMKzWdZxzEQNABGJ9VPrbF85er6e', 0, '2023-06-28 18:42:52', '2023-06-28 18:42:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -178,7 +171,7 @@ INSERT INTO `graduates_profiles` (`id`, `first_name`, `middle_name`, `last_name`
 
 CREATE TABLE `migrations` (
   `id` int(10) UNSIGNED NOT NULL,
-  `migration` varchar(255) NOT NULL,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -206,7 +199,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (17, '2023_06_30_075525_add_user_id_to_wall', 13),
 (18, '2023_07_04_131448_add_user_type_to_users', 14),
 (19, '2023_07_04_131547_add_user_type_to_graduates_profile', 14),
-(20, '2023_07_05_114520_create_wall_replies_table', 14);
+(20, '2023_07_05_114520_create_wall_replies_table', 14),
+(21, '2023_07_06_023524_add_user_details', 15),
+(22, '2023_07_06_042622_add_user_status_to_user', 16);
 
 -- --------------------------------------------------------
 
@@ -215,8 +210,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `password_resets` (
-  `email` varchar(255) NOT NULL,
-  `token` varchar(255) NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -228,11 +223,11 @@ CREATE TABLE `password_resets` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) NOT NULL,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `token` varchar(64) NOT NULL,
-  `abilities` text DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -246,27 +241,31 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
-  `email` varchar(255) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) NOT NULL,
-  `remember_token` varchar(100) DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `profile_picture` longtext DEFAULT NULL,
-  `timeline_picture` longtext DEFAULT NULL,
-  `gender` varchar(255) DEFAULT NULL,
-  `date_of_birth` varchar(255) DEFAULT NULL,
-  `about` text DEFAULT NULL,
-  `user_type` varchar(255) DEFAULT NULL
+  `profile_picture` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `timeline_picture` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gender` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `date_of_birth` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `about` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `middle_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `profile_picture`, `timeline_picture`, `gender`, `date_of_birth`, `about`, `user_type`) VALUES
-(1, 'John Sidney Salazar', 'admin@gmail.com', NULL, '$2y$10$KSOQEnXsNbOcutrAWPctj.5EfTgs5LnFW4Zyfe315MVBd5bLKdVy6', NULL, '2023-06-28 18:14:54', '2023-07-03 04:12:27', '64a2baeb2b74d-images.jpg', '64a2bae05ef87-cropped-school-header (1).jpg', 'Male', '1992-06-29', 'Hi! I\'m Amiah the Senior UI Designer at Vibrant. We hope you enjoy the design and quality of Social.', NULL);
+INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `profile_picture`, `timeline_picture`, `gender`, `date_of_birth`, `about`, `user_type`, `middle_name`, `last_name`, `status`) VALUES
+(1, 'John Sidney', 'admin@gmail.com', NULL, '$2y$10$KSOQEnXsNbOcutrAWPctj.5EfTgs5LnFW4Zyfe315MVBd5bLKdVy6', NULL, '2023-06-28 18:14:54', '2023-07-06 06:26:45', '64a2baeb2b74d-images.jpg', '64a2bae05ef87-cropped-school-header (1).jpg', 'Male', '1992-06-29', 'Hi! I\'m Amiah the Senior UI Designer at Vibrant. We hope you enjoy the design and quality of Social.', 'admin', 'Llanes', 'Salazar', '1'),
+(3, 'khloe', 'khloe@gmail.com', NULL, '$2y$10$jlTdYgNwED6Ap2uVR0iL0eLJbluauRfmhGMoOd4LmuBYwgwtZCIpu', NULL, '2023-07-05 20:28:25', '2023-07-06 08:04:27', '64a65b64ca0df-download.jpg', '64a6581f412ee-desktop-wallpaper-dbz-family-dragon-ball-z-fusion.jpg', 'Female', '2021-09-09', 'Son Goku, born Kakarot, is a male Saiyan and the main protagonist of the Dragon Ball metaseries created by Akira Toriyama.', 'user', 'baconawa', 'salazar', '1');
 
 -- --------------------------------------------------------
 
@@ -277,9 +276,9 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `re
 CREATE TABLE `walls` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `user_id` int(11) DEFAULT NULL,
-  `body` longtext DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `user_type` varchar(255) NOT NULL,
+  `body` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -293,7 +292,8 @@ INSERT INTO `walls` (`id`, `user_id`, `body`, `status`, `user_type`, `created_at
 (2, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:39', '2023-06-30 00:15:39'),
 (3, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:41', '2023-06-30 00:15:41'),
 (4, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:43', '2023-06-30 00:15:43'),
-(5, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:45', '2023-06-30 00:15:45');
+(5, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:45', '2023-06-30 00:15:45'),
+(8, 3, 'Dragon Ball Yeah', NULL, 'admin', '2023-07-05 22:13:51', '2023-07-05 22:13:51');
 
 -- --------------------------------------------------------
 
@@ -304,12 +304,12 @@ INSERT INTO `walls` (`id`, `user_id`, `body`, `status`, `user_type`, `created_at
 CREATE TABLE `wall_attachments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `wall_id` bigint(20) UNSIGNED DEFAULT NULL,
-  `attachment` longtext NOT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `attachment` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `user_id` varchar(255) NOT NULL,
-  `user_type` varchar(255) DEFAULT NULL
+  `user_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -322,7 +322,14 @@ INSERT INTO `wall_attachments` (`id`, `wall_id`, `attachment`, `status`, `create
 (3, 1, '649e8b11a37aa-nfghfghgfh.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
 (4, 1, '649e8b11a45a2-qasdfasdasd.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
 (5, 1, '649e8b11a4f41-qweqwe.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
-(6, 1, '649e8b11a5c1e-qweqweqweqweqwe.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin');
+(6, 1, '649e8b11a5c1e-qweqweqweqweqwe.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
+(7, 8, '64a65b9f6bbe8-dragon-ball-super-vol-12.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
+(8, 8, '64a65b9f6dc50-images.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
+(9, 8, '64a65b9f6eaef-9e510b0d2ffc577aad8e8edcabed2ee8.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
+(10, 8, '64a65b9f6f79b-download.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
+(11, 8, '64a65b9f704db-download (1).jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
+(12, 8, '64a65b9f70ff0-8a87476e3cc6d6ab6db061af36c8032f6e79ce84_hq.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
+(13, 8, '64a65b9f71fab-download (2).jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin');
 
 -- --------------------------------------------------------
 
@@ -334,9 +341,9 @@ CREATE TABLE `wall_replies` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `wall_id` bigint(20) UNSIGNED DEFAULT NULL,
   `user_id` int(11) NOT NULL,
-  `content` longtext NOT NULL,
-  `status` varchar(255) DEFAULT NULL,
-  `user_type` varchar(255) NOT NULL,
+  `content` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -347,7 +354,18 @@ CREATE TABLE `wall_replies` (
 
 INSERT INTO `wall_replies` (`id`, `wall_id`, `user_id`, `content`, `status`, `user_type`, `created_at`, `updated_at`) VALUES
 (1, 5, 1, 'sample', NULL, 'admin', '2023-07-05 03:54:37', '2023-07-05 03:54:37'),
-(2, 5, 1, 'sample 2', NULL, 'admin', '2023-07-05 04:00:23', '2023-07-05 04:00:23');
+(2, 5, 1, 'sample 2', NULL, 'admin', '2023-07-05 04:00:23', '2023-07-05 04:00:23'),
+(3, 8, 3, 'yeah', NULL, 'admin', '2023-07-05 22:17:30', '2023-07-05 22:17:30'),
+(4, 8, 3, 'yeah', NULL, 'admin', '2023-07-05 22:18:48', '2023-07-05 22:18:48'),
+(5, 8, 3, 'yeah', NULL, 'admin', '2023-07-05 22:18:55', '2023-07-05 22:18:55'),
+(6, 8, 3, 'sample', NULL, 'admin', '2023-07-05 22:21:41', '2023-07-05 22:21:41'),
+(7, 8, 3, 'user', NULL, 'admin', '2023-07-05 22:21:46', '2023-07-05 22:21:46'),
+(8, 8, 3, 'user wall', NULL, 'admin', '2023-07-05 22:21:53', '2023-07-05 22:21:53'),
+(9, 8, 1, 'sample', NULL, 'admin', '2023-07-05 22:30:09', '2023-07-05 22:30:09'),
+(10, 5, 3, 'sample', NULL, 'admin', '2023-07-06 00:01:04', '2023-07-06 00:01:04'),
+(11, 5, 3, 'sample', NULL, 'admin', '2023-07-06 00:03:09', '2023-07-06 00:03:09'),
+(12, 4, 3, 'sample', NULL, 'admin', '2023-07-06 00:03:40', '2023-07-06 00:03:40'),
+(13, 4, 3, 'sample', NULL, 'admin', '2023-07-06 00:04:20', '2023-07-06 00:04:20');
 
 --
 -- Indexes for dumped tables
@@ -465,13 +483,13 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `graduates_profiles`
 --
 ALTER TABLE `graduates_profiles`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -483,25 +501,25 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `walls`
 --
 ALTER TABLE `walls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `wall_attachments`
 --
 ALTER TABLE `wall_attachments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `wall_replies`
 --
 ALTER TABLE `wall_replies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

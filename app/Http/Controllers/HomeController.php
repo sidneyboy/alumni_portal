@@ -81,10 +81,35 @@ class HomeController extends Controller
                 'latest_wall_photos' => $latest_wall_photos,
             ]);
         } else {
-            User::where('id', auth()->user()->id)
-                ->update(['status' => 1]);
-            return 'under construction';
+            return redirect('user_welcome');
         }
+    }
+
+    public function user_welcome()
+    {
+        $user = User::find(auth()->user()->id);
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        User::where('id', auth()->user()->id)
+            ->update(['status' => 1]);
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('user_welcome', [
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
     }
 
 
@@ -99,6 +124,18 @@ class HomeController extends Controller
             ]);
 
         return redirect('home');
+    }
+
+    public function user_update_profile(Request $request)
+    {
+        User::where('id', $request->input('user_id'))
+            ->update([
+                'gender' => $request->input('gender'),
+                'about' => $request->input('about'),
+                'date_of_birth' => $request->input('date_of_birth'),
+            ]);
+
+        return redirect('user_welcome');
     }
 
     public function admin_update_profile_picture(Request $request)
@@ -122,6 +159,22 @@ class HomeController extends Controller
         return redirect('home');
     }
 
+    public function user_update_profile_picture(Request $request)
+    {
+
+        $destinationPath = 'image';
+        $myimage = uniqid() . '-' . $request->profile_picture->getClientOriginalName();
+        $request->profile_picture->move(public_path($destinationPath), $myimage);
+
+
+        User::where('id', $request->input('user_id'))
+            ->update([
+                'profile_picture' => $myimage,
+            ]);
+
+        return redirect('user_welcome');
+    }
+
     public function admin_update_timeline_picture(Request $request)
     {
         //dd($request->all());
@@ -136,6 +189,21 @@ class HomeController extends Controller
             ]);
 
         return redirect('home');
+    }
+
+    public function user_update_timeline_picture(Request $request)
+    {
+        $destinationPath = 'image';
+        $myimage = uniqid() . '-' . $request->timeline_picture->getClientOriginalName();
+        $request->timeline_picture->move(public_path($destinationPath), $myimage);
+
+
+        User::where('id', auth()->user()->id)
+            ->update([
+                'timeline_picture' => $myimage,
+            ]);
+
+        return redirect('user_welcome');
     }
 
     public function admin_post_announcement(Request $request)
@@ -231,6 +299,38 @@ class HomeController extends Controller
         }
 
         return redirect('home');
+    }
+
+    public function user_post_wall(Request $request)
+    {
+        $new = new Wall([
+            'body' => $request->input('body'),
+            'user_id' => auth()->user()->id,
+            'user_type' => 'admin',
+        ]);
+
+        $new->save();
+
+        $file_images = $request->file('wall_images');
+
+        if (isset($file_images)) {
+            foreach ($request->file('wall_images') as $key => $images) {
+                $destinationPath = 'announcement_photos';
+                $myimage = uniqid() . '-' . $images->getClientOriginalName();
+                $images->move(public_path($destinationPath), $myimage);
+
+                $wall_attachments = new Wall_attachments([
+                    'wall_id' => $new->id,
+                    'attachment' => $myimage,
+                    'user_id' => auth()->user()->id,
+                    'user_type' => 'admin',
+                ]);
+
+                $wall_attachments->save();
+            }
+        }
+
+        return redirect('user_welcome');
     }
 
     public function admin_announcement($id)

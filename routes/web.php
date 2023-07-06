@@ -57,4 +57,13 @@ Route::get('/user_view_timeline/{id}', [App\Http\Controllers\HomeController::cla
 Route::get('/user_view_photos/{id}', [App\Http\Controllers\HomeController::class, 'user_view_photos'])->name('user_view_photos');
 
 
+Route::get('/user_welcome/', [App\Http\Controllers\HomeController::class, 'user_welcome'])->name('user_welcome');
+Route::post('/user_update_timeline_picture/', [App\Http\Controllers\HomeController::class, 'user_update_timeline_picture'])->name('user_update_timeline_picture');
+Route::post('/user_update_profile_picture/', [App\Http\Controllers\HomeController::class, 'user_update_profile_picture'])->name('user_update_profile_picture');
+Route::post('/user_update_profile/', [App\Http\Controllers\HomeController::class, 'user_update_profile'])->name('user_update_profile');
+Route::post('/user_post_wall/', [App\Http\Controllers\HomeController::class, 'user_post_wall'])->name('user_post_wall');
+
+
+
+
 Route::post('/graduate_registration', [App\Http\Controllers\Graduates_registration_controller::class, 'graduate_registration'])->name('graduate_registration');

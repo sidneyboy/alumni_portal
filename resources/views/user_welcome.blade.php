@@ -441,7 +441,7 @@
         <div class="profile-page tx-13">
             <div class="row">
                 <div class="col-12 grid-margin">
-                    @include('layouts/admin_menu')
+                    @include('layouts/user_menu')
                 </div>
             </div>
             <div class="row profile-body">
@@ -477,15 +477,6 @@
                                                 <path d="M18 9a9 9 0 0 1-9 9"></path>
                                             </svg> <span class>Update</span>
                                         </button>
-
-                                        {{-- <a class="dropdown-item d-flex align-items-center" href="#">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                class="feather feather-eye icon-sm mr-2">
-                                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                                <circle cx="12" cy="12" r="3"></circle>
-                                            </svg> <span class>View all</span></a> --}}
                                     </div>
                                 </div>
                             </div>
@@ -498,22 +489,34 @@
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Date of Birth:</label>
                                 <p class="text-muted">
-                                    {{ date('F j, Y', strtotime($user->date_of_birth)) }}</p>
+                                    @if ($user->date_of_birth != null)
+                                        {{ date('F j, Y', strtotime($user->date_of_birth)) }}
+                                    @else
+                                        N/A
+                                    @endif
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Age:</label>
                                 <p class="text-muted">
-                                    @php
-                                        $dateOfBirth = date('d-m-Y', strtotime($user->date_of_birth));
-                                        $today = $date_now;
-                                        $diff = date_diff(date_create($dateOfBirth), date_create($today));
-                                        echo $diff->format('%y');
-                                    @endphp
+                                    @if ($user->date_of_birth != null)
+                                        @php
+                                            $dateOfBirth = date('d-m-Y', strtotime($user->date_of_birth));
+                                            $today = $date_now;
+                                            $diff = date_diff(date_create($dateOfBirth), date_create($today));
+                                            echo $diff->format('%y');
+                                        @endphp
+                                    @else
+                                        N/A
+                                    @endif
                                 </p>
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label>
-                                <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
+                                @if ($user->date_of_birth != null)
+                                    <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
+                                @else
+                                    N/A
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -525,10 +528,6 @@
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
                                     <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#annoucement"
-                                        role="tab">Announcement</a>
                                 </li>
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
@@ -568,157 +567,10 @@
                                         </form>
                                     </div>
                                 </div>
-                                <div class="tab-pane" id="annoucement" role="tabpanel">
-                                    <div class="card rounded">
-                                        <form action="{{ route('admin_post_announcement') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <input type="text" name="subject" required
-                                                        class="form-control" placeholder="Subject">
-                                                </div>
-                                                <div class="form-group">
-                                                    <textarea name="body" class="form-control" cols="30" rows="3" placeholder="Announcement"></textarea>
-                                                </div>
-                                                <br />
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                    <div class="custom-file">
-                                                        <input type="file" name="images[]"
-                                                            class="custom-file-input" id="upload-img" multiple>
-                                                        <label class="custom-file-label" for="upload-img">Choose
-                                                            file</label>
-                                                    </div>
-                                                </div>
-                                                <div class="img-thumbs img-thumbs-hidden" id="img-preview"></div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6"></div>
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-sm btn-block btn-primary"
-                                                            type="submit">POST</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
-                    @if ($announcement)
-                        <div class="row">
-                            <div class="col-md-12 grid-margin">
-                                <div class="card gedf-card">
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-2">
-                                                    <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
-                                                </div>
-                                                <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . $user->name }}
-                                                    </div>
-                                                    <div class="h7 text-muted">
-                                                        {{ $user->name }} {{ $user->middle_name }}
-                                                        {{ $user->last_name }}</div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle" type="button"
-                                                        id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-h"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right"
-                                                        aria-labelledby="gedf-drop1">
-                                                        <div class="h6 dropdown-header">Configuration</div>
-                                                        <a class="dropdown-item" href="#">Disable</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                                        <a class="card-link" href="#">
-                                            <h5 class="card-title">{{ $announcement->subject }}</h5>
-                                        </a>
-                                        <p class="card-text">
-                                            {{ $announcement->body }}
-                                        </p>
-                                        <div class="container profile">
-                                            <div class="profile-img-list">
-                                                @if (count($announcement_counter) == 0)
-                                                @elseif(count($announcement_counter) > 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($announcement->attachments as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                    <div class="profile-img-list-item with-number">
-                                                        <a href="#" class="profile-img-list-link">
-                                                            <span class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span>
-                                                            <div class="profile-img-number">+12</div>
-                                                        </a>
-                                                    </div>
-                                                @elseif(count($announcement_counter) <= 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($announcement->attachments as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <a class="card-link" data-toggle="collapse" href="#collapseExample"
-                                            role="button" aria-expanded="false" aria-controls="collapseExample">
-                                            <i class="fa fa-comment"></i> Comment
-                                        </a>
-                                        <a class="card-link"
-                                            href="{{ url('admin_announcement', ['id' => $announcement->id]) }}">
-                                            <span
-                                                class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span>
-                                            See Comments
-                                        </a>
-                                    </div>
-                                    <div class="card-footer">
-                                        <form action="{{ route('admin_reply_announcement') }}" method="post">
-                                            @csrf
-                                            <div class="collapse" id="collapseExample">
-                                                <div class="form-group">
-                                                    <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                    <input type="hidden" name="announcement_id"
-                                                        value="{{ $announcement->id }}">
-                                                </div>
-                                                <button class="btn btn-sm float-right btn-primary">Reply</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
+
                     @foreach ($wall as $wall_item)
                         <div class="row">
                             <div class="col-md-12 grid-margin">
@@ -841,13 +693,6 @@
                                     <h6 class="card-title">latest photos</h6>
                                     <div class="latest-photos">
                                         <div class="row">
-                                            @foreach ($latest_announcement_photos as $item)
-                                                <figure>
-                                                    <img class="img-fluid"
-                                                        src="{{ asset('announcement_photos/' . $item->attachment) }}"
-                                                        alt>
-                                                </figure>
-                                            @endforeach
                                             @foreach ($latest_wall_photos as $item)
                                                 <figure>
                                                     <img class="img-fluid"
@@ -879,7 +724,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin_update_profile') }}" method="post">
+                <form action="{{ route('user_update_profile') }}" method="post">
                     @csrf
                     <div class="modal-body">
                         <div class="row">
@@ -937,7 +782,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin_update_timeline_picture') }}" method="post"
+                <form action="{{ route('user_update_timeline_picture') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
@@ -970,7 +815,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="{{ route('admin_update_profile_picture') }}" method="post"
+                <form action="{{ route('user_update_profile_picture') }}" method="post"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">

@@ -1,0 +1,46 @@
+.profile-page .profile-header .cover .cover-body .profile-name {
+            font-size: 15px;
+            font-weight: 600;
+            margin-left: 17px;
+        }
+
+
+        <a href="{{ url('admin_view_user_timeline', ['id' => $wall_item->user_id]) }}">{{ Str::ucfirst($wall_item->user_admin->name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->last_name) }}</a>
+
+
+        @if ($wall_reply_details->user_id == auth()->user()->id)
+                    {{ Str::ucfirst($wall_reply_details->user_admin->name) }}
+                    {{ Str::ucfirst($wall_reply_details->user_admin->middle_name) }}
+                    {{ Str::ucfirst($wall_reply_details->user_admin->last_name) }}
+                    <small class="text-muted">{{ date('F j, Y', strtotime($wall_reply_details->created_at)) }}</small>
+                @else
+                    <a style="text-decoration: none" href="{{ url('user_view_timeline', ['id' => $wall_reply_details->user_id]) }}">
+                        {{ Str::ucfirst($wall_reply_details->user_admin->name) }}
+                        {{ Str::ucfirst($wall_reply_details->user_admin->middle_name) }}
+                        {{ Str::ucfirst($wall_reply_details->user_admin->last_name) }}
+                    </a>
+                    <small class="text-muted">{{ date('F j, Y', strtotime($wall_reply_details->created_at)) }}</small>
+                @endif
+                <br>
+                {{ $wall_reply_details->content }}
+
+
+
+                @if ($wall_item->user_id == auth()->user()->id)
+                                                            {{ Str::ucfirst($wall_item->user_admin->name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->last_name) }}
+                                                        @else
+                                                            <a style="text-decoration: none"
+                                                                href="{{ url('admin_view_user_timeline', ['id' => $wall_item->user_id]) }}">
+                                                                {{ Str::ucfirst($wall_item->user_admin->name) }}
+                                                                {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
+                                                                {{ Str::ucfirst($wall_item->user_admin->last_name) }}</a>
+                                                        @endif
+
+                                                        <i
+                                                            style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>
+
+                                                            

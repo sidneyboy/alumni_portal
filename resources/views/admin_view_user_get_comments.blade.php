@@ -9,19 +9,17 @@
                     {{ Str::ucfirst($wall_reply_details->user_admin->name) }}
                     {{ Str::ucfirst($wall_reply_details->user_admin->middle_name) }}
                     {{ Str::ucfirst($wall_reply_details->user_admin->last_name) }}
-                    <small class="text-muted">{{ date('F j, Y', strtotime($wall_reply_details->created_at)) }}</small>
                 @else
-                    <a style="text-decoration: none" href="{{ url('admin_view_user_timeline', ['id' => $wall_reply_details->user_id]) }}">
+                    <a style="text-decoration: none"
+                        href="{{ url('admin_view_user_timeline', ['id' => $wall_reply_details->user_id]) }}">
                         {{ Str::ucfirst($wall_reply_details->user_admin->name) }}
                         {{ Str::ucfirst($wall_reply_details->user_admin->middle_name) }}
                         {{ Str::ucfirst($wall_reply_details->user_admin->last_name) }}
                     </a>
-                    <small class="text-muted">{{ date('F j, Y', strtotime($wall_reply_details->created_at)) }}</small>
                 @endif
-                <br>
                 {{ $wall_reply_details->content }}
-                
-                
+                <br>
+                <small class="text-muted">{{ date('F j, Y', strtotime($wall_reply_details->created_at)) }}</small>
             </div>
         </div>
     @endforeach

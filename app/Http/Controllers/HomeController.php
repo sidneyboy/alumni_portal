@@ -34,6 +34,9 @@ class HomeController extends Controller
 
     public function logout()
     {
+
+        User::where('id', auth()->user()->id)
+            ->update(['status' => 0]);
         Auth::logout();
         return redirect('/');
     }
@@ -69,9 +72,55 @@ class HomeController extends Controller
                 ->orderBy('id', 'desc')
                 ->get();
 
-            $wall = Wall::orderBy('id', 'desc')->get();
+            $wall = Wall::where('user_id', auth()->user()->id)->orderBy('id', 'desc')->get();
 
             return view('admin_welcome', [
+                'user' => $user,
+                'wall' => $wall,
+                'date_now' => $date_now,
+                'announcement' => $announcement,
+                'announcement_counter' => $announcement_counter,
+                'latest_announcement_photos' => $latest_announcement_photos,
+                'latest_wall_photos' => $latest_wall_photos,
+            ]);
+        } else {
+            return redirect('user_welcome');
+        }
+    }
+
+    public function admin_feed()
+    {
+        $user = User::find(auth()->user()->id);
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        if ($user->user_type == 'admin') {
+            User::where('id', auth()->user()->id)
+                ->update(['status' => 1]);
+
+            $announcement = Announcements::orderBy('id', 'desc')->take(1)->first();
+            if ($announcement) {
+                $announcement_counter = Announcements_attachments::where('announcements_id', $announcement->id)
+                    ->get();
+            } else {
+                $announcement_counter[] = 0;
+            }
+
+            $latest_announcement_photos = Announcements_attachments::select('attachment')
+                ->where('user_id', auth()->user()->id)
+                ->take(3)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $latest_wall_photos = Wall_attachments::select('attachment')
+                ->where('user_id', auth()->user()->id)
+                ->take(3)
+                ->orderBy('id', 'desc')
+                ->get();
+
+            $wall = Wall::orderBy('id', 'desc')->get();
+
+            return view('admin_feed', [
                 'user' => $user,
                 'wall' => $wall,
                 'date_now' => $date_now,
@@ -105,6 +154,27 @@ class HomeController extends Controller
             ->get();
 
         return view('user_welcome', [
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function user_feed()
+    {
+        $user = User::find(auth()->user()->id);
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::orderBy('id', 'desc')->get();
+
+        return view('user_feed', [
             'user' => $user,
             'wall' => $wall,
             'date_now' => $date_now,
@@ -387,6 +457,36 @@ class HomeController extends Controller
         ]);
     }
 
+    public function admin_view_user_get_comments(Request $request)
+    {
+        $wall_replies = Wall_replies::where('wall_id', $request->input('wall_id'))
+            ->get();
+
+        return view('admin_view_user_get_comments', [
+            'wall_replies' => $wall_replies,
+        ]);
+    }
+
+    public function user_wall_get_comments(Request $request)
+    {
+        $wall_replies = Wall_replies::where('wall_id', $request->input('wall_id'))
+            ->get();
+
+        return view('user_wall_get_comments', [
+            'wall_replies' => $wall_replies,
+        ]);
+    }
+
+    public function user_view_user_get_comments(Request $request)
+    {
+        $wall_replies = Wall_replies::where('wall_id', $request->input('wall_id'))
+            ->get();
+
+        return view('user_view_user_get_comments', [
+            'wall_replies' => $wall_replies,
+        ]);
+    }
+
     public function admin_wall_reply(Request $request)
     {
         $new_comment_reply = new Wall_replies([
@@ -403,15 +503,57 @@ class HomeController extends Controller
         if ($user->user_type == 'admin') {
             return redirect()->route('admin_wall', ['id' => $request->input('wall_id')]);
         } else {
-            return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
+            return 'dili siya admin sayop imong link';
         }
+    }
+
+    public function admin_view_user_reply(Request $request)
+    {
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => $request->input('user_id'),
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        $user = User::select('user_type')->find(auth()->user()->id);
+
+        if ($user->user_type == 'admin') {
+            return redirect()->route('admin_view_user_wall', ['id' => $request->input('wall_id')]);
+        } else {
+            return 'dili siya admin sayop imong link';
+        }
+    }
+
+    public function user_view_user_wall_reply(Request $request)
+    {
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => $request->input('user_id'),
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        $user = User::select('user_type')->find(auth()->user()->id);
+
+        return redirect()->route('user_view_user_wall', ['id' => $request->input('wall_id')]);
+
+        // if ($user->user_type == 'admin') {
+        //     return redirect()->route('admin_view_user_wall', ['id' => $request->input('wall_id')]);
+        // } else {
+        //     return 'dili siya admin sayop imong link';
+        // }
     }
 
     public function user_wall_reply(Request $request)
     {
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
-            'user_id' => auth()->user()->id,
+            'user_id' => $request->input('user_id'),
             'content' => $request->input('content'),
             'user_type' => 'admin',
         ]);
@@ -471,6 +613,20 @@ class HomeController extends Controller
         return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
     }
 
+    public function user_view_user_reply_once_more(Request $request)
+    {
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => $request->input('user_id'),
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        return redirect()->route('user_view_user_wall', ['id' => $request->input('wall_id')]);
+    }
+
     public function admin_wall($id)
     {
         date_default_timezone_set('Asia/Manila');
@@ -500,6 +656,71 @@ class HomeController extends Controller
         ]);
     }
 
+    public function admin_view_user_wall($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        $wall = Wall::find($id);
+
+        $user = User::find($wall->user_id);
+
+        $latest_announcement_photos = Announcements_attachments::select('attachment')
+            ->where('user_id', $wall->user_id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', $wall->user_id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+
+        return view('admin_view_user_wall', [
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_announcement_photos' => $latest_announcement_photos,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function user_view_user_wall($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        $wall = Wall::find($id);
+
+        $user = User::find($wall->user_id);
+
+        $latest_announcement_photos = Announcements_attachments::select('attachment')
+            ->where('user_id', $wall->user_id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', $wall->user_id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $viewer = User::select('id')->find(auth()->user()->id);
+
+
+        return view('user_view_user_wall', [
+            'viewer' => $viewer,
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_announcement_photos' => $latest_announcement_photos,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
     public function admin_wall_get_comments(Request $request)
     {
         $wall_replies = Wall_replies::where('wall_id', $request->input('wall_id'))
@@ -519,11 +740,11 @@ class HomeController extends Controller
         $announcement_photos = DB::table("announcements_attachments")
             ->select(
                 "attachment"
-            );
+            )->where('user_id', auth()->user()->id);
         $wall_photos = DB::table("wall_attachments")
             ->select(
                 "attachment"
-            )
+            )->where('user_id', auth()->user()->id)
             ->unionAll($announcement_photos)
             ->get();
 
@@ -548,6 +769,25 @@ class HomeController extends Controller
 
 
         return view('user_photos', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'wall_photos' => $wall_photos,
+        ]);
+    }
+
+    public function user_view_user_photos($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find($id);
+
+
+        $wall_photos = Wall_attachments::select("attachment")
+            ->where('user_id', $id)
+            ->get();
+
+
+        return view('user_view_user_photos', [
             'user' => $user,
             'date_now' => $date_now,
             'wall_photos' => $wall_photos,
@@ -580,7 +820,7 @@ class HomeController extends Controller
         return redirect('admin_user_list');
     }
 
-    public function user_view_timeline($id)
+    public function admin_view_user_timeline($id)
     {
         date_default_timezone_set('Asia/Manila');
         $date_now = date('Y-m-d');
@@ -595,7 +835,7 @@ class HomeController extends Controller
 
         $user = User::find($id);
 
-        return view('user_view_timeline', [
+        return view('admin_view_user_timeline', [
             'user' => $user,
             'wall' => $wall,
             'date_now' => $date_now,
@@ -603,7 +843,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function user_view_photos($id)
+    public function admin_view_user_photos($id)
     {
         date_default_timezone_set('Asia/Manila');
         $date_now = date('Y-m-d');
@@ -622,7 +862,7 @@ class HomeController extends Controller
             ->get();
 
 
-        return view('user_view_photos', [
+        return view('admin_view_user_photos', [
             'user' => $user,
             'date_now' => $date_now,
             'wall_photos' => $wall_photos,
@@ -644,6 +884,43 @@ class HomeController extends Controller
             'user_list' => $user_list,
             'user' => $user,
             'date_now' => $date_now,
+        ]);
+    }
+
+    public function user_view_user($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', $id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::where('user_id', $id)->orderBy('id', 'desc')->get();
+
+        $user = User::find($id);
+
+        $viewer = User::select('id')->find(auth()->user()->id);
+
+        return view('user_view_user', [
+            'viewer' => $viewer,
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function user_get_new_feed(Request $request)
+    {
+        $announcement = Announcements::orderBy('id','desc')->first();
+        $wall = Wall::orderBy('id', 'desc')->get();
+
+        return view('user_get_new_feed',[
+            'wall' => $wall,
+            'announcement' => $announcement,
         ]);
     }
 }

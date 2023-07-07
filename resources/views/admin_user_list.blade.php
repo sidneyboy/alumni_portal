@@ -95,7 +95,7 @@
         }
 
         .profile-page .profile-header .cover .cover-body .profile-name {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: 600;
             margin-left: 17px;
         }
@@ -520,7 +520,7 @@
                                                     <img src="{{ asset('image/' . $data->profile_picture) }}"
                                                         alt="user" class="profile-photo-lg">
                                                     <div class="friend-info">
-                                                        <h6><a href="{{ urL('user_view_timeline', ['id' => $data->id]) }}"
+                                                        <h6><a href="{{ urL('admin_view_user_timeline', ['id' => $data->id]) }}"
                                                                 class="profile-link">{{ ucfirst($data->name) }}
                                                                 {{ ucfirst($data->middle_name) }}
                                                                 {{ ucfirst($data->last_name) }}</a>

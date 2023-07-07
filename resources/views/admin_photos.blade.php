@@ -95,7 +95,7 @@
         }
 
         .profile-page .profile-header .cover .cover-body .profile-name {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: 600;
             margin-left: 17px;
         }

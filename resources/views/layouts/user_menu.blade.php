@@ -28,8 +28,14 @@
     <div class="header-links">
         <ul class="links d-flex align-items-center mt-3 mt-md-0">
             <li class="header-link-item d-flex align-items-center">
-
-                <a class="pt-1px d-none d-md-block" href="{{ url('home') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
+                    <path
+                        d="M0 64C0 46.3 14.3 32 32 32c229.8 0 416 186.2 416 416c0 17.7-14.3 32-32 32s-32-14.3-32-32C384 253.6 226.4 96 32 96C14.3 96 0 81.7 0 64zM0 416a64 64 0 1 1 128 0A64 64 0 1 1 0 416zM32 160c159.1 0 288 128.9 288 288c0 17.7-14.3 32-32 32s-32-14.3-32-32c0-123.7-100.3-224-224-224c-17.7 0-32-14.3-32-32s14.3-32 32-32z" />
+                </svg>
+                <a class="pt-1px d-none d-md-block" href="{{ url('user_feed') }}"> Feed</a>
+            </li>
+            <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
+                <a class="pt-1px d-none d-md-block" href="{{ url('user_welcome') }}">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24"
                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                         stroke-linejoin="round" class="feather feather-columns mr-1 icon-md">

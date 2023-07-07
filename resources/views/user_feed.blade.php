@@ -7,6 +7,7 @@
 
     <title>Social Media</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         body {
@@ -93,7 +94,7 @@
         }
 
         .profile-page .profile-header .cover .cover-body .profile-name {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: 600;
             margin-left: 17px;
         }
@@ -441,7 +442,7 @@
         <div class="profile-page tx-13">
             <div class="row">
                 <div class="col-12 grid-margin">
-                    @include('layouts/user_view_timeline_menu')
+                    @include('layouts/user_menu')
                 </div>
             </div>
             <div class="row profile-body">
@@ -494,7 +495,6 @@
                                     @else
                                         N/A
                                     @endif
-                                </p>
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Age:</label>
@@ -512,7 +512,7 @@
                                 </p>
                             </div>
                             <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label><br /> 
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label>
                                 @if ($user->date_of_birth != null)
                                     <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
                                 @else
@@ -524,117 +524,7 @@
                 </div>
 
                 <div class="col-md-8 col-xl-6 middle-wrapper">
-                    @foreach ($wall as $wall_item)
-                        <div class="row">
-                            <div class="col-md-12 grid-margin">
-                                <div class="card gedf-card">
-                                    <div class="card-header">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="mr-2">
-                                                    <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
-                                                </div>
-                                                <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . $user->name }}
-                                                        {{ $user->middle_name }} {{ $user->last_name }}</div>
-                                                    <div class="h7 text-muted">{{ $user->name }}</div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="dropdown">
-                                                    <button class="btn btn-link dropdown-toggle" type="button"
-                                                        id="gedf-drop1" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
-                                                        <i class="fa fa-ellipsis-h"></i>
-                                                    </button>
-                                                    <div class="dropdown-menu dropdown-menu-right"
-                                                        aria-labelledby="gedf-drop1">
-                                                        <div class="h6 dropdown-header">Configuration</div>
-                                                        <a class="dropdown-item" href="#">Disable</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
-                                        <p class="card-text">
-                                            {{ $wall_item->body }}
-                                        </p>
-                                        <div class="container profile">
-                                            <div class="profile-img-list">
-                                                @if (count($wall_item->attachments) == 0)
-                                                @elseif(count($wall_item->attachments) > 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($wall_item->attachments_limit_3 as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                    <div class="profile-img-list-item with-number">
-                                                        <a href="#" class="profile-img-list-link">
-                                                            <span class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span>
-                                                            <div class="profile-img-number">
-                                                                +{{ count($wall_item->attachments) }}</div>
-                                                        </a>
-                                                    </div>
-                                                @elseif(count($wall_item->attachments_limit_3) <= 5)
-                                                    <div class="profile-img-list-item main"><a href="#"
-                                                            class="profile-img-list-link"><span
-                                                                class="profile-img-content"
-                                                                style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
-                                                    </div>
-                                                    @foreach ($announcement->attachments as $item)
-                                                        <div class="profile-img-list-item"><a href="#"
-                                                                class="profile-img-list-link"><span
-                                                                    class="profile-img-content"
-                                                                    style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
-                                                        </div>
-                                                    @endforeach
-                                                @endif
-
-
-                                            </div>
-                                        </div>
-                                        <a class="card-link" data-toggle="collapse"
-                                            href="#collapseExampleadmin_wall_reply{{ $wall_item->id }}"
-                                            role="button" aria-expanded="false"
-                                            aria-controls="collapseExampleadmin_wall_reply{{ $wall_item->id }}">
-                                            <i class="fa fa-comment"></i> Comment
-                                        </a>
-                                        <a class="card-link"
-                                            href="{{ url('admin_wall', ['id' => $wall_item->id]) }}">
-                                            <span
-                                                class="badge badge-dark">{{ count($wall_item->wall_replies) }}</span>
-                                            See Comments
-                                        </a>
-                                    </div>
-                                    <div class="card-footer">
-                                        <form action="{{ route('admin_wall_reply') }}" method="post">
-                                            @csrf
-                                            <div class="collapse"
-                                                id="collapseExampleadmin_wall_reply{{ $wall_item->id }}">
-                                                <div class="form-group">
-                                                    <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                    <input type="hidden" name="wall_id"
-                                                        value="{{ $wall_item->id }}">
-                                                </div>
-                                                <button class="btn btn-sm float-right btn-primary">Reply</button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    <div class="user_get_new_feed"></div>
                 </div>
 
 
@@ -665,9 +555,275 @@
             </div>
         </div>
     </div>
+
+    <div class="modal fade" id="edit_profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }}
+                        {{ $user->middle_name }} {{ $user->last_name }}'s Profile</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('user_update_profile') }}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label for="">Tell something about you</label>
+                                <textarea name="about" class="form-control" cols="30" rows="10" required>{{ $user->about }}</textarea>
+                            </div>
+                            <div class="col-md-12">
+                                <label for="">Date of Birth</label>
+                                <input type="date" class="form-control form-control-sm" required
+                                    name="date_of_birth" value="{{ $user->date_of_birth }}">
+                            </div>
+                            <div class="col-md-12">
+                                <label for="">Gender</label>
+                                @if ($user->gender == null)
+                                    <select name="gender" class="form-control form-control-sm" required>
+                                        <option value="" default>Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                @elseif($user->gender == 'Male')
+                                    <select name="gender" class="form-control form-control-sm" required>
+                                        <option value="" default>Select</option>
+                                        <option value="Male" selected>Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                @elseif($user->gender == 'Female')
+                                    <select name="gender" class="form-control form-control-sm" required>
+                                        <option value="" default>Select</option>
+                                        <option value="Male">Male</option>
+                                        <option value="Female" selected>Female</option>
+                                    </select>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="timeline_photo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit Timeline Photo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('user_update_timeline_picture') }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <img src="" id="timeline_picture_image_preview" alt="" style="width:100%;">
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="timeline_picture_image"
+                                    name="timeline_picture" required accept='image/*' onchange="showTimelineImage()">
+                                <label class="custom-file-label" for="timeline_picture_image">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="profile_picture" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Profile Picture</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('user_update_profile_picture') }}" method="post"
+                    enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-body">
+                        <img src="" id="profile_picture_image_preview" alt="" style="width:100%;">
+                        <div class="input-group mb-3">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="profile_picture_image"
+                                    name="profile_picture" required accept='image/*' onchange="showImage()">
+                                <label class="custom-file-label" for="profile_picture_image">Choose file</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        function list_comments() {
+            wall_id = 'none';
+            $.ajax({
+                type: "POST",
+                url: "/user_get_new_feed",
+                data: 'wall_id=' + wall_id,
+                success: function(res) {
+                    $('.user_get_new_feed').html(res);
+                }
+            });
+        }
+
+        $(function() {
+            list_comments();
+            setInterval(function() {
+                list_comments();
+            }, 10000);
+
+        });
+
+
+        const imageUploader_profile_picture = document.getElementById("profile_picture_image");
+        const imagePreview_profile_picture = document.getElementById("profile_picture_image_preview");
+
+        function showImage() {
+            let reader = new FileReader();
+            reader.readAsDataURL(imageUploader_profile_picture.files[0]);
+            reader.onload = function(e) {
+                imagePreview_profile_picture.classList.add("show");
+                imagePreview_profile_picture.src = e.target.result;
+            };
+        }
+
+        const imageUploader_timeline_picture = document.getElementById("timeline_picture_image");
+        const imagePreview_timeline_picture = document.getElementById("timeline_picture_image_preview");
+
+        function showTimelineImage() {
+            let reader = new FileReader();
+            reader.readAsDataURL(imageUploader_timeline_picture.files[0]);
+            reader.onload = function(e) {
+                imagePreview_timeline_picture.classList.add("show");
+                imagePreview_timeline_picture.src = e.target.result;
+            };
+        }
+
+
+
+
+        var upload_wall_image = document.getElementById('upload_wall_image'),
+            upload_wall_image_prev = document.getElementById('upload_wall_image_prev'),
+            upload_wall_imageForm = document.getElementById('form-upload'),
+            totalFiles, previewTitle, previewTitleText, img;
+
+        upload_wall_image.addEventListener('change', wall_prev_image, true);
+
+        function wall_prev_image(event) {
+            totalFiles = upload_wall_image.files.length;
+
+            if (!!totalFiles) {
+                upload_wall_image_prev.classList.remove('img-thumbs-hidden');
+            }
+
+            for (var i = 0; i < totalFiles; i++) {
+                wrapper = document.createElement('div');
+                wrapper.classList.add('wrapper-thumb');
+                removeBtn = document.createElement("span");
+                nodeRemove = document.createTextNode('x');
+                removeBtn.classList.add('remove-btn');
+                removeBtn.appendChild(nodeRemove);
+                img = document.createElement('img');
+                img.src = URL.createObjectURL(event.target.files[i]);
+                img.classList.add('img-preview-thumb');
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+                upload_wall_image_prev.appendChild(wrapper);
+
+                $('.remove-btn').click(function() {
+                    $(this).parent('.wrapper-thumb').remove();
+                });
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        var imgUpload = document.getElementById('upload-img'),
+            imgPreview = document.getElementById('img-preview'),
+            imgUploadForm = document.getElementById('form-upload'),
+            totalFiles, previewTitle, previewTitleText, img;
+
+        imgUpload.addEventListener('change', previewImgs, true);
+
+        function previewImgs(event) {
+            totalFiles = imgUpload.files.length;
+
+            if (!!totalFiles) {
+                imgPreview.classList.remove('img-thumbs-hidden');
+            }
+
+            for (var i = 0; i < totalFiles; i++) {
+                wrapper = document.createElement('div');
+                wrapper.classList.add('wrapper-thumb');
+                removeBtn = document.createElement("span");
+                nodeRemove = document.createTextNode('x');
+                removeBtn.classList.add('remove-btn');
+                removeBtn.appendChild(nodeRemove);
+                img = document.createElement('img');
+                img.src = URL.createObjectURL(event.target.files[i]);
+                img.classList.add('img-preview-thumb');
+                wrapper.appendChild(img);
+                wrapper.appendChild(removeBtn);
+                imgPreview.appendChild(wrapper);
+
+                $('.remove-btn').click(function() {
+                    $(this).parent('.wrapper-thumb').remove();
+                });
+
+            }
+
+
+        }
+    </script>
 </body>
 
 </html>

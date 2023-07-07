@@ -25,7 +25,7 @@
                     </path>
                 </svg>
                 <a class="pt-1px d-none d-md-block"
-                    href="{{ url('user_view_timeline', ['id' => $user->id]) }}">Timeline</a>
+                    href="{{ url('user_view_user', ['id' => $user->id]) }}">Timeline</a>
             </li>
             <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none"
@@ -36,7 +36,7 @@
                     <circle cx="8.5" cy="8.5" r="1.5"></circle>
                     <polyline points="21 15 16 10 5 21"></polyline>
                 </svg>
-                <a class="pt-1px d-none d-md-block" href="{{ url('user_view_photos', ['id' => $user->id]) }}">Photos</a>
+                <a class="pt-1px d-none d-md-block" href="{{ url('user_view_user_photos', ['id' => $user->id]) }}">Photos</a>
             </li>
             <li class="header-link-item ml-3 pl-3 border-left d-flex align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-back-up"

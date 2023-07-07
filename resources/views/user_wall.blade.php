@@ -94,7 +94,7 @@
         }
 
         .profile-page .profile-header .cover .cover-body .profile-name {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: 600;
             margin-left: 17px;
         }
@@ -648,8 +648,8 @@
                                     <button class="btn p-0" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
                                             class="feather feather-more-horizontal icon-lg text-muted pb-3px">
                                             <circle cx="12" cy="12" r="1"></circle>
                                             <circle cx="19" cy="12" r="1"></circle>
@@ -718,8 +718,7 @@
                         <div class="col-md-12 grid-margin">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#wall"
-                                        role="tab">Wall</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
                                 </li>
                             </ul><!-- Tab panes -->
                             <div class="tab-content">
@@ -775,8 +774,14 @@
                                             </div>
                                             <div class="ml-2">
                                                 <div class="h5 m-0">{{ '@' . $user->name }}</div>
-                                                <div class="h7 text-muted">{{ $user->name }} {{ $user->middle_name }}
-                                                    {{ $user->last_name }}</div>
+                                                <div class="h7 text-muted">
+                                                    {{ Str::ucfirst($user->name) }}
+                                                    {{ Str::ucfirst($user->middle_name) }}
+                                                    {{ Str::ucfirst($user->last_name) }}
+                                                    <i
+                                                        style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall->created_at)) }})</i>
+                                                </div>
+
                                             </div>
                                         </div>
                                         <div>
@@ -796,7 +801,6 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
                                     <p class="card-text">
                                         {{ $wall->body }}
                                     </p>
@@ -905,7 +909,8 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }} {{ $user->middle_name }}
+                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }}
+                        {{ $user->middle_name }}
                         {{ $user->last_name }}'s Profile</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -1041,7 +1046,7 @@
             wall_id = $('#wall_id').val();
             $.ajax({
                 type: "POST",
-                url: "/admin_wall_get_comments",
+                url: "/user_wall_get_comments",
                 data: 'wall_id=' + wall_id,
                 success: function(res) {
                     $('.show_wall_comments').html(res);

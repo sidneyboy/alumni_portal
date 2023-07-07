@@ -93,7 +93,7 @@
         }
 
         .profile-page .profile-header .cover .cover-body .profile-name {
-            font-size: 20px;
+            font-size: 15px;
             font-weight: 600;
             margin-left: 17px;
         }
@@ -441,7 +441,7 @@
         <div class="profile-page tx-13">
             <div class="row">
                 <div class="col-12 grid-margin">
-                    @include('layouts/user_menu')
+                    @include('layouts/admin_view_user_timeline_menu')
                 </div>
             </div>
             <div class="row profile-body">
@@ -494,6 +494,7 @@
                                     @else
                                         N/A
                                     @endif
+                                </p>
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Age:</label>
@@ -511,7 +512,7 @@
                                 </p>
                             </div>
                             <div class="mt-3">
-                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label>
+                                <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label><br />
                                 @if ($user->date_of_birth != null)
                                     <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
                                 @else
@@ -523,54 +524,6 @@
                 </div>
 
                 <div class="col-md-8 col-xl-6 middle-wrapper">
-                    <div class="row">
-                        <div class="col-md-12 grid-margin">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
-                                </li>
-                            </ul><!-- Tab panes -->
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="wall" role="tabpanel">
-                                    <div class="card rounded">
-                                        <form action="{{ route('user_post_wall') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <textarea name="body" class="form-control" cols="30" rows="3" placeholder="What on your mind?"></textarea>
-                                                </div>
-                                                <br />
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                    <div class="custom-file">
-                                                        <input type="file" name="wall_images[]"
-                                                            class="custom-file-input" id="upload_wall_image" multiple>
-                                                        <label class="custom-file-label"
-                                                            for="upload_wall_image">Choose
-                                                            file</label>
-                                                    </div>
-                                                </div>
-                                                <div class="img-thumbs img-thumbs-hidden" id="upload_wall_image_prev">
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6"></div>
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-sm btn-block btn-primary"
-                                                            type="submit">POST</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     @foreach ($wall as $wall_item)
                         <div class="row">
                             <div class="col-md-12 grid-margin">
@@ -580,16 +533,17 @@
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="mr-2">
                                                     <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
+                                                        src="{{ asset('/image/' . $wall_item->user_admin->profile_picture) }}"
+                                                        alt>
                                                 </div>
                                                 <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . Str::ucfirst($user->name) }}</div>
+                                                    <div class="h5 m-0">{{ '@' . $wall_item->user_admin->name }}</div>
                                                     <div class="h7 text-muted">
-                                                        {{ Str::ucfirst($wall_item->user_admin->name) }}
-                                                        {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
-                                                        {{ Str::ucfirst($wall_item->user_admin->last_name) }}
+                                                        <a href="{{ url('admin_view_user_timeline', ['id' => $wall_item->user_id]) }}">{{ Str::ucfirst($wall_item->user_admin->name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->last_name) }}</a>
                                                         <i
-                                                        style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>
+                                                            style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -610,6 +564,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
+                                        <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i>10 min ago</div>
                                         <p class="card-text">
                                             {{ $wall_item->body }}
                                         </p>
@@ -651,27 +606,26 @@
                                                         </div>
                                                     @endforeach
                                                 @endif
-
-
                                             </div>
                                         </div>
                                         <a class="card-link" data-toggle="collapse"
-                                            href="#collapseExampleuser_wall_reply{{ $wall_item->id }}" role="button"
-                                            aria-expanded="false"
-                                            aria-controls="collapseExampleuser_wall_reply{{ $wall_item->id }}">
+                                            href="#collapseExampleadmin_view_user_wall_reply{{ $wall_item->id }}"
+                                            role="button" aria-expanded="false"
+                                            aria-controls="collapseExampleadmin_view_user_wall_reply{{ $wall_item->id }}">
                                             <i class="fa fa-comment"></i> Comment
                                         </a>
-                                        <a class="card-link" href="{{ url('user_wall', ['id' => $wall_item->id]) }}">
+                                        <a class="card-link"
+                                            href="{{ url('admin_view_user_wall', ['id' => $wall_item->id]) }}">
                                             <span
                                                 class="badge badge-dark">{{ count($wall_item->wall_replies) }}</span>
                                             See Comments
                                         </a>
                                     </div>
                                     <div class="card-footer">
-                                        <form action="{{ route('user_wall_reply') }}" method="post">
+                                        <form action="{{ route('admin_view_user_reply') }}" method="post">
                                             @csrf
                                             <div class="collapse"
-                                                id="collapseExampleuser_wall_reply{{ $wall_item->id }}">
+                                                id="collapseExampleadmin_view_user_wall_reply{{ $wall_item->id }}">
                                                 <div class="form-group">
                                                     <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
                                                     <input type="hidden" name="wall_id"
@@ -715,248 +669,9 @@
             </div>
         </div>
     </div>
-
-    <div class="modal fade" id="edit_profile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }}
-                        {{ $user->middle_name }} {{ $user->last_name }}'s Profile</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('user_update_profile') }}" method="post">
-                    @csrf
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label for="">Tell something about you</label>
-                                <textarea name="about" class="form-control" cols="30" rows="10" required>{{ $user->about }}</textarea>
-                            </div>
-                            <div class="col-md-12">
-                                <label for="">Date of Birth</label>
-                                <input type="date" class="form-control form-control-sm" required
-                                    name="date_of_birth" value="{{ $user->date_of_birth }}">
-                            </div>
-                            <div class="col-md-12">
-                                <label for="">Gender</label>
-                                @if ($user->gender == null)
-                                    <select name="gender" class="form-control form-control-sm" required>
-                                        <option value="" default>Select</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                @elseif($user->gender == 'Male')
-                                    <select name="gender" class="form-control form-control-sm" required>
-                                        <option value="" default>Select</option>
-                                        <option value="Male" selected>Male</option>
-                                        <option value="Female">Female</option>
-                                    </select>
-                                @elseif($user->gender == 'Female')
-                                    <select name="gender" class="form-control form-control-sm" required>
-                                        <option value="" default>Select</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female" selected>Female</option>
-                                    </select>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="user_id" value="{{ $user->id }}">
-                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="timeline_photo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edit Timeline Photo</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('user_update_timeline_picture') }}" method="post"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <img src="" id="timeline_picture_image_preview" alt="" style="width:100%;">
-                        <div class="input-group mb-3">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="timeline_picture_image"
-                                    name="timeline_picture" required accept='image/*' onchange="showTimelineImage()">
-                                <label class="custom-file-label" for="timeline_picture_image">Choose file</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="user_id" value="{{ $user->id }}">
-                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="profile_picture" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update Profile Picture</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form action="{{ route('user_update_profile_picture') }}" method="post"
-                    enctype="multipart/form-data">
-                    @csrf
-                    <div class="modal-body">
-                        <img src="" id="profile_picture_image_preview" alt="" style="width:100%;">
-                        <div class="input-group mb-3">
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="profile_picture_image"
-                                    name="profile_picture" required accept='image/*' onchange="showImage()">
-                                <label class="custom-file-label" for="profile_picture_image">Choose file</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="hidden" name="user_id" value="{{ $user->id }}">
-                        <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        const imageUploader_profile_picture = document.getElementById("profile_picture_image");
-        const imagePreview_profile_picture = document.getElementById("profile_picture_image_preview");
-
-        function showImage() {
-            let reader = new FileReader();
-            reader.readAsDataURL(imageUploader_profile_picture.files[0]);
-            reader.onload = function(e) {
-                imagePreview_profile_picture.classList.add("show");
-                imagePreview_profile_picture.src = e.target.result;
-            };
-        }
-
-        const imageUploader_timeline_picture = document.getElementById("timeline_picture_image");
-        const imagePreview_timeline_picture = document.getElementById("timeline_picture_image_preview");
-
-        function showTimelineImage() {
-            let reader = new FileReader();
-            reader.readAsDataURL(imageUploader_timeline_picture.files[0]);
-            reader.onload = function(e) {
-                imagePreview_timeline_picture.classList.add("show");
-                imagePreview_timeline_picture.src = e.target.result;
-            };
-        }
-
-
-
-
-        var upload_wall_image = document.getElementById('upload_wall_image'),
-            upload_wall_image_prev = document.getElementById('upload_wall_image_prev'),
-            upload_wall_imageForm = document.getElementById('form-upload'),
-            totalFiles, previewTitle, previewTitleText, img;
-
-        upload_wall_image.addEventListener('change', wall_prev_image, true);
-
-        function wall_prev_image(event) {
-            totalFiles = upload_wall_image.files.length;
-
-            if (!!totalFiles) {
-                upload_wall_image_prev.classList.remove('img-thumbs-hidden');
-            }
-
-            for (var i = 0; i < totalFiles; i++) {
-                wrapper = document.createElement('div');
-                wrapper.classList.add('wrapper-thumb');
-                removeBtn = document.createElement("span");
-                nodeRemove = document.createTextNode('x');
-                removeBtn.classList.add('remove-btn');
-                removeBtn.appendChild(nodeRemove);
-                img = document.createElement('img');
-                img.src = URL.createObjectURL(event.target.files[i]);
-                img.classList.add('img-preview-thumb');
-                wrapper.appendChild(img);
-                wrapper.appendChild(removeBtn);
-                upload_wall_image_prev.appendChild(wrapper);
-
-                $('.remove-btn').click(function() {
-                    $(this).parent('.wrapper-thumb').remove();
-                });
-
-            }
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-        var imgUpload = document.getElementById('upload-img'),
-            imgPreview = document.getElementById('img-preview'),
-            imgUploadForm = document.getElementById('form-upload'),
-            totalFiles, previewTitle, previewTitleText, img;
-
-        imgUpload.addEventListener('change', previewImgs, true);
-
-        function previewImgs(event) {
-            totalFiles = imgUpload.files.length;
-
-            if (!!totalFiles) {
-                imgPreview.classList.remove('img-thumbs-hidden');
-            }
-
-            for (var i = 0; i < totalFiles; i++) {
-                wrapper = document.createElement('div');
-                wrapper.classList.add('wrapper-thumb');
-                removeBtn = document.createElement("span");
-                nodeRemove = document.createTextNode('x');
-                removeBtn.classList.add('remove-btn');
-                removeBtn.appendChild(nodeRemove);
-                img = document.createElement('img');
-                img.src = URL.createObjectURL(event.target.files[i]);
-                img.classList.add('img-preview-thumb');
-                wrapper.appendChild(img);
-                wrapper.appendChild(removeBtn);
-                imgPreview.appendChild(wrapper);
-
-                $('.remove-btn').click(function() {
-                    $(this).parent('.wrapper-thumb').remove();
-                });
-
-            }
-
-
-        }
-    </script>
 </body>
 
 </html>

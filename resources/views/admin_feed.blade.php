@@ -521,95 +521,6 @@
                 </div>
 
                 <div class="col-md-8 col-xl-6 middle-wrapper">
-                    <div class="row">
-                        <div class="col-md-12 grid-margin">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#annoucement"
-                                        role="tab">Announcement</a>
-                                </li>
-                            </ul><!-- Tab panes -->
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="wall" role="tabpanel">
-                                    <div class="card rounded">
-                                        <form action="{{ route('admin_post_wall') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <textarea name="body" class="form-control" cols="30" rows="3" placeholder="What on your mind?"></textarea>
-                                                </div>
-                                                <br />
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                    <div class="custom-file">
-                                                        <input type="file" name="wall_images[]"
-                                                            class="custom-file-input" id="upload_wall_image" multiple>
-                                                        <label class="custom-file-label"
-                                                            for="upload_wall_image">Choose
-                                                            file</label>
-                                                    </div>
-                                                </div>
-                                                <div class="img-thumbs img-thumbs-hidden" id="upload_wall_image_prev">
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6"></div>
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-sm btn-block btn-primary"
-                                                            type="submit">POST</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                                <div class="tab-pane" id="annoucement" role="tabpanel">
-                                    <div class="card rounded">
-                                        <form action="{{ route('admin_post_announcement') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <input type="text" name="subject" required
-                                                        class="form-control" placeholder="Subject">
-                                                </div>
-                                                <div class="form-group">
-                                                    <textarea name="body" class="form-control" cols="30" rows="3" placeholder="Announcement"></textarea>
-                                                </div>
-                                                <br />
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                    <div class="custom-file">
-                                                        <input type="file" name="images[]"
-                                                            class="custom-file-input" id="upload-img" multiple>
-                                                        <label class="custom-file-label" for="upload-img">Choose
-                                                            file</label>
-                                                    </div>
-                                                </div>
-                                                <div class="img-thumbs img-thumbs-hidden" id="img-preview"></div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6"></div>
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-sm btn-block btn-primary"
-                                                            type="submit">POST</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     @if ($announcement)
                         <div class="row">
                             <div class="col-md-12 grid-margin">
@@ -622,14 +533,12 @@
                                                         src="{{ asset('/image/' . $user->profile_picture) }}" alt>
                                                 </div>
                                                 <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . Str::ucfirst($user->name) }}</div>
+                                                    <div class="h5 m-0">{{ '@' . $user->name }}
+                                                    </div>
                                                     <div class="h7 text-muted">
-                                                        {{ Str::ucfirst($user->name) }}
-                                                        {{ Str::ucfirst($user->middle_name) }}
-                                                        {{ Str::ucfirst($user->last_name) }}
-
-                                                        <i
-                                                            style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($user)) }})</i>
+                                                        {{ $user->name }} {{ $user->middle_name }}
+                                                        {{ $user->last_name }} <i
+                                                            style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($announcement->created_at)) }})</i>
                                                     </div>
                                                 </div>
                                             </div>
@@ -650,6 +559,7 @@
                                         </div>
                                     </div>
                                     <div class="card-body">
+                                        {{-- <div class="text-muted h7 mb-0"> <i class="fa fa-clock-o"></i></div> --}}
                                         <a class="card-link" href="#">
                                             <h5 class="card-title">{{ $announcement->subject }}</h5>
                                         </a>
@@ -736,11 +646,21 @@
                                                         alt>
                                                 </div>
                                                 <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . Str::ucfirst($wall_item->user_admin->name) }}</div>
+                                                    <div class="h5 m-0">{{ '@' . $wall_item->user_admin->name }}
+                                                    </div>
                                                     <div class="h7 text-muted">
-                                                        {{ Str::ucfirst($wall_item->user_admin->name) }}
-                                                        {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
-                                                        {{ Str::ucfirst($wall_item->user_admin->last_name) }}
+
+                                                        @if ($wall_item->user_id == auth()->user()->id)
+                                                            {{ Str::ucfirst($wall_item->user_admin->name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
+                                                            {{ Str::ucfirst($wall_item->user_admin->last_name) }}
+                                                        @else
+                                                            <a style="text-decoration: none"
+                                                                href="{{ url('admin_view_user_timeline', ['id' => $wall_item->user_id]) }}">
+                                                                {{ Str::ucfirst($wall_item->user_admin->name) }}
+                                                                {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
+                                                                {{ Str::ucfirst($wall_item->user_admin->last_name) }}</a>
+                                                        @endif
 
                                                         <i
                                                             style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>

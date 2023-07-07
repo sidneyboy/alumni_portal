@@ -39,4 +39,9 @@ class Wall extends Model
     {
         return $this->hasMany('App\Models\Wall_replies', 'wall_id');
     }
+
+    public function user_admin()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }

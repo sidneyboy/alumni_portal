@@ -50,11 +50,16 @@ Route::get('/admin_user_list/', [App\Http\Controllers\HomeController::class, 'ad
 Route::post('/admin_update_user_type/', [App\Http\Controllers\HomeController::class, 'admin_update_user_type'])->name('admin_update_user_type');
 Route::get('/admin_user_search/', [App\Http\Controllers\HomeController::class, 'admin_user_search'])->name('admin_user_search');
 
+Route::get('/admin_feed/', [App\Http\Controllers\HomeController::class, 'admin_feed'])->name('admin_feed');
 
+Route::get('/admin_view_user_timeline/{id}', [App\Http\Controllers\HomeController::class, 'admin_view_user_timeline'])->name('admin_view_user_timeline');
+Route::get('/admin_view_user_photos/{id}', [App\Http\Controllers\HomeController::class, 'admin_view_user_photos'])->name('admin_view_user_photos');
+Route::get('/admin_view_user_wall/{id}', [App\Http\Controllers\HomeController::class, 'admin_view_user_wall'])->name('admin_view_user_wall');
+Route::post('/admin_view_user_get_comments/', [App\Http\Controllers\HomeController::class, 'admin_view_user_get_comments'])->name('admin_view_user_get_comments');
+Route::post('/admin_view_user_reply/', [App\Http\Controllers\HomeController::class, 'admin_view_user_reply'])->name('admin_view_user_reply');
 
+ 
 
-Route::get('/user_view_timeline/{id}', [App\Http\Controllers\HomeController::class, 'user_view_timeline'])->name('user_view_timeline');
-Route::get('/user_view_photos/{id}', [App\Http\Controllers\HomeController::class, 'user_view_photos'])->name('user_view_photos');
 
 
 Route::get('/user_welcome/', [App\Http\Controllers\HomeController::class, 'user_welcome'])->name('user_welcome');
@@ -65,10 +70,26 @@ Route::post('/user_post_wall/', [App\Http\Controllers\HomeController::class, 'us
 Route::post('/user_wall_reply/', [App\Http\Controllers\HomeController::class, 'user_wall_reply'])->name('user_wall_reply');
 Route::get('/user_wall/{id}', [App\Http\Controllers\HomeController::class, 'user_wall'])->name('user_wall');
 Route::post('/user_wall_reply_once_more/', [App\Http\Controllers\HomeController::class, 'user_wall_reply_once_more'])->name('user_wall_reply_once_more');
+Route::post('/user_wall_get_comments/', [App\Http\Controllers\HomeController::class, 'user_wall_get_comments'])->name('user_wall_get_comments');
+
+
+Route::get('/user_view_user/{id}', [App\Http\Controllers\HomeController::class, 'user_view_user'])->name('user_view_user');
+Route::get('/user_view_user_wall/{id}', [App\Http\Controllers\HomeController::class, 'user_view_user_wall'])->name('user_view_user_wall');
+Route::post('/user_view_user_wall_reply/', [App\Http\Controllers\HomeController::class, 'user_view_user_wall_reply'])->name('user_view_user_wall_reply');
+Route::post('/user_view_user_reply_once_more/', [App\Http\Controllers\HomeController::class, 'user_view_user_reply_once_more'])->name('user_view_user_reply_once_more');
+Route::post('/user_view_user_get_comments/', [App\Http\Controllers\HomeController::class, 'user_view_user_get_comments'])->name('user_view_user_get_comments');
+Route::get('/user_view_user_photos/{id}', [App\Http\Controllers\HomeController::class, 'user_view_user_photos'])->name('user_view_user_photos');
+
+
+
 
 Route::get('/user_photos/', [App\Http\Controllers\HomeController::class, 'user_photos'])->name('user_photos');
+Route::get('/user_feed/', [App\Http\Controllers\HomeController::class, 'user_feed'])->name('user_feed');
+Route::post('/user_get_new_feed/', [App\Http\Controllers\HomeController::class, 'user_get_new_feed'])->name('user_get_new_feed');
 
-Route::get('/user_view_user/', [App\Http\Controllers\HomeController::class, 'user_view_user'])->name('user_view_user');
+
+
+
 
 
 

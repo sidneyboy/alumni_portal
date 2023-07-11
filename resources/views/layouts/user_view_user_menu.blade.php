@@ -16,7 +16,7 @@
     </div>
 
     <div class="header-links">
-        <ul class="links d-flex align-items-center mt-3 mt-md-0">
+        {{-- <ul class="links d-flex align-items-center mt-3 mt-md-0">
             <li class="header-link-item d-flex align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -47,6 +47,17 @@
                 </svg>
                 <a class="pt-1px d-none d-md-block" href="{{ url('home') }}">
                     Home</a>
+            </li>
+        </ul> --}}
+        <ul class="links nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('user_view_user', ['id' => $user->id]) }}">Timeline</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{url('user_view_user_photos', ['id' => $user->id]) }}">Photos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('home')  }}">Home</a>
             </li>
         </ul>
     </div>

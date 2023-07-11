@@ -86,11 +86,10 @@ Route::get('/user_view_user_photos/{id}', [App\Http\Controllers\HomeController::
 Route::get('/user_photos/', [App\Http\Controllers\HomeController::class, 'user_photos'])->name('user_photos');
 Route::get('/user_feed/', [App\Http\Controllers\HomeController::class, 'user_feed'])->name('user_feed');
 Route::post('/user_get_new_feed/', [App\Http\Controllers\HomeController::class, 'user_get_new_feed'])->name('user_get_new_feed');
-
-
-
-
-
+Route::post('/user_announcement_reply/', [App\Http\Controllers\HomeController::class, 'user_announcement_reply'])->name('user_announcement_reply');
+Route::get('/user_announcement/{id}', [App\Http\Controllers\HomeController::class, 'user_announcement'])->name('user_announcement');
+Route::post('/user_announcement_reply_once_more/', [App\Http\Controllers\HomeController::class, 'user_announcement_reply_once_more'])->name('user_announcement_reply_once_more');
+Route::post('/user_announcement_get_comments/', [App\Http\Controllers\HomeController::class, 'user_announcement_get_comments'])->name('user_announcement_get_comments');
 
 
 

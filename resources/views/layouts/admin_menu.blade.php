@@ -26,7 +26,7 @@
     </div>
 
     <div class="header-links">
-        <ul class="links d-flex align-items-center mt-3 mt-md-0">
+        {{-- <ul class="links d-flex align-items-center mt-3 mt-md-0">
             <li class="header-link-item d-flex align-items-center">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
                     <path
@@ -85,6 +85,29 @@
                     <path d="M9 13l-4 -4l4 -4m-4 4h11a4 4 0 0 1 0 8h-1" />
                 </svg>
                 <a class="pt-1px d-none d-md-block" href="{{ url('logout') }}">Logout</a>
+            </li>
+        </ul> --}}
+
+
+        <ul class="links nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" href="{{ url('admin_feed') }}">
+                    Feed</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('home') }}">Timeline</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin_photos') }}">Photos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin_messenger') }}">Messenger</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin_user_list') }}">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('logout') }}">Logout</a>
             </li>
         </ul>
     </div>

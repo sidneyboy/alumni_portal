@@ -51,7 +51,6 @@ class HomeController extends Controller
             User::where('id', auth()->user()->id)
                 ->update(['status' => 1]);
 
-
             $announcement = Announcements::orderBy('id', 'desc')->take(1)->first();
             if ($announcement) {
                 $announcement_counter = Announcements_attachments::where('announcements_id', $announcement->id)
@@ -915,12 +914,72 @@ class HomeController extends Controller
 
     public function user_get_new_feed(Request $request)
     {
-        $announcement = Announcements::orderBy('id','desc')->first();
+        $announcement = Announcements::orderBy('id', 'desc')->first();
         $wall = Wall::orderBy('id', 'desc')->get();
 
-        return view('user_get_new_feed',[
+        return view('user_get_new_feed', [
             'wall' => $wall,
             'announcement' => $announcement,
+        ]);
+    }
+
+    public function user_announcement_reply(Request $request)
+    {
+        $new = new Announcement_replies([
+            'announcements_id' => $request->input('announcement_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'user',
+        ]);
+
+        $new->save();
+
+        return redirect()->route('user_announcement', ['id' => $request->input('announcement_id')]);
+    }
+
+    public function user_announcement($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $announcement = Announcements::find($id);
+
+        return view('user_announcement', [
+            'user' => $user,
+            'announcement' => $announcement,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function user_announcement_reply_once_more(Request $request)
+    {
+        $new =  new Announcement_replies([
+            'announcements_id' => $request->input('announcement_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'user',
+        ]);
+
+        $new->save();
+
+        return redirect()->route('user_announcement', ['id' => $request->input('announcement_id')]);
+    }
+
+    public function user_announcement_get_comments(Request $request)
+    {
+        $announcement_replies = announcement_replies::where('announcements_id', $request->input('announcement_id'))
+            ->get();
+
+        return view('user_announcement_get_comments', [
+            'announcement_replies' => $announcement_replies,
         ]);
     }
 }

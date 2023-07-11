@@ -741,7 +741,6 @@
                                                         {{ Str::ucfirst($wall_item->user_admin->name) }}
                                                         {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
                                                         {{ Str::ucfirst($wall_item->user_admin->last_name) }}
-
                                                         <i
                                                             style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>
                                                     </div>
@@ -790,14 +789,14 @@
                                                             <div class="profile-img-number">
                                                                 +{{ count($wall_item->attachments) }}</div>
                                                         </a>
-                                                    </div>
+                                                    </div>            
                                                 @elseif(count($wall_item->attachments_limit_3) <= 5)
                                                     <div class="profile-img-list-item main"><a href="#"
                                                             class="profile-img-list-link"><span
                                                                 class="profile-img-content"
                                                                 style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
                                                     </div>
-                                                    @foreach ($announcement->attachments as $item)
+                                                    @foreach ($wall_item->attachments as $item)
                                                         <div class="profile-img-list-item"><a href="#"
                                                                 class="profile-img-list-link"><span
                                                                     class="profile-img-content"
@@ -805,8 +804,6 @@
                                                         </div>
                                                     @endforeach
                                                 @endif
-
-
                                             </div>
                                         </div>
                                         <a class="card-link" data-toggle="collapse"

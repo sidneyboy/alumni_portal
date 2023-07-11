@@ -28,7 +28,9 @@
         }
     </style>
 </head>
-
+@php
+    Auth::logout();
+@endphp
 <body>
     <section class="vh-100">
         <div class="container-fluid h-custom">

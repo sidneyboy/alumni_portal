@@ -46,7 +46,6 @@ class HomeController extends Controller
         $user = User::find(auth()->user()->id);
         date_default_timezone_set('Asia/Manila');
         $date_now = date('Y-m-d');
-
         if ($user->user_type == 'admin') {
             User::where('id', auth()->user()->id)
                 ->update(['status' => 1]);

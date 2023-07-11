@@ -92,7 +92,7 @@
                 <a class="nav-link" href="{{ url('user_photos') }}">Photos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('user_messenger') }}">Messenger</a>
+                <a class="nav-link" href="{{ url('chatify') }}" target="_blank">Messenger</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('logout') }}">Logout</a>

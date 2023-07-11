@@ -101,7 +101,7 @@
                 <a class="nav-link" href="{{ url('admin_photos') }}">Photos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin_messenger') }}">Messenger</a>
+                <a class="nav-link" href="{{ url('chatify') }}" target="_blank">Messenger</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('admin_user_list') }}">Users</a>

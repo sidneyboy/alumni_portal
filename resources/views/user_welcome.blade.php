@@ -434,6 +434,28 @@
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('07d36cf2e72c01629c13', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('comment_channel');
+        channel.bind('comment_event', function(data) {
+            // toastr.info(JSON.stringify(data.name));
+            toastr["success"](JSON.stringify(data.name),'<div><a href="'+ data.link +'" target="_blank">This is a hyperlink</a>')
+        });
+    </script>
 </head>
 
 <body>
@@ -589,7 +611,7 @@
                                                         {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
                                                         {{ Str::ucfirst($wall_item->user_admin->last_name) }}
                                                         <i
-                                                        style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>
+                                                            style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>
                                                     </div>
                                                 </div>
                                             </div>

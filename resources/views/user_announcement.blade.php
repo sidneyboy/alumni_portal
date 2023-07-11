@@ -626,6 +626,26 @@
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('07d36cf2e72c01629c13', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('comment_channel');
+        channel.bind('comment_event', function(data) {
+            toastr["success"](JSON.stringify(data.name), '<div><a href="' + data.link +
+                '" target="_blank">View Comment</a>')
+        });
+    </script>
 </head>
 
 <body>
@@ -722,7 +742,8 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="mr-2">
                                                 <img class="rounded-circle" width="45"
-                                                    src="{{ asset('/image/' . $announcement->user->profile_picture) }}" alt>
+                                                    src="{{ asset('/image/' . $announcement->user->profile_picture) }}"
+                                                    alt>
                                             </div>
                                             <div class="ml-2">
                                                 <div class="h5 m-0">{{ '@' . $announcement->user->name }}</div>
@@ -797,13 +818,15 @@
                                         </div>
                                     </div>
                                     <a class="card-link" data-toggle="collapse"
-                                        href="#collapseExampleauser_announcement_reply{{ $announcement->id }}" role="button"
-                                        aria-expanded="false"
+                                        href="#collapseExampleauser_announcement_reply{{ $announcement->id }}"
+                                        role="button" aria-expanded="false"
                                         aria-controls="collapseExampleauser_announcement_reply{{ $announcement->id }}">
                                         <i class="fa fa-comment"></i> Comment
                                     </a>
-                                    <a class="card-link" href="{{ url('user_announcement', ['id' => $announcement->id]) }}">
-                                        <span class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span>
+                                    <a class="card-link"
+                                        href="{{ url('user_announcement', ['id' => $announcement->id]) }}">
+                                        <span
+                                            class="badge badge-dark">{{ count($announcement->announcement_reply) }}</span>
                                         See Comments
                                     </a>
                                 </div>
@@ -814,7 +837,8 @@
                                             id="collapseExampleauser_announcement_reply{{ $announcement->id }}">
                                             <div class="form-group">
                                                 <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
-                                                <input type="hidden" name="announcement_id" value="{{ $announcement->id }}">
+                                                <input type="hidden" name="announcement_id"
+                                                    value="{{ $announcement->id }}">
                                             </div>
                                             <button class="btn btn-sm float-right btn-primary">Reply</button>
                                         </div>
@@ -984,7 +1008,6 @@
 
     <input type="hidden" id="announcement_id" value="{{ $announcement->id }}">
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>

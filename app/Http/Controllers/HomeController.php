@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-
+use App\Events\Comment_notification;
 use App\Models\Announcements;
 use App\Models\Announcements_attachments;
 use App\Models\Announcement_replies;
@@ -599,16 +599,35 @@ class HomeController extends Controller
 
     public function user_wall_reply_once_more(Request $request)
     {
-        $new_comment_reply = new Wall_replies([
-            'wall_id' => $request->input('wall_id'),
-            'user_id' => auth()->user()->id,
-            'content' => $request->input('content'),
-            'user_type' => 'admin',
-        ]);
+        // return $request->input();
+        // $name = 'sidney';
+        // event(new Comment_notification($name));
 
-        $new_comment_reply->save();
 
-        return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+            
+            $user_details = $wall_user_id->user->name ." ". $wall_user_id->user->middle_name ." ". $wall_user_id->user->last_name;
+            $name = $user_details .' on a post';
+            $link = url('user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name,$link));
+        }
+
+
+        // $new_comment_reply = new Wall_replies([
+        //     'wall_id' => $request->input('wall_id'),
+        //     'user_id' => auth()->user()->id,
+        //     'content' => $request->input('content'),
+        //     'user_type' => 'admin',
+        // ]);
+
+        // $new_comment_reply->save();
+
+        // return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
     }
 
     public function user_view_user_reply_once_more(Request $request)

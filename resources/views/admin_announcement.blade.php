@@ -623,6 +623,26 @@
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('07d36cf2e72c01629c13', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('comment_channel');
+        channel.bind('comment_event', function(data) {
+            toastr["success"](JSON.stringify(data.name), '<div><a href="' + data.link +
+                '" target="_blank">View Comment</a>')
+        });
+    </script>
 </head>
 
 <body>
@@ -645,8 +665,8 @@
                                     <button class="btn p-0" type="button" id="dropdownMenuButton"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                            viewbox="0 0 24 24" fill="none" stroke="currentColor"
-                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                            viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                            stroke-linecap="round" stroke-linejoin="round"
                                             class="feather feather-more-horizontal icon-lg text-muted pb-3px">
                                             <circle cx="12" cy="12" r="1"></circle>
                                             <circle cx="19" cy="12" r="1"></circle>
@@ -715,8 +735,7 @@
                         <div class="col-md-12 grid-margin">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#wall"
-                                        role="tab">Wall</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#annoucement"
@@ -1073,7 +1092,6 @@
     </div>
     <input type="hidden" id="announcement_id" value="{{ $announcement->id }}">
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>

@@ -626,6 +626,26 @@
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+   
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('07d36cf2e72c01629c13', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('comment_channel');
+        channel.bind('comment_event', function(data) {
+            toastr["success"](JSON.stringify(data.name),'<div><a href="'+ data.link +'" target="_blank">View Comment</a>')
+        });
+    </script>
 </head>
 
 <body>
@@ -714,54 +734,6 @@
                 </div>
 
                 <div class="col-md-8 col-xl-6 middle-wrapper">
-                    <div class="row">
-                        <div class="col-md-12 grid-margin">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
-                                </li>
-                            </ul><!-- Tab panes -->
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="wall" role="tabpanel">
-                                    <div class="card rounded">
-                                        <form action="{{ route('user_post_wall') }}" method="post"
-                                            enctype="multipart/form-data">
-                                            @csrf
-                                            <div class="card-body">
-                                                <div class="form-group">
-                                                    <textarea name="body" class="form-control" cols="30" rows="3" placeholder="What on your mind?"></textarea>
-                                                </div>
-                                                <br />
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text">Upload</span>
-                                                    </div>
-                                                    <div class="custom-file">
-                                                        <input type="file" name="wall_images[]"
-                                                            class="custom-file-input" id="upload_wall_image" multiple>
-                                                        <label class="custom-file-label"
-                                                            for="upload_wall_image">Choose
-                                                            file</label>
-                                                    </div>
-                                                </div>
-                                                <div class="img-thumbs img-thumbs-hidden" id="upload_wall_image_prev">
-                                                </div>
-
-                                                <div class="row">
-                                                    <div class="col-md-6"></div>
-                                                    <div class="col-md-6">
-                                                        <button class="btn btn-sm btn-block btn-primary"
-                                                            type="submit">POST</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="row">
                         <div class="col-md-12 grid-margin">
                             <div class="card gedf-card">
@@ -1032,7 +1004,7 @@
 
     <input type="hidden" id="wall_id" value="{{ $wall->id }}">
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>

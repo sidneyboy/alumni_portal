@@ -434,6 +434,26 @@
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('07d36cf2e72c01629c13', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('comment_channel');
+        channel.bind('comment_event', function(data) {
+            toastr["success"](JSON.stringify(data.name), '<div><a href="' + data.link +
+                '" target="_blank">View Comment</a>')
+        });
+    </script>
 </head>
 
 <body>
@@ -633,7 +653,8 @@
                                                     <textarea name="content" required class="form-control" cols="30" rows="3"></textarea>
                                                     <input type="hidden" name="wall_id"
                                                         value="{{ $wall_item->id }}">
-                                                    <input type="hidden" name="user_id" value="{{ $viewer->id }}">
+                                                    <input type="hidden" name="user_id"
+                                                        value="{{ $viewer->id }}">
                                                 </div>
                                                 <button class="btn btn-sm float-right btn-primary">Reply</button>
                                             </div>
@@ -674,7 +695,6 @@
         </div>
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

@@ -8,6 +8,7 @@
     <title>Social Media</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <style type="text/css">
         body {
             background-color: #f9fafb;

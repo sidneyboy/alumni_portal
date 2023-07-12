@@ -92,7 +92,9 @@
                 <a class="nav-link" href="{{ url('user_photos') }}">Photos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('chatify') }}" target="_blank">Messenger</a>
+                <a class="nav-link" href="{{ url('chatify') }}" target="_blank">Messenger <span
+                        class="badge badge-primary" id="get_message_notif">
+                    </span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('logout') }}">Logout</a>
@@ -103,3 +105,31 @@
 
 
 </div>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    function number_of_messages() {
+        announcement_id = 'asdasd';
+        $.ajax({
+            type: "POST",
+            url: "/get_message_notif",
+            data: 'announcement_id=' + announcement_id,
+            success: function(res) {
+                $('#get_message_notif').html(res);
+            }
+        });
+    }
+
+    $(function() {
+        number_of_messages();
+        setInterval(function() {
+            number_of_messages();
+        }, 5000);
+
+    });
+</script>

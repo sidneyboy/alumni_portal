@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="utf-8">
-
-
     <title>Social Media</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         body {
@@ -435,7 +434,7 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
 
-    
+
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
@@ -453,7 +452,8 @@
         var channel = pusher.subscribe('comment_channel');
         channel.bind('comment_event', function(data) {
             // toastr.info(JSON.stringify(data.name));
-            toastr["success"](JSON.stringify(data.name),'<div><a href="'+ data.link +'" target="_blank">This is a hyperlink</a>')
+            toastr["success"](JSON.stringify(data.name), '<div><a href="' + data.link +
+                '" target="_blank">This is a hyperlink</a>')
         });
     </script>
 </head>
@@ -863,10 +863,14 @@
         </div>
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         const imageUploader_profile_picture = document.getElementById("profile_picture_image");
         const imagePreview_profile_picture = document.getElementById("profile_picture_image_preview");
 

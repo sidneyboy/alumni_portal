@@ -26,4 +26,9 @@ class Announcement_replies extends Model
     {
         return $this->belongsTo('App\Models\Graduates_profile', 'user_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User', 'user_id');
+    }
 }

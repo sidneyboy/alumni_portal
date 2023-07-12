@@ -7,6 +7,7 @@
 
     <title>Social Media</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         body {
@@ -435,6 +436,29 @@
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('07d36cf2e72c01629c13', {
+            cluster: 'ap1'
+        });
+
+        var channel = pusher.subscribe('comment_channel');
+        channel.bind('comment_event', function(data) {
+            toastr["success"](JSON.stringify(data.name), '<div><a href="' + data.link +
+                '" target="_blank">View Comment</a>')
+        });
+    </script>
 </head>
 
 <body>
@@ -525,7 +549,8 @@
                         <div class="col-md-12 grid-margin">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#wall" role="tab">Wall</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#wall"
+                                        role="tab">Wall</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#annoucement"
@@ -736,7 +761,8 @@
                                                         alt>
                                                 </div>
                                                 <div class="ml-2">
-                                                    <div class="h5 m-0">{{ '@' . Str::ucfirst($wall_item->user_admin->name) }}</div>
+                                                    <div class="h5 m-0">
+                                                        {{ '@' . Str::ucfirst($wall_item->user_admin->name) }}</div>
                                                     <div class="h7 text-muted">
                                                         {{ Str::ucfirst($wall_item->user_admin->name) }}
                                                         {{ Str::ucfirst($wall_item->user_admin->middle_name) }}
@@ -789,7 +815,7 @@
                                                             <div class="profile-img-number">
                                                                 +{{ count($wall_item->attachments) }}</div>
                                                         </a>
-                                                    </div>            
+                                                    </div>
                                                 @elseif(count($wall_item->attachments_limit_3) <= 5)
                                                     <div class="profile-img-list-item main"><a href="#"
                                                             class="profile-img-list-link"><span
@@ -1000,10 +1026,15 @@
         </div>
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    
 
     <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
         const imageUploader_profile_picture = document.getElementById("profile_picture_image");
         const imagePreview_profile_picture = document.getElementById("profile_picture_image_preview");
 

@@ -828,7 +828,7 @@
                                     </a>
                                 </div>
                                 <div class="card-footer">
-                                    <form action="{{ route('admin_wall_reply_once_more') }}" method="post">
+                                    <form action="{{ route('admin_view_user_timeline_reply_once_more') }}" method="post">
                                         @csrf
                                         <div class="collapse"
                                             id="collapseExampleadmin_wall_reply{{ $wall->id }}">

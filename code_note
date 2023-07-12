@@ -44,3 +44,19 @@
                                                             style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall_item->created_at)) }})</i>
 
                                                             
+
+
+
+
+                                                            $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+            
+            $user_details = $wall_user_id->user->name ." ". $wall_user_id->user->middle_name ." ". $wall_user_id->user->last_name;
+            $name = $user_details .' on a post';
+            $link = url('user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name,$link));
+        }

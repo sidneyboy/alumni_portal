@@ -57,8 +57,11 @@ Route::get('/admin_view_user_photos/{id}', [App\Http\Controllers\HomeController:
 Route::get('/admin_view_user_wall/{id}', [App\Http\Controllers\HomeController::class, 'admin_view_user_wall'])->name('admin_view_user_wall');
 Route::post('/admin_view_user_get_comments/', [App\Http\Controllers\HomeController::class, 'admin_view_user_get_comments'])->name('admin_view_user_get_comments');
 Route::post('/admin_view_user_reply/', [App\Http\Controllers\HomeController::class, 'admin_view_user_reply'])->name('admin_view_user_reply');
+Route::post('/admin_view_user_timeline_reply_once_more/', [App\Http\Controllers\HomeController::class, 'admin_view_user_timeline_reply_once_more'])->name('admin_view_user_timeline_reply_once_more');
 
- 
+Route::post('/get_message_notif/', [App\Http\Controllers\HomeController::class, 'get_message_notif'])->name('get_message_notif');
+
+
 
 
 

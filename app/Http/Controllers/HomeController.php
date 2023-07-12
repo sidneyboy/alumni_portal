@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Wall;
 use App\Models\Wall_attachments;
 use App\Models\Wall_replies;
+use App\Models\ChMessage;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -308,7 +309,19 @@ class HomeController extends Controller
 
     public function admin_reply_announcement(Request $request)
     {
-        //return $request->input();
+        $fetch_wall_replies = Announcement_replies::select('user_id')->where('announcements_id', $request->input('announcement_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('admin_announcement', ['id' => $request->input('announcement_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new_comment_reply = new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
             'user_id' => auth()->user()->id,
@@ -331,6 +344,20 @@ class HomeController extends Controller
 
     public function admin_reply_announcement_once_more(Request $request)
     {
+
+        $fetch_wall_replies = Announcement_replies::select('user_id')->where('announcements_id', $request->input('announcement_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('admin_announcement', ['id' => $request->input('announcement_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new_comment_reply = new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
             'user_id' => auth()->user()->id,
@@ -507,9 +534,55 @@ class HomeController extends Controller
 
     public function admin_view_user_reply(Request $request)
     {
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('admin_view_user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
-            'user_id' => $request->input('user_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        $user = User::select('user_type')->find(auth()->user()->id);
+
+        if ($user->user_type == 'admin') {
+            return redirect()->route('admin_view_user_wall', ['id' => $request->input('wall_id')]);
+        } else {
+            return 'dili siya admin sayop imong link';
+        }
+    }
+
+    public function admin_view_user_timeline_reply_once_more(Request $request)
+    {
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('admin_view_user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => auth()->user()->id,
             'content' => $request->input('content'),
             'user_type' => 'admin',
         ]);
@@ -527,9 +600,23 @@ class HomeController extends Controller
 
     public function user_view_user_wall_reply(Request $request)
     {
+
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
-            'user_id' => $request->input('user_id'),
+            'user_id' => auth()->user()->id,
             'content' => $request->input('content'),
             'user_type' => 'admin',
         ]);
@@ -539,19 +626,25 @@ class HomeController extends Controller
         $user = User::select('user_type')->find(auth()->user()->id);
 
         return redirect()->route('user_view_user_wall', ['id' => $request->input('wall_id')]);
-
-        // if ($user->user_type == 'admin') {
-        //     return redirect()->route('admin_view_user_wall', ['id' => $request->input('wall_id')]);
-        // } else {
-        //     return 'dili siya admin sayop imong link';
-        // }
     }
 
     public function user_wall_reply(Request $request)
     {
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
-            'user_id' => $request->input('user_id'),
+            'user_id' => auth()->user()->id,
             'content' => $request->input('content'),
             'user_type' => 'admin',
         ]);
@@ -599,10 +692,34 @@ class HomeController extends Controller
 
     public function user_wall_reply_once_more(Request $request)
     {
-        // return $request->input();
-        // $name = 'sidney';
-        // event(new Comment_notification($name));
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
 
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
+
+        $new_comment_reply = new Wall_replies([
+            'wall_id' => $request->input('wall_id'),
+            'user_id' => auth()->user()->id,
+            'content' => $request->input('content'),
+            'user_type' => 'admin',
+        ]);
+
+        $new_comment_reply->save();
+
+        return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
+    }
+
+    public function user_view_user_reply_once_more(Request $request)
+    {
 
         $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
             ->whereNotIn('user_id', [auth()->user()->id])
@@ -610,28 +727,12 @@ class HomeController extends Controller
             ->get();
 
         foreach ($fetch_wall_replies as $key => $wall_user_id) {
-            
-            $user_details = $wall_user_id->user->name ." ". $wall_user_id->user->middle_name ." ". $wall_user_id->user->last_name;
-            $name = $user_details .' on a post';
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
             $link = url('user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name,$link));
+            event(new Comment_notification($name, $link));
         }
 
-
-        // $new_comment_reply = new Wall_replies([
-        //     'wall_id' => $request->input('wall_id'),
-        //     'user_id' => auth()->user()->id,
-        //     'content' => $request->input('content'),
-        //     'user_type' => 'admin',
-        // ]);
-
-        // $new_comment_reply->save();
-
-        // return redirect()->route('user_wall', ['id' => $request->input('wall_id')]);
-    }
-
-    public function user_view_user_reply_once_more(Request $request)
-    {
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
             'user_id' => $request->input('user_id'),
@@ -943,6 +1044,19 @@ class HomeController extends Controller
 
     public function user_announcement_reply(Request $request)
     {
+        $fetch_announcement_replies = Announcement_replies::select('user_id')->where('announcements_id', $request->input('announcement_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_announcement_replies as $key => $announcement_user_id) {
+
+            $user_details = $announcement_user_id->user->name . " " . $announcement_user_id->user->middle_name . " " . $announcement_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('user_announcement', ['id' => $request->input('announcement_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new = new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
             'user_id' => auth()->user()->id,
@@ -979,6 +1093,19 @@ class HomeController extends Controller
 
     public function user_announcement_reply_once_more(Request $request)
     {
+        $fetch_wall_replies = Announcement_replies::select('user_id')->where('announcements_id', $request->input('announcement_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('user_announcement', ['id' => $request->input('announcement_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new =  new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
             'user_id' => auth()->user()->id,
@@ -998,6 +1125,17 @@ class HomeController extends Controller
 
         return view('user_announcement_get_comments', [
             'announcement_replies' => $announcement_replies,
+        ]);
+    }
+
+    public function get_message_notif(Request $request)
+    {
+        $message_count = ChMessage::where('seen', 0)
+            ->where('to_id', auth()->user()->id)
+            ->count();
+
+        return view('get_message_notif',[
+            'message_count' => $message_count,
         ]);
     }
 }

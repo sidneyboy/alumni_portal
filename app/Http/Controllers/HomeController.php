@@ -418,13 +418,12 @@ class HomeController extends Controller
 
         if (isset($file_images)) {
             foreach ($request->file('images') as $key => $images) {
-                $destinationPath = 'announcement_photos';
-                $myimage = uniqid() . '-' . $images->getClientOriginalName();
-                $images->move(public_path($destinationPath), $myimage);
+                $imageName = time() . rand(1, 99) . '.' . $images->extension();
+                $images->move(public_path('announcement_photos'), $imageName);
 
                 $new_announcement_attachments = new Announcements_attachments([
                     'announcements_id' => $new->id,
-                    'attachment' => $myimage,
+                    'attachment' => $imageName,
                     'user_id' => auth()->user()->id,
                 ]);
 
@@ -513,14 +512,13 @@ class HomeController extends Controller
         $file_images = $request->file('wall_images');
 
         if (isset($file_images)) {
-            foreach ($request->file('wall_images') as $key => $images) {
-                $destinationPath = 'announcement_photos';
-                $myimage = uniqid() . '-' . $images->getClientOriginalName();
-                $images->move(public_path($destinationPath), $myimage);
+            foreach ($request->file('wall_images') as $key => $image) {
+                $imageName = time() . rand(1, 99) . '.' . $image->extension();
+                $image->move(public_path('announcement_photos'), $imageName);
 
                 $wall_attachments = new Wall_attachments([
                     'wall_id' => $new->id,
-                    'attachment' => $myimage,
+                    'attachment' => $imageName,
                     'user_id' => auth()->user()->id,
                     'user_type' => 'admin',
                 ]);
@@ -546,13 +544,12 @@ class HomeController extends Controller
 
         if (isset($file_images)) {
             foreach ($request->file('wall_images') as $key => $images) {
-                $destinationPath = 'announcement_photos';
-                $myimage = uniqid() . '-' . $images->getClientOriginalName();
-                $images->move(public_path($destinationPath), $myimage);
+                $imageName = time() . rand(1, 99) . '.' . $images->extension();
+                $images->move(public_path('announcement_photos'), $imageName);
 
                 $wall_attachments = new Wall_attachments([
                     'wall_id' => $new->id,
-                    'attachment' => $myimage,
+                    'attachment' => $imageName,
                     'user_id' => auth()->user()->id,
                     'user_type' => 'admin',
                 ]);
@@ -986,14 +983,13 @@ class HomeController extends Controller
         $announcement_photos = DB::table("announcements_attachments")
             ->select(
                 "attachment"
-            )->where('user_id', auth()->user()->id);
+            );
         $wall_photos = DB::table("wall_attachments")
             ->select(
                 "attachment"
             )->where('user_id', auth()->user()->id)
             ->unionAll($announcement_photos)
             ->get();
-
 
         return view('admin_photos', [
             'user' => $user,

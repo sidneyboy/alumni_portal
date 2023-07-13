@@ -574,9 +574,9 @@
                                                     </div>
                                                     <div class="custom-file">
                                                         <input type="file" name="wall_images[]"
-                                                            class="custom-file-input" id="upload_wall_image" multiple>
+                                                            class="custom-file-input" id="upload_wall_image" accept="image/png, image/jpeg" multiple>
                                                         <label class="custom-file-label"
-                                                            for="upload_wall_image">Choose
+                                                            for="upload_wall_image" >Choose
                                                             file</label>
                                                     </div>
                                                 </div>
@@ -614,7 +614,7 @@
                                                     </div>
                                                     <div class="custom-file">
                                                         <input type="file" name="images[]"
-                                                            class="custom-file-input" id="upload-img" multiple>
+                                                            class="custom-file-input" id="upload-img" accept="image/png, image/jpeg" multiple>
                                                         <label class="custom-file-label" for="upload-img">Choose
                                                             file</label>
                                                     </div>

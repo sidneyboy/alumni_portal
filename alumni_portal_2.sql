@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2023 at 04:03 PM
+-- Generation Time: Jul 13, 2023 at 04:07 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -42,8 +42,7 @@ CREATE TABLE `announcements` (
 --
 
 INSERT INTO `announcements` (`id`, `subject`, `body`, `status`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 'What is Lorem Ipsum?', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before final copy is available.', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33', 1),
-(4, 'Announcement For All of the Users', 'Naa tay kaon karung umaabot na agusto puhon', NULL, '2023-07-03 04:08:06', '2023-07-03 04:08:06', 1);
+(1, 'First Announcement', 'Naa tay panagtigom karung sabado\r\n\r\ndapat mo tunga ang tanan', NULL, '2023-07-13 05:54:00', '2023-07-13 05:54:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -66,17 +65,12 @@ CREATE TABLE `announcements_attachments` (
 --
 
 INSERT INTO `announcements_attachments` (`id`, `announcements_id`, `attachment`, `status`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 1, '649e3e85b2ed9-fsdfsdf.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33', 1),
-(2, 1, '649e3e85b3cd1-hfghfghgfh.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33', 1),
-(3, 1, '649e3e85b4aa5-nfghfghgfh.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33', 1),
-(4, 1, '649e3e85b58c5-qasdfasdasd.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33', 1),
-(5, 1, '649e3e85b6955-qweqwe.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33', 1),
-(6, 1, '649e3e85b751f-qweqweqweqweqwe.jpg', NULL, '2023-06-29 18:31:33', '2023-06-29 18:31:33', 1),
-(7, 4, '64a2ba2664b2d-67830621_2095633600540620_5491297158894190592_n (1).jpg', NULL, '2023-07-03 04:08:06', '2023-07-03 04:08:06', 1),
-(8, 4, '64a2ba26668d7-67830621_2095633600540620_5491297158894190592_n.jpg', NULL, '2023-07-03 04:08:06', '2023-07-03 04:08:06', 1),
-(9, 4, '64a2ba266845b-68280807_2095634063873907_641207126592585728_n-660x330.jpg', NULL, '2023-07-03 04:08:06', '2023-07-03 04:08:06', 1),
-(10, 4, '64a2ba266ae87-MG_3898-1024x683.jpg', NULL, '2023-07-03 04:08:06', '2023-07-03 04:08:06', 1),
-(11, 4, '64a2ba266c99a-MG_3976-1-1024x683.jpg', NULL, '2023-07-03 04:08:06', '2023-07-03 04:08:06', 1);
+(1, 1, '168925644066.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
+(2, 1, '168925644151.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
+(3, 1, '168925644148.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
+(4, 1, '168925644117.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
+(5, 1, '16892564412.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
+(6, 1, '168925644176.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -94,34 +88,6 @@ CREATE TABLE `announcement_replies` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `announcement_replies`
---
-
-INSERT INTO `announcement_replies` (`id`, `announcements_id`, `user_id`, `content`, `status`, `user_type`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'asdasdasdasd', NULL, 'admin', '2023-06-29 19:10:26', '2023-06-29 19:10:26'),
-(2, 1, 1, 'sample', NULL, 'admin', '2023-07-03 02:41:39', '2023-07-03 02:41:39'),
-(3, 1, 1, 'sample', NULL, 'admin', '2023-07-03 10:45:10', '2023-07-03 10:45:10'),
-(4, 1, 1, 'sample', NULL, 'admin', '2023-07-03 10:45:42', '2023-07-03 10:45:42'),
-(5, 1, 1, 'sample', NULL, 'admin', '2023-07-03 10:53:56', '2023-07-03 10:53:56'),
-(6, 1, 1, 'sample', NULL, 'admin', '2023-07-03 10:55:41', '2023-07-03 10:55:41'),
-(7, 1, 1, 'sample', NULL, 'admin', '2023-07-03 10:55:54', '2023-07-03 10:55:54'),
-(8, 1, 1, 'sample', NULL, 'admin', '2023-07-03 10:58:20', '2023-07-03 10:58:20'),
-(9, 1, 1, 'sample', NULL, 'admin', '2023-07-03 10:58:38', '2023-07-03 10:58:38'),
-(10, 1, 1, 'sample', NULL, 'admin', '2023-07-03 11:00:07', '2023-07-03 11:00:07'),
-(11, 1, 1, 'sample', NULL, 'admin', '2023-07-03 11:01:18', '2023-07-03 11:01:18'),
-(12, 1, 1, 'sample', NULL, 'admin', '2023-07-03 11:02:11', '2023-07-03 11:02:11'),
-(13, 1, 1, 'sample', NULL, 'admin', '2023-07-03 11:04:05', '2023-07-03 11:04:05'),
-(14, 1, 1, 'sample', NULL, 'admin', '2023-07-03 11:04:10', '2023-07-03 11:04:10'),
-(15, 1, 1, 'sample', NULL, 'admin', '2023-07-03 11:06:20', '2023-07-03 11:06:20'),
-(16, 1, 1, 'sample', NULL, 'admin', '2023-07-03 03:09:02', '2023-07-03 03:09:02'),
-(17, 1, 1, 'sample', NULL, 'admin', '2023-07-03 03:09:58', '2023-07-03 03:09:58'),
-(20, 4, 1, 'Comments', NULL, 'admin', '2023-07-03 04:08:16', '2023-07-03 04:08:16'),
-(21, 4, 1, 'comment 2', NULL, 'admin', '2023-07-05 04:04:41', '2023-07-05 04:04:41'),
-(22, 4, 1, 'comment 2', NULL, 'admin', '2023-07-05 04:04:56', '2023-07-05 04:04:56'),
-(23, 4, 1, 'comment 23', NULL, 'admin', '2023-07-05 04:05:44', '2023-07-05 04:05:44'),
-(24, 4, 1, 'sample', NULL, 'admin', '2023-07-07 03:41:03', '2023-07-07 03:41:03');
 
 -- --------------------------------------------------------
 
@@ -169,14 +135,18 @@ CREATE TABLE `ch_messages` (
 INSERT INTO `ch_messages` (`id`, `from_id`, `to_id`, `body`, `attachment`, `seen`, `created_at`, `updated_at`) VALUES
 ('17f3aecd-f901-47b0-9712-223df561c8fa', 3, 1, 'heheh', NULL, 1, '2023-07-11 03:30:29', '2023-07-11 03:30:29'),
 ('2bcaabb7-624a-4c05-aafc-425dbb239fec', 1, 3, 'yowyow whats up', NULL, 1, '2023-07-11 03:30:23', '2023-07-11 03:30:23'),
+('2e5a6e33-96ec-49fd-94a9-eac9d1cd2b59', 1, 3, 'hi', NULL, 1, '2023-07-11 06:04:49', '2023-07-11 06:04:53'),
 ('47af8ad5-8eac-44a5-9b12-9eaff2b09309', 1, 3, 'man laag mi nila mama an daddy hehehe', NULL, 1, '2023-07-11 03:30:49', '2023-07-11 03:30:49'),
+('529efb7a-1882-4d1f-80ee-2abee443a3c1', 1, 3, '', '{\"new_name\":\"69b0c7e3-a402-44ef-a0cb-fbbe7b5ce232.png\",\"old_name\":\"map_sidney_salazar_barangay 20 (pob.)_dool_rizal_theatre.png\"}', 1, '2023-07-11 06:05:14', '2023-07-11 06:05:15'),
 ('7f3e8093-cd3b-4f6f-b0d2-4913a0b37a11', 1, 3, 'nag kaon kaon rami oi', NULL, 1, '2023-07-11 03:30:37', '2023-07-11 03:30:38'),
-('8085ed3e-eec4-47d6-94e1-bec423fd2f9f', 3, 1, 'hi unsay sud.an', NULL, 0, '2023-07-11 04:47:56', '2023-07-11 04:47:56'),
+('8085ed3e-eec4-47d6-94e1-bec423fd2f9f', 3, 1, 'hi unsay sud.an', NULL, 1, '2023-07-11 04:47:56', '2023-07-11 06:04:45'),
 ('8204959b-efd2-4bb1-97af-538b1e1a81bd', 3, 1, 'naunsa man ka dira karun?', NULL, 1, '2023-07-11 03:30:33', '2023-07-11 03:30:33'),
 ('88132c99-d6c0-4bc2-bfe1-7a8939412dd2', 1, 3, 'dasdasd\r\n]', NULL, 1, '2023-07-11 03:07:51', '2023-07-11 03:21:08'),
+('89848d9f-833a-443b-b2ca-8b5cce4fc7a1', 3, 1, 'nag unsa mo?', NULL, 1, '2023-07-11 06:04:55', '2023-07-11 06:04:56'),
 ('a0cb9d0c-645e-4ed8-b302-d36345275b8e', 3, 1, 'fgbdfgdfgdfg', NULL, 1, '2023-07-11 03:21:25', '2023-07-11 03:22:50'),
 ('bfd06c6f-6f53-48fa-85e5-5a24343de9f9', 1, 3, 'hello anak', NULL, 1, '2023-07-11 04:47:16', '2023-07-11 04:47:40'),
-('c3c9082b-05d5-4cfc-9120-4ac1fde81fff', 1, 3, 'Yow Khelow What&#039;s Up', NULL, 1, '2023-07-11 03:22:55', '2023-07-11 03:30:07');
+('c3c9082b-05d5-4cfc-9120-4ac1fde81fff', 1, 3, 'Yow Khelow What&#039;s Up', NULL, 1, '2023-07-11 03:22:55', '2023-07-11 03:30:07'),
+('c50dbc1f-207d-4a00-960f-baff67618f17', 1, 3, 'dawbi?', NULL, 1, '2023-07-11 06:04:59', '2023-07-11 06:05:00');
 
 -- --------------------------------------------------------
 
@@ -263,7 +233,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (25, '2023_07_11_999999_add_dark_mode_to_users', 17),
 (26, '2023_07_11_999999_add_messenger_color_to_users', 17),
 (27, '2023_07_11_999999_create_chatify_favorites_table', 17),
-(28, '2023_07_11_999999_create_chatify_messages_table', 17);
+(28, '2023_07_11_999999_create_chatify_messages_table', 17),
+(29, '2023_07_13_120356_create_surveys_table', 18),
+(30, '2023_07_13_120552_create_survey_quetions_table', 19),
+(31, '2023_07_13_122538_create_user_surveys_table', 20),
+(32, '2023_07_13_122701_create_user_survey_details_table', 21),
+(33, '2023_07_13_123713_add_survey_id_to_survey_questions', 22);
 
 -- --------------------------------------------------------
 
@@ -294,6 +269,49 @@ CREATE TABLE `personal_access_tokens` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `surveys`
+--
+
+CREATE TABLE `surveys` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` longtext NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `surveys`
+--
+
+INSERT INTO `surveys` (`id`, `title`, `created_at`, `updated_at`) VALUES
+(1, 'Career Path Survey', '2023-07-13 04:18:09', '2023-07-13 04:18:09');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `survey_quetions`
+--
+
+CREATE TABLE `survey_quetions` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `question` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `survey_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `survey_quetions`
+--
+
+INSERT INTO `survey_quetions` (`id`, `question`, `created_at`, `updated_at`, `survey_id`) VALUES
+(1, 'When did you graduate?', '2023-07-13 04:18:09', '2023-07-13 04:18:09', 1),
+(2, 'What is your Course', '2023-07-13 04:18:09', '2023-07-13 04:18:09', 1),
+(3, 'What is your first job after graduating college', '2023-07-13 04:18:09', '2023-07-13 04:18:09', 1);
 
 -- --------------------------------------------------------
 
@@ -330,8 +348,53 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`, `profile_picture`, `timeline_picture`, `gender`, `date_of_birth`, `about`, `user_type`, `middle_name`, `last_name`, `status`, `active_status`, `avatar`, `dark_mode`, `messenger_color`) VALUES
-(1, 'John Sidney', 'admin@gmail.com', NULL, '$2y$10$KSOQEnXsNbOcutrAWPctj.5EfTgs5LnFW4Zyfe315MVBd5bLKdVy6', NULL, '2023-06-28 18:14:54', '2023-07-11 05:13:52', '64a2baeb2b74d-images.jpg', '64a2bae05ef87-cropped-school-header (1).jpg', 'Male', '1992-06-29', 'Hi! I\'m Amiah the Senior UI Designer at Vibrant. We hope you enjoy the design and quality of Social.', 'admin', 'Llanes', 'Salazar', '0', 0, '00f34e35-8074-4054-b2c2-7e626621d48f.jpg', 1, NULL),
-(3, 'khloe', 'khloe@gmail.com', NULL, '$2y$10$jlTdYgNwED6Ap2uVR0iL0eLJbluauRfmhGMoOd4LmuBYwgwtZCIpu', NULL, '2023-07-05 20:28:25', '2023-07-11 14:02:20', '64a65b64ca0df-download.jpg', '64a6581f412ee-desktop-wallpaper-dbz-family-dragon-ball-z-fusion.jpg', 'Female', '2021-09-09', 'Son Goku, born Kakarot, is a male Saiyan and the main protagonist of the Dragon Ball metaseries created by Akira Toriyama.', 'user', 'baconawa', 'salazar', '1', 0, '45d6394c-3364-444c-99fe-076a66948b02.jpg', 0, NULL);
+(1, 'John Sidney', 'admin@gmail.com', NULL, '$2y$10$KSOQEnXsNbOcutrAWPctj.5EfTgs5LnFW4Zyfe315MVBd5bLKdVy6', NULL, '2023-06-28 18:14:54', '2023-07-13 06:06:36', '64a2baeb2b74d-images.jpg', '64a2bae05ef87-cropped-school-header (1).jpg', 'Male', '1992-06-29', 'Hi! I\'m Amiah the Senior UI Designer at Vibrant. We hope you enjoy the design and quality of Social.', 'admin', 'Llanes', 'Salazar', '0', 0, '00f34e35-8074-4054-b2c2-7e626621d48f.jpg', 1, NULL),
+(3, 'khloe', 'khloe@gmail.com', NULL, '$2y$10$jlTdYgNwED6Ap2uVR0iL0eLJbluauRfmhGMoOd4LmuBYwgwtZCIpu', NULL, '2023-07-05 20:28:25', '2023-07-13 05:01:08', '64a65b64ca0df-download.jpg', '64a6581f412ee-desktop-wallpaper-dbz-family-dragon-ball-z-fusion.jpg', 'Female', '2021-09-09', 'Son Goku, born Kakarot, is a male Saiyan and the main protagonist of the Dragon Ball metaseries created by Akira Toriyama.', 'user', 'baconawa', 'salazar', '0', 1, '45d6394c-3364-444c-99fe-076a66948b02.jpg', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_surveys`
+--
+
+CREATE TABLE `user_surveys` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `survey_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_surveys`
+--
+
+INSERT INTO `user_surveys` (`id`, `user_id`, `survey_id`, `created_at`, `updated_at`) VALUES
+(1, 3, 1, '2023-07-13 04:49:58', '2023-07-13 04:49:58');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_survey_details`
+--
+
+CREATE TABLE `user_survey_details` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_survey_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `question` longtext NOT NULL,
+  `answer` longtext NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `user_survey_details`
+--
+
+INSERT INTO `user_survey_details` (`id`, `user_survey_id`, `question`, `answer`, `created_at`, `updated_at`) VALUES
+(1, 1, 'When did you graduate?', '2014', '2023-07-13 04:49:58', '2023-07-13 04:49:58'),
+(2, 1, 'What is your Course', 'Information Technology', '2023-07-13 04:49:58', '2023-07-13 04:49:58'),
+(3, 1, 'What is your first job after graduating college', 'Programmer at Innovative Web Provider', '2023-07-13 04:49:59', '2023-07-13 04:49:59');
 
 -- --------------------------------------------------------
 
@@ -348,20 +411,6 @@ CREATE TABLE `walls` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `walls`
---
-
-INSERT INTO `walls` (`id`, `user_id`, `body`, `status`, `user_type`, `created_at`, `updated_at`) VALUES
-(1, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-29 23:58:09', '2023-06-29 23:58:09'),
-(2, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:39', '2023-06-30 00:15:39'),
-(3, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:41', '2023-06-30 00:15:41'),
-(4, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:43', '2023-06-30 00:15:43'),
-(5, 1, 'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).', NULL, 'admin', '2023-06-30 00:15:45', '2023-06-30 00:15:45'),
-(8, 3, 'Dragon Ball Yeah', NULL, 'admin', '2023-07-05 22:13:51', '2023-07-05 22:13:51'),
-(11, 3, 'lalalalalalala', NULL, 'admin', '2023-07-07 05:10:47', '2023-07-07 05:10:47'),
-(12, 3, 'what\'s on my mind', NULL, 'admin', '2023-07-07 05:33:29', '2023-07-07 05:33:29');
 
 -- --------------------------------------------------------
 
@@ -380,25 +429,6 @@ CREATE TABLE `wall_attachments` (
   `user_type` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `wall_attachments`
---
-
-INSERT INTO `wall_attachments` (`id`, `wall_id`, `attachment`, `status`, `created_at`, `updated_at`, `user_id`, `user_type`) VALUES
-(1, 1, '649e8b11a18cf-fsdfsdf.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
-(2, 1, '649e8b11a2b91-hfghfghgfh.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
-(3, 1, '649e8b11a37aa-nfghfghgfh.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
-(4, 1, '649e8b11a45a2-qasdfasdasd.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
-(5, 1, '649e8b11a4f41-qweqwe.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
-(6, 1, '649e8b11a5c1e-qweqweqweqweqwe.jpg', NULL, '2023-06-29 23:58:09', '2023-06-29 23:58:09', '1', 'admin'),
-(7, 8, '64a65b9f6bbe8-dragon-ball-super-vol-12.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
-(8, 8, '64a65b9f6dc50-images.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
-(9, 8, '64a65b9f6eaef-9e510b0d2ffc577aad8e8edcabed2ee8.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
-(10, 8, '64a65b9f6f79b-download.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
-(11, 8, '64a65b9f704db-download (1).jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
-(12, 8, '64a65b9f70ff0-8a87476e3cc6d6ab6db061af36c8032f6e79ce84_hq.jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin'),
-(13, 8, '64a65b9f71fab-download (2).jpg', NULL, '2023-07-05 22:13:51', '2023-07-05 22:13:51', '3', 'admin');
-
 -- --------------------------------------------------------
 
 --
@@ -415,39 +445,6 @@ CREATE TABLE `wall_replies` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `wall_replies`
---
-
-INSERT INTO `wall_replies` (`id`, `wall_id`, `user_id`, `content`, `status`, `user_type`, `created_at`, `updated_at`) VALUES
-(1, 5, 1, 'sample', NULL, 'admin', '2023-07-05 03:54:37', '2023-07-05 03:54:37'),
-(2, 5, 1, 'sample 2', NULL, 'admin', '2023-07-05 04:00:23', '2023-07-05 04:00:23'),
-(3, 8, 3, 'yeah', NULL, 'admin', '2023-07-05 22:17:30', '2023-07-05 22:17:30'),
-(4, 8, 3, 'yeah', NULL, 'admin', '2023-07-05 22:18:48', '2023-07-05 22:18:48'),
-(5, 8, 3, 'yeah', NULL, 'admin', '2023-07-05 22:18:55', '2023-07-05 22:18:55'),
-(6, 8, 3, 'sample', NULL, 'admin', '2023-07-05 22:21:41', '2023-07-05 22:21:41'),
-(7, 8, 3, 'user', NULL, 'admin', '2023-07-05 22:21:46', '2023-07-05 22:21:46'),
-(8, 8, 3, 'user wall', NULL, 'admin', '2023-07-05 22:21:53', '2023-07-05 22:21:53'),
-(9, 8, 1, 'sample', NULL, 'admin', '2023-07-05 22:30:09', '2023-07-05 22:30:09'),
-(10, 5, 3, 'sample', NULL, 'admin', '2023-07-06 00:01:04', '2023-07-06 00:01:04'),
-(11, 5, 3, 'sample', NULL, 'admin', '2023-07-06 00:03:09', '2023-07-06 00:03:09'),
-(12, 4, 3, 'sample', NULL, 'admin', '2023-07-06 00:03:40', '2023-07-06 00:03:40'),
-(13, 4, 3, 'sample', NULL, 'admin', '2023-07-06 00:04:20', '2023-07-06 00:04:20'),
-(14, 8, 1, 'sampleeeeee', NULL, 'admin', '2023-07-07 03:40:29', '2023-07-07 03:40:29'),
-(15, 8, 1, 'sample', NULL, 'admin', '2023-07-07 04:16:42', '2023-07-07 04:16:42'),
-(16, 8, 1, 'siiii', NULL, 'admin', '2023-07-07 04:16:50', '2023-07-07 04:16:50'),
-(17, 8, 1, 'sammmmeeeellele', NULL, 'admin', '2023-07-07 04:22:44', '2023-07-07 04:22:44'),
-(18, 8, 3, 'ssssssssssssss', NULL, 'admin', '2023-07-07 05:10:34', '2023-07-07 05:10:34'),
-(19, 5, 3, 'pooooooooo', NULL, 'admin', '2023-07-07 05:16:10', '2023-07-07 05:16:10'),
-(20, 5, 1, 'sss', NULL, 'admin', '2023-07-07 05:18:24', '2023-07-07 05:18:24'),
-(21, 5, 1, 'sss', NULL, 'admin', '2023-07-07 05:20:11', '2023-07-07 05:20:11'),
-(22, 5, 1, 'sssss', NULL, 'admin', '2023-07-07 05:21:06', '2023-07-07 05:21:06'),
-(23, 5, 3, 'asdasdasd', NULL, 'admin', '2023-07-07 05:22:55', '2023-07-07 05:22:55'),
-(24, 5, 3, 'sfdfsdfsdfsdf', NULL, 'admin', '2023-07-07 05:24:11', '2023-07-07 05:24:11'),
-(25, 5, 3, 'mygad', NULL, 'admin', '2023-07-07 05:25:34', '2023-07-07 05:25:34'),
-(26, 4, 3, 'ssssss', NULL, 'admin', '2023-07-07 05:27:18', '2023-07-07 05:27:18'),
-(27, 4, 3, 'mygad 2', NULL, 'admin', '2023-07-07 05:29:24', '2023-07-07 05:29:24');
 
 --
 -- Indexes for dumped tables
@@ -519,11 +516,37 @@ ALTER TABLE `personal_access_tokens`
   ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
 
 --
+-- Indexes for table `surveys`
+--
+ALTER TABLE `surveys`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `survey_quetions`
+--
+ALTER TABLE `survey_quetions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
+
+--
+-- Indexes for table `user_surveys`
+--
+ALTER TABLE `user_surveys`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_surveys_survey_id_index` (`survey_id`);
+
+--
+-- Indexes for table `user_survey_details`
+--
+ALTER TABLE `user_survey_details`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_survey_details_user_survey_id_index` (`user_survey_id`);
 
 --
 -- Indexes for table `walls`
@@ -553,19 +576,19 @@ ALTER TABLE `wall_replies`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `announcements_attachments`
 --
 ALTER TABLE `announcements_attachments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `announcement_replies`
 --
 ALTER TABLE `announcement_replies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -583,7 +606,7 @@ ALTER TABLE `graduates_profiles`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `personal_access_tokens`
@@ -592,28 +615,52 @@ ALTER TABLE `personal_access_tokens`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `surveys`
+--
+ALTER TABLE `surveys`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `survey_quetions`
+--
+ALTER TABLE `survey_quetions`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `user_surveys`
+--
+ALTER TABLE `user_surveys`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `user_survey_details`
+--
+ALTER TABLE `user_survey_details`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `walls`
 --
 ALTER TABLE `walls`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `wall_attachments`
 --
 ALTER TABLE `wall_attachments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `wall_replies`
 --
 ALTER TABLE `wall_replies`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -630,6 +677,18 @@ ALTER TABLE `announcements_attachments`
 --
 ALTER TABLE `announcement_replies`
   ADD CONSTRAINT `announcement_replies_announcements_id_foreign` FOREIGN KEY (`announcements_id`) REFERENCES `announcements` (`id`);
+
+--
+-- Constraints for table `user_surveys`
+--
+ALTER TABLE `user_surveys`
+  ADD CONSTRAINT `user_surveys_survey_id_foreign` FOREIGN KEY (`survey_id`) REFERENCES `surveys` (`id`);
+
+--
+-- Constraints for table `user_survey_details`
+--
+ALTER TABLE `user_survey_details`
+  ADD CONSTRAINT `user_survey_details_user_survey_id_foreign` FOREIGN KEY (`user_survey_id`) REFERENCES `user_surveys` (`id`);
 
 --
 -- Constraints for table `wall_attachments`

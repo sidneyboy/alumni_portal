@@ -61,7 +61,11 @@ Route::post('/admin_view_user_timeline_reply_once_more/', [App\Http\Controllers\
 
 Route::post('/get_message_notif/', [App\Http\Controllers\HomeController::class, 'get_message_notif'])->name('get_message_notif');
 
+Route::get('/admin_survey/', [App\Http\Controllers\HomeController::class, 'admin_survey'])->name('admin_survey');
+Route::post('/admin_survey_proceed/', [App\Http\Controllers\HomeController::class, 'admin_survey_proceed'])->name('admin_survey_proceed');
+Route::post('/admin_survey_proceed_process/', [App\Http\Controllers\HomeController::class, 'admin_survey_proceed_process'])->name('admin_survey_proceed_process');
 
+Route::get('/admin_reports/', [App\Http\Controllers\HomeController::class, 'admin_reports'])->name('admin_reports');
 
 
 
@@ -93,6 +97,9 @@ Route::post('/user_announcement_reply/', [App\Http\Controllers\HomeController::c
 Route::get('/user_announcement/{id}', [App\Http\Controllers\HomeController::class, 'user_announcement'])->name('user_announcement');
 Route::post('/user_announcement_reply_once_more/', [App\Http\Controllers\HomeController::class, 'user_announcement_reply_once_more'])->name('user_announcement_reply_once_more');
 Route::post('/user_announcement_get_comments/', [App\Http\Controllers\HomeController::class, 'user_announcement_get_comments'])->name('user_announcement_get_comments');
+
+Route::get('/user_survey/', [App\Http\Controllers\HomeController::class, 'user_survey'])->name('user_survey');
+Route::post('/user_survey_process/', [App\Http\Controllers\HomeController::class, 'user_survey_process'])->name('user_survey_process');
 
 
 

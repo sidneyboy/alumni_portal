@@ -11,6 +11,10 @@ use App\Models\Wall;
 use App\Models\Wall_attachments;
 use App\Models\Wall_replies;
 use App\Models\ChMessage;
+use App\Models\Survey;
+use App\Models\Survey_quetions;
+use App\Models\User_survey;
+use App\Models\User_survey_details;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,8 +87,132 @@ class HomeController extends Controller
                 'latest_wall_photos' => $latest_wall_photos,
             ]);
         } else {
-            return redirect('user_welcome');
+            $survey = Survey::select('id')->orderBy('id', 'desc')->first();
+
+            $user_survey_checker = User_survey::select('user_id')
+                ->where('user_id', auth()->user()->id)
+                ->where('survey_id', $survey->id)
+                ->count();
+
+            if ($user_survey_checker == 0) {
+                return redirect('user_survey');
+            } else {
+                return redirect('user_welcome');
+            }
         }
+    }
+
+
+
+    public function user_survey()
+    {
+        $survey = Survey::orderBy('id', 'desc')->latest()->first();
+
+        return view('user_survey', [
+            'survey' => $survey,
+        ]);
+    }
+
+    public function user_survey_process(Request $request)
+    {
+        $new = new User_survey([
+            'survey_id' => $request->input('survey_id'),
+            'user_id' => auth()->user()->id,
+        ]);
+
+        $new->save();
+
+        for ($i = 0; $i < count($request->input('question')); $i++) {
+            $details = new User_survey_details([
+                'user_survey_id' => $new->id,
+                'question' => $request->input('question')[$i],
+                'answer' => $request->input('answer')[$i],
+            ]);
+
+            $details->save();
+        }
+
+        return redirect('user_welcome');
+    }
+
+    public function admin_survey()
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $announcement_photos = DB::table("announcements_attachments")
+            ->select(
+                "attachment"
+            )->where('user_id', auth()->user()->id);
+        $wall_photos = DB::table("wall_attachments")
+            ->select(
+                "attachment"
+            )->where('user_id', auth()->user()->id)
+            ->unionAll($announcement_photos)
+            ->get();
+
+
+        return view('admin_survey', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'wall_photos' => $wall_photos,
+        ]);
+    }
+
+    public function admin_reports()
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $announcement_photos = DB::table("announcements_attachments")
+            ->select(
+                "attachment"
+            )->where('user_id', auth()->user()->id);
+        $wall_photos = DB::table("wall_attachments")
+            ->select(
+                "attachment"
+            )->where('user_id', auth()->user()->id)
+            ->unionAll($announcement_photos)
+            ->get();
+
+        $survey = User_survey::get();
+
+
+        return view('admin_reports', [
+            'user' => $user,
+            'survey' => $survey,
+            'date_now' => $date_now,
+            'wall_photos' => $wall_photos,
+        ]);
+    }
+
+    public function admin_survey_proceed(Request $request)
+    {
+        return view('admin_survey_proceed')
+            ->with('survey_title', $request->input('survey_title'))
+            ->with('no_of_questions', $request->input('no_of_questions'));
+    }
+
+    public function admin_survey_proceed_process(Request $request)
+    {
+        $new_survey = new Survey([
+            'title' => $request->input('survey_title'),
+        ]);
+
+        $new_survey->save();
+
+        for ($i = 0; $i < $request->input('no_of_questions'); $i++) {
+            $new_survey_questions = new Survey_quetions([
+                'question' => $request->input('questions')[$i],
+                'survey_id' => $new_survey->id,
+            ]);
+
+            $new_survey_questions->save();
+        }
+
+        return redirect('admin_survey')->with('success', 'Successfully added new survey');
     }
 
     public function admin_feed()
@@ -1134,7 +1262,7 @@ class HomeController extends Controller
             ->where('to_id', auth()->user()->id)
             ->count();
 
-        return view('get_message_notif',[
+        return view('get_message_notif', [
             'message_count' => $message_count,
         ]);
     }

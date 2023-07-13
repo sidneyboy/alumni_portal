@@ -38,12 +38,18 @@
                 <a class="nav-link" href="{{ url('admin_photos') }}">Photos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('chatify') }}" target="_blank">Messenger <span class="badge badge-primary"
-                        id="get_message_notif">
+                <a class="nav-link" href="{{ url('chatify') }}" target="_blank">Messenger <span
+                        class="badge badge-primary" id="get_message_notif">
                     </span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('admin_user_list') }}">Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin_survey') }}">Survey</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin_reports') }}">Reports</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('logout') }}">Logout</a>

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2023 at 04:07 PM
+-- Generation Time: Jul 14, 2023 at 02:34 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.1.17
 
@@ -37,13 +37,6 @@ CREATE TABLE `announcements` (
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `announcements`
---
-
-INSERT INTO `announcements` (`id`, `subject`, `body`, `status`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 'First Announcement', 'Naa tay panagtigom karung sabado\r\n\r\ndapat mo tunga ang tanan', NULL, '2023-07-13 05:54:00', '2023-07-13 05:54:00', NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -59,18 +52,6 @@ CREATE TABLE `announcements_attachments` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `announcements_attachments`
---
-
-INSERT INTO `announcements_attachments` (`id`, `announcements_id`, `attachment`, `status`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 1, '168925644066.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
-(2, 1, '168925644151.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
-(3, 1, '168925644148.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
-(4, 1, '168925644117.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
-(5, 1, '16892564412.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL),
-(6, 1, '168925644176.jpg', NULL, '2023-07-13 05:54:01', '2023-07-13 05:54:01', NULL);
 
 -- --------------------------------------------------------
 
@@ -103,14 +84,6 @@ CREATE TABLE `ch_favorites` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `ch_favorites`
---
-
-INSERT INTO `ch_favorites` (`id`, `user_id`, `favorite_id`, `created_at`, `updated_at`) VALUES
-('2d5ff174-c64a-48f3-acfd-fac92702df68', 1, 3, '2023-07-11 03:09:12', '2023-07-11 03:09:12'),
-('352d4b75-2dfe-4dc4-a65e-f8dfd8037ce2', 3, 1, '2023-07-11 03:30:10', '2023-07-11 03:30:10');
-
 -- --------------------------------------------------------
 
 --
@@ -127,26 +100,6 @@ CREATE TABLE `ch_messages` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `ch_messages`
---
-
-INSERT INTO `ch_messages` (`id`, `from_id`, `to_id`, `body`, `attachment`, `seen`, `created_at`, `updated_at`) VALUES
-('17f3aecd-f901-47b0-9712-223df561c8fa', 3, 1, 'heheh', NULL, 1, '2023-07-11 03:30:29', '2023-07-11 03:30:29'),
-('2bcaabb7-624a-4c05-aafc-425dbb239fec', 1, 3, 'yowyow whats up', NULL, 1, '2023-07-11 03:30:23', '2023-07-11 03:30:23'),
-('2e5a6e33-96ec-49fd-94a9-eac9d1cd2b59', 1, 3, 'hi', NULL, 1, '2023-07-11 06:04:49', '2023-07-11 06:04:53'),
-('47af8ad5-8eac-44a5-9b12-9eaff2b09309', 1, 3, 'man laag mi nila mama an daddy hehehe', NULL, 1, '2023-07-11 03:30:49', '2023-07-11 03:30:49'),
-('529efb7a-1882-4d1f-80ee-2abee443a3c1', 1, 3, '', '{\"new_name\":\"69b0c7e3-a402-44ef-a0cb-fbbe7b5ce232.png\",\"old_name\":\"map_sidney_salazar_barangay 20 (pob.)_dool_rizal_theatre.png\"}', 1, '2023-07-11 06:05:14', '2023-07-11 06:05:15'),
-('7f3e8093-cd3b-4f6f-b0d2-4913a0b37a11', 1, 3, 'nag kaon kaon rami oi', NULL, 1, '2023-07-11 03:30:37', '2023-07-11 03:30:38'),
-('8085ed3e-eec4-47d6-94e1-bec423fd2f9f', 3, 1, 'hi unsay sud.an', NULL, 1, '2023-07-11 04:47:56', '2023-07-11 06:04:45'),
-('8204959b-efd2-4bb1-97af-538b1e1a81bd', 3, 1, 'naunsa man ka dira karun?', NULL, 1, '2023-07-11 03:30:33', '2023-07-11 03:30:33'),
-('88132c99-d6c0-4bc2-bfe1-7a8939412dd2', 1, 3, 'dasdasd\r\n]', NULL, 1, '2023-07-11 03:07:51', '2023-07-11 03:21:08'),
-('89848d9f-833a-443b-b2ca-8b5cce4fc7a1', 3, 1, 'nag unsa mo?', NULL, 1, '2023-07-11 06:04:55', '2023-07-11 06:04:56'),
-('a0cb9d0c-645e-4ed8-b302-d36345275b8e', 3, 1, 'fgbdfgdfgdfg', NULL, 1, '2023-07-11 03:21:25', '2023-07-11 03:22:50'),
-('bfd06c6f-6f53-48fa-85e5-5a24343de9f9', 1, 3, 'hello anak', NULL, 1, '2023-07-11 04:47:16', '2023-07-11 04:47:40'),
-('c3c9082b-05d5-4cfc-9120-4ac1fde81fff', 1, 3, 'Yow Khelow What&#039;s Up', NULL, 1, '2023-07-11 03:22:55', '2023-07-11 03:30:07'),
-('c50dbc1f-207d-4a00-960f-baff67618f17', 1, 3, 'dawbi?', NULL, 1, '2023-07-11 06:04:59', '2023-07-11 06:05:00');
 
 -- --------------------------------------------------------
 
@@ -283,13 +236,6 @@ CREATE TABLE `surveys` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `surveys`
---
-
-INSERT INTO `surveys` (`id`, `title`, `created_at`, `updated_at`) VALUES
-(1, 'Career Path Survey', '2023-07-13 04:18:09', '2023-07-13 04:18:09');
-
 -- --------------------------------------------------------
 
 --
@@ -303,15 +249,6 @@ CREATE TABLE `survey_quetions` (
   `updated_at` timestamp NULL DEFAULT NULL,
   `survey_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `survey_quetions`
---
-
-INSERT INTO `survey_quetions` (`id`, `question`, `created_at`, `updated_at`, `survey_id`) VALUES
-(1, 'When did you graduate?', '2023-07-13 04:18:09', '2023-07-13 04:18:09', 1),
-(2, 'What is your Course', '2023-07-13 04:18:09', '2023-07-13 04:18:09', 1),
-(3, 'What is your first job after graduating college', '2023-07-13 04:18:09', '2023-07-13 04:18:09', 1);
 
 -- --------------------------------------------------------
 
@@ -365,13 +302,6 @@ CREATE TABLE `user_surveys` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `user_surveys`
---
-
-INSERT INTO `user_surveys` (`id`, `user_id`, `survey_id`, `created_at`, `updated_at`) VALUES
-(1, 3, 1, '2023-07-13 04:49:58', '2023-07-13 04:49:58');
-
 -- --------------------------------------------------------
 
 --
@@ -386,15 +316,6 @@ CREATE TABLE `user_survey_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `user_survey_details`
---
-
-INSERT INTO `user_survey_details` (`id`, `user_survey_id`, `question`, `answer`, `created_at`, `updated_at`) VALUES
-(1, 1, 'When did you graduate?', '2014', '2023-07-13 04:49:58', '2023-07-13 04:49:58'),
-(2, 1, 'What is your Course', 'Information Technology', '2023-07-13 04:49:58', '2023-07-13 04:49:58'),
-(3, 1, 'What is your first job after graduating college', 'Programmer at Innovative Web Provider', '2023-07-13 04:49:59', '2023-07-13 04:49:59');
 
 -- --------------------------------------------------------
 
@@ -576,13 +497,13 @@ ALTER TABLE `wall_replies`
 -- AUTO_INCREMENT for table `announcements`
 --
 ALTER TABLE `announcements`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `announcements_attachments`
 --
 ALTER TABLE `announcements_attachments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `announcement_replies`
@@ -618,13 +539,13 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `surveys`
 --
 ALTER TABLE `surveys`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `survey_quetions`
 --
 ALTER TABLE `survey_quetions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -636,13 +557,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `user_surveys`
 --
 ALTER TABLE `user_surveys`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `user_survey_details`
 --
 ALTER TABLE `user_survey_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `walls`

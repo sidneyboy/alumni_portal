@@ -284,7 +284,10 @@ class HomeController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+        $channel = $user->id . '_comment_channel';
+
         return view('user_welcome', [
+            'channel' => $channel,
             'user' => $user,
             'wall' => $wall,
             'date_now' => $date_now,
@@ -442,15 +445,13 @@ class HomeController extends Controller
     {
         $fetch_wall_replies = Announcement_replies::select('user_id')->where('announcements_id', $request->input('announcement_id'))
             ->whereNotIn('user_id', [auth()->user()->id])
-            ->groupBy('user_id')
-            ->get();
+            ->groupBy('user_id');
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('admin_announcement', ['id' => $request->input('announcement_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('admin_announcement', ['id' => $request->input('announcement_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
@@ -479,14 +480,11 @@ class HomeController extends Controller
             ->whereNotIn('user_id', [auth()->user()->id])
             ->groupBy('user_id')
             ->get();
-
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('admin_announcement', ['id' => $request->input('announcement_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('admin_announcement', ['id' => $request->input('announcement_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),
@@ -648,13 +646,13 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
 
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
@@ -681,13 +679,14 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
 
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('admin_view_user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+
+
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('admin_view_user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
@@ -714,13 +713,12 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
 
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('admin_view_user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('admin_view_user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
@@ -748,12 +746,12 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
+
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
@@ -776,12 +774,11 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
@@ -821,20 +818,16 @@ class HomeController extends Controller
 
     public function admin_wall_reply_once_more(Request $request)
     {
-
         $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
             ->whereNotIn('user_id', [auth()->user()->id])
             ->groupBy('user_id')
             ->get();
 
-
-
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
@@ -855,13 +848,11 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
 
         $new_comment_reply = new Wall_replies([
@@ -883,13 +874,12 @@ class HomeController extends Controller
             ->whereNotIn('user_id', [auth()->user()->id])
             ->groupBy('user_id')
             ->get();
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('user_wall', ['id' => $request->input('wall_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('user_wall', ['id' => $request->input('wall_id')]);
+        event(new Comment_notification($name, $link));
 
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
@@ -1228,7 +1218,7 @@ class HomeController extends Controller
         foreach ($fetch_announcement_replies as $key => $announcement_user_id) {
 
             $user_details = $announcement_user_id->user->name . " " . $announcement_user_id->user->middle_name . " " . $announcement_user_id->user->last_name;
-            $name = $user_details . ' on a post';
+            $name = $user_details . ' commented on a post';
             $link = url('user_announcement', ['id' => $request->input('announcement_id')]);
             event(new Comment_notification($name, $link));
         }
@@ -1274,13 +1264,11 @@ class HomeController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        foreach ($fetch_wall_replies as $key => $wall_user_id) {
-
-            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
-            $name = $user_details . ' on a post';
-            $link = url('user_announcement', ['id' => $request->input('announcement_id')]);
-            event(new Comment_notification($name, $link));
-        }
+        $user_data = User::select('name', 'middle_name', 'last_name')->find(auth()->user()->id);
+        $user_details = ucfirst($user_data->name) . " " . ucfirst($user_data->middle_name) . " " . ucfirst($user_data->last_name);
+        $name = $user_details . ' commented on a post';
+        $link = url('user_announcement', ['id' => $request->input('announcement_id')]);
+        event(new Comment_notification($name, $link));
 
         $new =  new Announcement_replies([
             'announcements_id' => $request->input('announcement_id'),

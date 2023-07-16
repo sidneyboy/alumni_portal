@@ -610,8 +610,9 @@
 
         var channel = pusher.subscribe('comment_channel');
         channel.bind('comment_event', function(data) {
-            toastr["success"](JSON.stringify(data.name), '<div><a href="' + data.link +
-                '" target="_blank">View Comment</a>')
+            // toastr.info(JSON.stringify(data.name));
+            toastr["success"]('<div><a href="' + data.link +
+                '" target="_blank">'+ JSON.stringify(data.name) +'</a>')
         });
     </script>
 

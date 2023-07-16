@@ -2,7 +2,14 @@
     @foreach ($wall_replies as $wall_reply_details)
         <div class="social-comment">
             <a href class="pull-left">
-                <img alt="image" src="{{ asset('image/' . $wall_reply_details->user_admin->profile_picture) }}">
+
+
+
+                @if ($wall_reply_details->user_admin->profile_picture != null)
+                    <img alt="image" src="{{ asset('image/' . $wall_reply_details->user_admin->profile_picture) }}">
+                @else
+                    <img class="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="profile">
+                @endif
             </a>
             <div class="media-body">
                 @if ($wall_reply_details->user_id == auth()->user()->id)

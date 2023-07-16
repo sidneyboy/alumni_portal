@@ -2,12 +2,21 @@
     <div class="cover">
         <div class="gray-shade"></div>
         <figure>
-            <img src="{{ asset('image/' . $user->timeline_picture) }}" class="img-fluid" alt="profile cover">
+            @if ($user->timeline_picture != null)
+                <img src="{{ asset('image/' . $user->timeline_picture) }}" class="img-fluid" alt="profile cover">
+            @else
+                <img src="{{ asset('image/timelinephoto.jpg') }}" class="img-fluid" alt="profile cover">
+            @endif
         </figure>
         <div class="cover-body d-flex justify-content-between align-items-center">
             <div>
                 <a href="" data-toggle="modal" style="text-decoration: none;" data-target="#profile_picture">
-                    <img class="profile-pic" src="{{ asset('image/' . $user->profile_picture) }}" alt="profile">
+                    @if ($user->profile_picture != null)
+                        <img class="profile-pic" src="{{ asset('image/' . $user->profile_picture) }}" alt="profile">
+                    @else
+                        <img class="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                            alt="profile">
+                    @endif
                 </a>
                 <span class="profile-name">{{ Str::ucfirst($user->name) }} {{ Str::ucfirst($user->middle_name) }}
                     {{ Str::ucfirst($user->last_name) }}</span>

@@ -89,14 +89,18 @@ class HomeController extends Controller
         } else {
             $survey = Survey::select('id')->orderBy('id', 'desc')->first();
 
-            $user_survey_checker = User_survey::select('user_id')
-                ->where('user_id', auth()->user()->id)
-                ->where('survey_id', $survey->id)
-                ->count();
+            if ($survey) {
+                $user_survey_checker = User_survey::select('user_id')
+                    ->where('user_id', auth()->user()->id)
+                    ->where('survey_id', $survey->id)
+                    ->count();
 
-            if ($user_survey_checker == 0) {
-                return redirect('user_survey');
-            } else {
+                if ($user_survey_checker == 0) {
+                    return redirect('user_survey');
+                } else {
+                    return redirect('user_welcome');
+                }
+            }else{
                 return redirect('user_welcome');
             }
         }
@@ -793,6 +797,8 @@ class HomeController extends Controller
 
         $wall = Wall::find($id);
 
+        
+
         return view('user_wall', [
             'user' => $user,
             'wall' => $wall,
@@ -1160,7 +1166,11 @@ class HomeController extends Controller
         $announcement = Announcements::orderBy('id', 'desc')->first();
         $wall = Wall::orderBy('id', 'desc')->get();
 
+        $current_user_id = User::select('id')->where('id',auth()->user()->id)
+                        ->first();
+
         return view('user_get_new_feed', [
+            'current_user_id' => $current_user_id,
             'wall' => $wall,
             'announcement' => $announcement,
         ]);

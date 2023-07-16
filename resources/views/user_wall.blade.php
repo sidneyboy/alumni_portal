@@ -626,7 +626,7 @@
     </style>
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
         integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-   
+
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"
         integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
     <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
@@ -643,7 +643,8 @@
 
         var channel = pusher.subscribe('comment_channel');
         channel.bind('comment_event', function(data) {
-            toastr["success"](JSON.stringify(data.name),'<div><a href="'+ data.link +'" target="_blank">View Comment</a>')
+            toastr["success"](JSON.stringify(data.name), '<div><a href="' + data.link +
+                '" target="_blank">View Comment</a>')
         });
     </script>
 </head>
@@ -703,22 +704,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <p>{{ $user->about }}</p>
+                            <p>{{ $wall->user_admin->about }}</p>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Joined:</label>
                                 <p class="text-muted">
-                                    {{ date('F j, Y', strtotime($user->created_at)) }}</p>
+                                    {{ date('F j, Y', strtotime($wall->user_admin->created_at)) }}</p>
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Date of Birth:</label>
                                 <p class="text-muted">
-                                    {{ date('F j, Y', strtotime($user->date_of_birth)) }}</p>
+                                    {{ date('F j, Y', strtotime($wall->user_admin->date_of_birth)) }}</p>
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Age:</label>
                                 <p class="text-muted">
                                     @php
-                                        $dateOfBirth = date('d-m-Y', strtotime($user->date_of_birth));
+                                        $dateOfBirth = date('d-m-Y', strtotime($wall->user_admin->date_of_birth));
                                         $today = $date_now;
                                         $diff = date_diff(date_create($dateOfBirth), date_create($today));
                                         echo $diff->format('%y');
@@ -727,7 +728,7 @@
                             </div>
                             <div class="mt-3">
                                 <label class="tx-11 font-weight-bold mb-0 text-uppercase">Gender:</label>
-                                <p class="text-muted">{{ Str::ucfirst($user->gender) }}</p>
+                                <p class="text-muted">{{ Str::ucfirst($wall->user_admin->gender) }}</p>
                             </div>
                         </div>
                     </div>
@@ -741,15 +742,23 @@
                                     <div class="d-flex justify-content-between align-items-center">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="mr-2">
-                                                <img class="rounded-circle" width="45"
-                                                    src="{{ asset('/image/' . $user->profile_picture) }}" alt>
+                                                @if ($wall->user_admin->profile_picture != null)
+                                                    <img class="rounded-circle" width="45"
+                                                        src="{{ asset('/image/' . $wall->user_admin->profile_picture) }}" alt>
+                                                @else
+                                                    <img class="rounded-circle" width="45"
+                                                        src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                        alt="profile">
+                                                @endif
                                             </div>
                                             <div class="ml-2">
-                                                <div class="h5 m-0">{{ '@' . $user->name }}</div>
+                                                <div class="h5 m-0">{{ '@' . $wall->user_admin->name }}</div>
                                                 <div class="h7 text-muted">
-                                                    {{ Str::ucfirst($user->name) }}
-                                                    {{ Str::ucfirst($user->middle_name) }}
-                                                    {{ Str::ucfirst($user->last_name) }}
+                                                    <a style="text-decoration: none" href="{{ url('user_view_user', ['id' => $wall->user_id]) }}">
+                                                    {{ Str::ucfirst($wall->user_admin->name) }}
+                                                    {{ Str::ucfirst($wall->user_admin->middle_name) }}
+                                                    {{ Str::ucfirst($wall->user_admin->last_name) }}
+                                                    </a>
                                                     <i
                                                         style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($wall->created_at)) }})</i>
                                                 </div>
@@ -881,9 +890,9 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($user->name) }}
-                        {{ $user->middle_name }}
-                        {{ $user->last_name }}'s Profile</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">{{ Str::ucfirst($wall->user_admin->name) }}
+                        {{ $wall->user_admin->middle_name }}
+                        {{ $wall->user_admin->last_name }}'s Profile</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -894,28 +903,28 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label for="">Tell something about you</label>
-                                <textarea name="about" class="form-control" cols="30" rows="10" required>{{ $user->about }}</textarea>
+                                <textarea name="about" class="form-control" cols="30" rows="10" required>{{ $wall->user_admin->about }}</textarea>
                             </div>
                             <div class="col-md-12">
                                 <label for="">Date of Birth</label>
                                 <input type="date" class="form-control form-control-sm" required
-                                    name="date_of_birth" value="{{ $user->date_of_birth }}">
+                                    name="date_of_birth" value="{{ $wall->user_admin->date_of_birth }}">
                             </div>
                             <div class="col-md-12">
                                 <label for="">Gender</label>
-                                @if ($user->gender == null)
+                                @if ($wall->user_admin->gender == null)
                                     <select name="gender" class="form-control form-control-sm" required>
                                         <option value="" default>Select</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </select>
-                                @elseif($user->gender == 'Male')
+                                @elseif($wall->user_admin->gender == 'Male')
                                     <select name="gender" class="form-control form-control-sm" required>
                                         <option value="" default>Select</option>
                                         <option value="Male" selected>Male</option>
                                         <option value="Female">Female</option>
                                     </select>
-                                @elseif($user->gender == 'Female')
+                                @elseif($wall->user_admin->gender == 'Female')
                                     <select name="gender" class="form-control form-control-sm" required>
                                         <option value="" default>Select</option>
                                         <option value="Male">Male</option>
@@ -926,7 +935,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <input type="hidden" name="user_id" value="{{ $wall->user_admin->id }}">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
                     </div>
@@ -960,7 +969,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <input type="hidden" name="user_id" value="{{ $wall->user_admin->id }}">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
                     </div>
@@ -993,7 +1002,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="hidden" name="user_id" value="{{ $user->id }}">
+                        <input type="hidden" name="user_id" value="{{ $wall->user_admin->id }}">
                         <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Close</button>
                         <button type="submit" class="btn btn-sm btn-primary">Save changes</button>
                     </div>

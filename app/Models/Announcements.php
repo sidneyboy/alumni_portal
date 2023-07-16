@@ -12,6 +12,7 @@ class Announcements extends Model
     protected $fillable = [
         'subject',
         'body',
+        'user_id',
         'status',
     ];
 

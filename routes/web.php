@@ -67,6 +67,7 @@ Route::post('/admin_survey_proceed_process/', [App\Http\Controllers\HomeControll
 
 Route::get('/admin_reports/', [App\Http\Controllers\HomeController::class, 'admin_reports'])->name('admin_reports');
 
+Route::post('/admin_get_news_feed/', [App\Http\Controllers\HomeController::class, 'admin_get_news_feed'])->name('admin_get_news_feed');
 
 
 Route::get('/user_welcome/', [App\Http\Controllers\HomeController::class, 'user_welcome'])->name('user_welcome');

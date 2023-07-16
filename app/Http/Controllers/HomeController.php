@@ -100,7 +100,7 @@ class HomeController extends Controller
                 } else {
                     return redirect('user_welcome');
                 }
-            }else{
+            } else {
                 return redirect('user_welcome');
             }
         }
@@ -446,7 +446,6 @@ class HomeController extends Controller
             ->get();
 
         foreach ($fetch_wall_replies as $key => $wall_user_id) {
-
             $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
             $name = $user_details . ' on a post';
             $link = url('admin_announcement', ['id' => $request->input('announcement_id')]);
@@ -643,6 +642,20 @@ class HomeController extends Controller
 
     public function admin_wall_reply(Request $request)
     {
+
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
             'user_id' => auth()->user()->id,
@@ -729,14 +742,13 @@ class HomeController extends Controller
 
     public function user_view_user_wall_reply(Request $request)
     {
-
+        //return $request->input();
         $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
             ->whereNotIn('user_id', [auth()->user()->id])
             ->groupBy('user_id')
             ->get();
 
         foreach ($fetch_wall_replies as $key => $wall_user_id) {
-
             $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
             $name = $user_details . ' on a post';
             $link = url('user_wall', ['id' => $request->input('wall_id')]);
@@ -797,7 +809,7 @@ class HomeController extends Controller
 
         $wall = Wall::find($id);
 
-        
+
 
         return view('user_wall', [
             'user' => $user,
@@ -809,6 +821,21 @@ class HomeController extends Controller
 
     public function admin_wall_reply_once_more(Request $request)
     {
+
+        $fetch_wall_replies = Wall_replies::select('user_id')->where('wall_id', $request->input('wall_id'))
+            ->whereNotIn('user_id', [auth()->user()->id])
+            ->groupBy('user_id')
+            ->get();
+
+
+
+        foreach ($fetch_wall_replies as $key => $wall_user_id) {
+            $user_details = $wall_user_id->user->name . " " . $wall_user_id->user->middle_name . " " . $wall_user_id->user->last_name;
+            $name = $user_details . ' on a post';
+            $link = url('user_wall', ['id' => $request->input('wall_id')]);
+            event(new Comment_notification($name, $link));
+        }
+
         $new_comment_reply = new Wall_replies([
             'wall_id' => $request->input('wall_id'),
             'user_id' => auth()->user()->id,
@@ -1166,10 +1193,25 @@ class HomeController extends Controller
         $announcement = Announcements::orderBy('id', 'desc')->first();
         $wall = Wall::orderBy('id', 'desc')->get();
 
-        $current_user_id = User::select('id')->where('id',auth()->user()->id)
-                        ->first();
+        $current_user_id = User::select('id')->where('id', auth()->user()->id)
+            ->first();
 
         return view('user_get_new_feed', [
+            'current_user_id' => $current_user_id,
+            'wall' => $wall,
+            'announcement' => $announcement,
+        ]);
+    }
+
+    public function admin_get_news_feed(Request $request)
+    {
+        $announcement = Announcements::orderBy('id', 'desc')->first();
+        $wall = Wall::orderBy('id', 'desc')->get();
+
+        $current_user_id = User::select('id')->where('id', auth()->user()->id)
+            ->first();
+
+        return view('admin_get_news_feed', [
             'current_user_id' => $current_user_id,
             'wall' => $wall,
             'announcement' => $announcement,

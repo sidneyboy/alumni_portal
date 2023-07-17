@@ -653,7 +653,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="">No. of Questions</label>
-                                        <input type="number" class="form-control" name="no_of_questions">
+                                        <input type="number" class="form-control" name="no_of_questions" value="1" min="1" max="20" required>
                                     </div>
                                     <div class="col-md-3">
                                         <label for="">&nbsp;</label>

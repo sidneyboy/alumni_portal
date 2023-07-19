@@ -2,7 +2,12 @@
     <div class="cover">
         <div class="gray-shade"></div>
         <figure>
-            <img src="{{ asset('image/' . $user->timeline_picture) }}" class="img-fluid" alt="profile cover">
+            @if ($user->timeline_picture != null)
+                <img src="{{ asset('image/' . $user->timeline_picture) }}"
+                    style="width:1920px;height:350px;object-fit:cover;" class="img-fluid" alt="profile cover">
+            @else
+                <img src="{{ asset('image/timelinephoto.jpg') }}" class="img-fluid" alt="profile cover">
+            @endif
         </figure>
         <div class="cover-body d-flex justify-content-between align-items-center">
             <div>
@@ -54,10 +59,10 @@
                 <a class="nav-link" href="{{ url('user_view_user', ['id' => $user->id]) }}">Timeline</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{url('user_view_user_photos', ['id' => $user->id]) }}">Photos</a>
+                <a class="nav-link" href="{{ url('user_view_user_photos', ['id' => $user->id]) }}">Photos</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('home')  }}">Home</a>
+                <a class="nav-link" href="{{ url('home') }}">Home</a>
             </li>
         </ul>
     </div>

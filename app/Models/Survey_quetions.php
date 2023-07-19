@@ -11,5 +11,6 @@ class Survey_quetions extends Model
 
     protected $fillable = [
         'question',
+        'user_id',
     ];
 }

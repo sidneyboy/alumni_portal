@@ -7,14 +7,14 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mr-2">
                                 <img class="rounded-circle" width="45"
-                                    src="{{ asset('/image/' . $user->profile_picture) }}" alt>
+                                    src="{{ asset('/image/' . $announcement->user->profile_picture) }}" alt>
                             </div>
                             <div class="ml-2">
-                                <div class="h5 m-0">{{ '@' . $user->name }}
+                                <div class="h5 m-0">{{ '@' . $announcement->user->name }}
                                 </div>
                                 <div class="h7 text-muted">
-                                    {{ $user->name }} {{ $user->middle_name }}
-                                    {{ $user->last_name }} <i
+                                    {{ $announcement->user->name }} {{ $announcement->user->middle_name }}
+                                    {{ $announcement->user->last_name }} <i
                                         style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($announcement->created_at)) }})</i>
                                 </div>
                             </div>
@@ -43,8 +43,8 @@
                     </p>
                     <div class="container profile">
                         <div class="profile-img-list">
-                            @if (count($announcement_counter) == 0)
-                            @elseif(count($announcement_counter) > 5)
+                            @if (count($announcement->attachments) == 0)
+                            @elseif(count($announcement->attachments) > 5)
                                 <div class="profile-img-list-item main"><a href="#"
                                         class="profile-img-list-link"><span class="profile-img-content"
                                             style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
@@ -62,7 +62,7 @@
                                         <div class="profile-img-number">+12</div>
                                     </a>
                                 </div>
-                            @elseif(count($announcement_counter) <= 5)
+                            @elseif(count($announcement->attachments) <= 5)
                                 <div class="profile-img-list-item main"><a href="#"
                                         class="profile-img-list-link"><span class="profile-img-content"
                                             style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
@@ -109,8 +109,13 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="mr-2">
-                                <img class="rounded-circle" width="45"
-                                    src="{{ asset('/image/' . $wall_item->user_admin->profile_picture) }}" alt>
+                                @if ($wall_item->user_admin->profile_picture != null)
+                                    <img class="rounded-circle" width="45"
+                                        src="{{ asset('/image/' . $wall_item->user_admin->profile_picture) }}" alt>
+                                @else
+                                    <img src="https://bootdey.com/img/Content/avatar/avatar6.png" width="45"
+                                        class="rounded-circle" alt="profile cover">
+                                @endif
                             </div>
                             <div class="ml-2">
                                 <div class="h5 m-0">{{ '@' . $wall_item->user_admin->name }}
@@ -174,18 +179,21 @@
                                             +{{ count($wall_item->attachments) }}</div>
                                     </a>
                                 </div>
-                            @elseif(count($wall_item->attachments_limit_3) <= 5)
+                            @elseif(count($wall_item->attachments) <= 5)
                                 <div class="profile-img-list-item main"><a href="#"
                                         class="profile-img-list-link"><span class="profile-img-content"
                                             style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
                                 </div>
-                                @foreach ($announcement->attachments as $item)
+                                @foreach ($wall_item->attachments as $item)
                                     <div class="profile-img-list-item"><a href="#"
                                             class="profile-img-list-link"><span class="profile-img-content"
                                                 style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
                                     </div>
                                 @endforeach
                             @endif
+
+
+
 
 
                         </div>

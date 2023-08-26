@@ -45,9 +45,9 @@
                             <div class="alert alert-success border-left-success alert-dismissible fade show"
                                 role="alert">
                                 {{ session('success') }}
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
-                                </button>
+                                </button> --}}
                             </div>
                         @endif
                         @if (session('error'))
@@ -85,7 +85,7 @@
                                     Remember me
                                 </label>
                             </div>
-                            <a href="#!" class="text-body">Forgot password?</a>
+                        {{-- <a href="#!" class="text-body">Forgot password?</a> --}}
                         </div>
 
                         <div class="text-center text-lg-start mt-4 pt-2">

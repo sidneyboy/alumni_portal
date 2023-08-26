@@ -121,8 +121,13 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="mr-2">
-                                    <img class="rounded-circle" width="45"
-                                        src="{{ asset('/image/' . $wall_item->user_admin->profile_picture) }}" alt>
+                                    @if ($wall_item->user_admin->profile_picture != null)
+                                        <img class="rounded-circle" width="45"
+                                            src="{{ asset('/image/' . $wall_item->user_admin->profile_picture) }}" alt>
+                                    @else
+                                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png" width="45"
+                                            class="rounded-circle" alt="profile cover">
+                                    @endif
                                 </div>
                                 <div class="ml-2">
                                     <div class="h5 m-0">
@@ -189,7 +194,7 @@
                                             class="profile-img-list-link"><span class="profile-img-content"
                                                 style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
                                     </div>
-                                    @foreach ($announcement->attachments as $item)
+                                    @foreach ($wall_item->attachments as $item)
                                         <div class="profile-img-list-item"><a href="#"
                                                 class="profile-img-list-link"><span class="profile-img-content"
                                                     style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>

@@ -457,7 +457,7 @@
         channel.bind('comment_event', function(data) {
             // toastr.info(JSON.stringify(data.name));
             toastr["success"]('<div><a href="' + data.link +
-                '" target="_blank">'+ JSON.stringify(data.name) +'</a>')
+                '" target="_blank">' + JSON.stringify(data.name) + '</a>')
         });
     </script>
 </head>
@@ -575,9 +575,10 @@
                                                     </div>
                                                     <div class="custom-file">
                                                         <input type="file" name="wall_images[]"
-                                                            class="custom-file-input" id="upload_wall_image" accept="image/png, image/jpeg" multiple>
+                                                            class="custom-file-input" id="upload_wall_image"
+                                                            accept="image/png, image/jpeg" multiple>
                                                         <label class="custom-file-label"
-                                                            for="upload_wall_image" >Choose
+                                                            for="upload_wall_image">Choose
                                                             file</label>
                                                     </div>
                                                 </div>
@@ -615,7 +616,8 @@
                                                     </div>
                                                     <div class="custom-file">
                                                         <input type="file" name="images[]"
-                                                            class="custom-file-input" id="upload-img" accept="image/png, image/jpeg" multiple>
+                                                            class="custom-file-input" id="upload-img"
+                                                            accept="image/png, image/jpeg" multiple>
                                                         <label class="custom-file-label" for="upload-img">Choose
                                                             file</label>
                                                     </div>
@@ -644,8 +646,14 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="mr-2">
-                                                    <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
+                                                    @if ($user->profile_picture != null)
+                                                        <img class="rounded-circle" width="45"
+                                                            src="{{ asset('/image/' . $user->profile_picture) }}" alt>
+                                                    @else
+                                                        <img src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                            width="45" class="rounded-circle"
+                                                            alt="profile cover">
+                                                    @endif
                                                 </div>
                                                 <div class="ml-2">
                                                     <div class="h5 m-0">{{ '@' . Str::ucfirst($user->name) }}</div>
@@ -1028,7 +1036,7 @@
     </div>
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-    
+
 
     <script>
         $.ajaxSetup({

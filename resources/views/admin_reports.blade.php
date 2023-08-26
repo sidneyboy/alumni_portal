@@ -612,7 +612,7 @@
         channel.bind('comment_event', function(data) {
             // toastr.info(JSON.stringify(data.name));
             toastr["success"]('<div><a href="' + data.link +
-                '" target="_blank">'+ JSON.stringify(data.name) +'</a>')
+                '" target="_blank">' + JSON.stringify(data.name) + '</a>')
         });
     </script>
 
@@ -811,6 +811,9 @@
             $(document).ready(function() {
                 $('#example').DataTable({
                     dom: 'Bfrtip',
+                    "paging": false,
+                    info: 'false',
+                    ordering: 'false',
                     buttons: [
                         // 'copyHtml5',
                         'excelHtml5',

@@ -26,7 +26,7 @@ Route::get('/logout', [App\Http\Controllers\HomeController::class, 'logout'])->n
 Route::post('/login_authenticator', [App\Http\Controllers\login_authenticator_controller::class, 'login_authenticator'])->name('login_authenticator');
 Route::get('/admin_login', [App\Http\Controllers\login_authenticator_controller::class, 'admin_login'])->name('admin_login');
 
-Route::get('/admin_update_profile', [App\Http\Controllers\HomeController::class, 'admin_update_profile'])->name('admin_update_profile');
+Route::post('/admin_update_profile', [App\Http\Controllers\HomeController::class, 'admin_update_profile'])->name('admin_update_profile');
 Route::post('/admin_update_profile_picture', [App\Http\Controllers\HomeController::class, 'admin_update_profile_picture'])->name('admin_update_profile_picture');
 Route::post('/admin_update_timeline_picture', [App\Http\Controllers\HomeController::class, 'admin_update_timeline_picture'])->name('admin_update_timeline_picture');
 Route::post('/admin_post_announcement', [App\Http\Controllers\HomeController::class, 'admin_post_announcement'])->name('admin_post_announcement');

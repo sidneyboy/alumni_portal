@@ -620,7 +620,7 @@
                                                                 class="profile-img-content"
                                                                 style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
                                                     </div>
-                                                    @foreach ($announcement->attachments as $item)
+                                                    @foreach ($wall_item->attachments_limit_3 as $item)
                                                         <div class="profile-img-list-item"><a href="#"
                                                                 class="profile-img-list-link"><span
                                                                     class="profile-img-content"

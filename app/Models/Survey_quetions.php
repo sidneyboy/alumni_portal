@@ -12,5 +12,6 @@ class Survey_quetions extends Model
     protected $fillable = [
         'survey_id',
         'question',
+        'survey_id',
     ];
 }

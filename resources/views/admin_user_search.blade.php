@@ -485,7 +485,7 @@
         channel.bind('comment_event', function(data) {
             // toastr.info(JSON.stringify(data.name));
             toastr["success"]('<div><a href="' + data.link +
-                '" target="_blank">'+ JSON.stringify(data.name) +'</a>')
+                '" target="_blank">' + JSON.stringify(data.name) + '</a>')
         });
     </script>
 
@@ -533,13 +533,26 @@
                                     @foreach ($user_list as $data)
                                         <div class="col-md-4 col-sm-6">
                                             <div class="friend-card">
-                                                <img src="{{ asset('image/' . $data->timeline_picture) }}"
-                                                    alt="profile-cover"
-                                                    style="width:400px;height:100px;object-fit: contain;"
-                                                    class="img-responsive cover">
+                                                @if ($data->timeline_picture != null)
+                                                    <img src="{{ asset('image/' . $data->timeline_picture) }}"
+                                                        alt="profile-cover"
+                                                        style="width:400px;height:100px;object-fit: contain;"
+                                                        class="img-responsive cover">
+                                                @else
+                                                    <img src="{{ asset('image/timelinephoto.jpg') }}"
+                                                        alt="profile-cover"
+                                                        style="width:400px;height:100px;object-fit: contain;"
+                                                        class="img-responsive cover">
+                                                @endif
                                                 <div class="card-info">
-                                                    <img src="{{ asset('image/' . $data->profile_picture) }}"
-                                                        alt="user" class="profile-photo-lg">
+                                                    @if ($data->profile_picture != null)
+                                                        <img src="{{ asset('image/' . $data->profile_picture) }}"
+                                                            alt="user" class="profile-photo-lg">
+                                                    @else
+                                                        <img class="profile-photo-lg"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                            alt="profile">
+                                                    @endif
                                                     <div class="friend-info">
                                                         <h6><a href="{{ urL('user_view_timeline', ['id' => $data->id]) }}"
                                                                 class="profile-link">{{ ucfirst($data->name) }}

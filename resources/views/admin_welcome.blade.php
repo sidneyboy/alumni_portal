@@ -663,7 +663,7 @@
                                                         {{ Str::ucfirst($user->last_name) }}
 
                                                         <i
-                                                            style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($user)) }})</i>
+                                                            style="color:#007bff;font-size:12px;">({{ date('F j, Y', strtotime($user->created_at)) }})</i>
                                                     </div>
                                                 </div>
                                             </div>

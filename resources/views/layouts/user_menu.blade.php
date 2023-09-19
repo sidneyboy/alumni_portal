@@ -19,7 +19,7 @@
                     @endif
                 </a>
                 <span class="profile-name">{{ Str::ucfirst($user->name) }} {{ Str::ucfirst($user->middle_name) }}
-                    {{ Str::ucfirst($user->last_name) }}</span>
+                    {{ Str::ucfirst($user->last_name) }} <i style="color:blue;">({{ $user->year_graduated }})</i></span>
             </div>
             <div class="d-none d-md-block">
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#timeline_photo">
@@ -104,6 +104,9 @@
                 <a class="nav-link" href="{{ url('chatify') }}" target="_blank">Messenger <span
                         class="badge badge-primary" id="get_message_notif">
                     </span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('user_path') }}">Path</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('logout') }}">Logout</a>

@@ -6,6 +6,7 @@ use App\Events\Comment_notification;
 use App\Models\Announcements;
 use App\Models\Announcements_attachments;
 use App\Models\Announcement_replies;
+use App\Models\Career_path;
 use App\Models\User;
 use App\Models\Wall;
 use App\Models\Wall_attachments;
@@ -738,6 +739,8 @@ class HomeController extends Controller
         }
     }
 
+
+
     public function user_view_user_wall_reply(Request $request)
     {
         //return $request->input();
@@ -1108,6 +1111,34 @@ class HomeController extends Controller
         ]);
     }
 
+    public function admin_view_user_career_path($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', $id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::where('user_id', $id)->orderBy('id', 'desc')->get();
+
+        $user = User::find($id);
+
+        $career_path = Career_path::where('user_id', $id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('admin_view_user_career_path', [
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'career_path' => $career_path,
+            'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
     public function admin_view_user_photos($id)
     {
         date_default_timezone_set('Asia/Manila');
@@ -1175,6 +1206,37 @@ class HomeController extends Controller
             'wall' => $wall,
             'date_now' => $date_now,
             'latest_wall_photos' => $latest_wall_photos,
+        ]);
+    }
+
+    public function user_view_path($id)
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', $id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::where('user_id', $id)->orderBy('id', 'desc')->get();
+
+        $user = User::find($id);
+
+        $viewer = User::select('id')->find(auth()->user()->id);
+
+        $career_path = Career_path::where('user_id', $id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('user_view_path', [
+            'viewer' => $viewer,
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+            'career_path' => $career_path,
         ]);
     }
 
@@ -1301,5 +1363,105 @@ class HomeController extends Controller
         return view('get_message_notif', [
             'message_count' => $message_count,
         ]);
+    }
+
+    public function user_path()
+    {
+        $user = User::find(auth()->user()->id);
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+
+        User::where('id', auth()->user()->id)
+            ->update(['status' => 1]);
+
+        $latest_wall_photos = Wall_attachments::select('attachment')
+            ->where('user_id', auth()->user()->id)
+            ->take(3)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $wall = Wall::where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        $channel = $user->id . '_comment_channel';
+
+        $career_path = Career_path::where('user_id', auth()->user()->id)
+            ->orderBy('id', 'desc')
+            ->get();
+
+        return view('user_path', [
+            'channel' => $channel,
+            'user' => $user,
+            'wall' => $wall,
+            'date_now' => $date_now,
+            'latest_wall_photos' => $latest_wall_photos,
+            'career_path' => $career_path,
+        ]);
+    }
+
+    public function user_update_career_path(Request $request)
+    {
+        $destinationPath = 'image';
+        $myimage = uniqid() . '-' . $request->file->getClientOriginalName();
+        $request->file->move(public_path($destinationPath), $myimage);
+
+        $new = new Career_path([
+            'career' => $request->input('career'),
+            'description' => $request->input('description'),
+            'from' => $request->input('from'),
+            'user_id' => auth()->user()->id,
+            'file' => $myimage,
+        ]);
+
+        $new->save();
+
+        return redirect('user_path')->with('success');
+    }
+
+    public function admin_career_reports()
+    {
+        date_default_timezone_set('Asia/Manila');
+        $date_now = date('Y-m-d');
+        $user = User::find(auth()->user()->id);
+
+        $announcement_photos = DB::table("announcements_attachments")
+            ->select(
+                "attachment"
+            )->where('user_id', auth()->user()->id);
+        $wall_photos = DB::table("wall_attachments")
+            ->select(
+                "attachment"
+            )->where('user_id', auth()->user()->id)
+            ->unionAll($announcement_photos)
+            ->get();
+
+        $user_batch = User::select('id', 'year_graduated')
+            ->groupBy('year_graduated')
+            ->get();
+
+        return view('admin_career_reports', [
+            'user' => $user,
+            'date_now' => $date_now,
+            'wall_photos' => $wall_photos,
+            'user_batch' => $user_batch,
+        ]);
+    }
+
+    public function admin_year_graduated_show(Request $request)
+    {
+        $users = User::select('id')
+                    ->where('year_graduated',$request->input('year_graduated'))
+                    ->get()
+                    ->toArray();
+
+        $career_path = Career_path::where('career',$request->input('career'))
+                            ->whereIn('user_id',$users)
+                            ->get();
+
+        return view('admin_year_graduated_show',[
+            'career_path' => $career_path,
+        ]);
+        
     }
 }

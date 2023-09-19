@@ -52,6 +52,13 @@
                     <form method="post" autocomplete="off" action="{{ route('graduate_registration') }}">
                         @csrf
                         <div class="form-outline mb-4">
+                            <input type="number" min="1900" max="2099" step="1" value="2016"
+                                name="year_graduated" id="form3Example123123123" class="form-control form-control-lg"
+                                autocomplete="off" />
+                            <label class="form-label" for="form3Example123123123">Year Graduated</label>
+                        </div>
+
+                        <div class="form-outline mb-4">
                             <input type="text" required name="first_name" id="form3Example1"
                                 class="form-control form-control-lg" autocomplete="off"
                                 placeholder="Enter your first name" />
@@ -116,7 +123,7 @@
             class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
             <!-- Copyright -->
             <div class="text-white mb-3 mb-md-0">
-                Copyright © 2023. All rights reserved.
+                Copyright © 2023 Don Carlos Alumni Community Portal. All rights reserved.
             </div>
             <!-- Copyright -->
 
@@ -148,7 +155,7 @@
     $('#password, #confirm_password').on('keyup', function() {
         if ($('#password').val() == $('#confirm_password').val()) {
             $('#message').html('Password Matched').css('color', 'green');
-          
+
         } else
             $('#message').html('Password Not Matching').css('color', 'red');
     });

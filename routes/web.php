@@ -59,6 +59,10 @@ Route::post('/admin_view_user_get_comments/', [App\Http\Controllers\HomeControll
 Route::post('/admin_view_user_reply/', [App\Http\Controllers\HomeController::class, 'admin_view_user_reply'])->name('admin_view_user_reply');
 Route::post('/admin_view_user_timeline_reply_once_more/', [App\Http\Controllers\HomeController::class, 'admin_view_user_timeline_reply_once_more'])->name('admin_view_user_timeline_reply_once_more');
 
+
+Route::get('/admin_view_user_career_path/{id}', [App\Http\Controllers\HomeController::class, 'admin_view_user_career_path'])->name('admin_view_user_career_path');
+
+
 Route::post('/get_message_notif/', [App\Http\Controllers\HomeController::class, 'get_message_notif'])->name('get_message_notif');
 
 Route::get('/admin_survey/', [App\Http\Controllers\HomeController::class, 'admin_survey'])->name('admin_survey');
@@ -88,7 +92,7 @@ Route::post('/user_view_user_reply_once_more/', [App\Http\Controllers\HomeContro
 Route::post('/user_view_user_get_comments/', [App\Http\Controllers\HomeController::class, 'user_view_user_get_comments'])->name('user_view_user_get_comments');
 Route::get('/user_view_user_photos/{id}', [App\Http\Controllers\HomeController::class, 'user_view_user_photos'])->name('user_view_user_photos');
 
-
+Route::get('/user_view_path/{id}', [App\Http\Controllers\HomeController::class, 'user_view_path'])->name('user_view_path');
 
 
 Route::get('/user_photos/', [App\Http\Controllers\HomeController::class, 'user_photos'])->name('user_photos');
@@ -103,5 +107,17 @@ Route::get('/user_survey/', [App\Http\Controllers\HomeController::class, 'user_s
 Route::post('/user_survey_process/', [App\Http\Controllers\HomeController::class, 'user_survey_process'])->name('user_survey_process');
 
 
+Route::get('/user_path/', [App\Http\Controllers\HomeController::class, 'user_path'])->name('user_path');
+Route::post('/user_update_career_path/', [App\Http\Controllers\HomeController::class, 'user_update_career_path'])->name('user_update_career_path');
+
+Route::get('/admin_career_reports/', [App\Http\Controllers\HomeController::class, 'admin_career_reports'])->name('admin_career_reports');
+Route::post('/admin_year_graduated_show/', [App\Http\Controllers\HomeController::class, 'admin_year_graduated_show'])->name('admin_year_graduated_show');
+
+
+
+
 
 Route::post('/graduate_registration', [App\Http\Controllers\Graduates_registration_controller::class, 'graduate_registration'])->name('graduate_registration');
+Route::get('/career_path/{id}', [App\Http\Controllers\Graduates_registration_controller::class, 'career_path'])->name('career_path');
+Route::post('/career_path_save/', [App\Http\Controllers\Graduates_registration_controller::class, 'career_path_save'])->name('career_path_save');
+

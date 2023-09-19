@@ -12,10 +12,16 @@
         <div class="cover-body d-flex justify-content-between align-items-center">
             <div>
                 <a href="" data-toggle="modal" style="text-decoration: none;" data-target="#profile_picture">
-                    <img class="profile-pic" src="{{ asset('image/' . $user->profile_picture) }}" alt="profile">
+                    @if ($user->profile_picture != null)
+                        <img class="profile-pic" src="{{ asset('image/' . $user->profile_picture) }}" alt="profile">
+                    @else
+                        <img class="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                            alt="profile">
+                    @endif
                 </a>
+                
                 <span class="profile-name">{{ Str::ucfirst($user->name) }} {{ Str::ucfirst($user->middle_name) }}
-                    {{ Str::ucfirst($user->last_name) }}</span>
+                    {{ Str::ucfirst($user->last_name) }} <i style="color:blue;">({{ $user->year_graduated }})</i></span>
             </div>
         </div>
     </div>
@@ -60,6 +66,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('user_view_user_photos', ['id' => $user->id]) }}">Photos</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('user_view_path', ['id' => $user->id]) }}">Path</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('home') }}">Home</a>

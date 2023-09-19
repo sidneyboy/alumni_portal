@@ -3,7 +3,8 @@
         <div class="gray-shade"></div>
         <figure>
             @if ($user->timeline_picture != null)
-                <img src="{{ asset('image/' . $user->timeline_picture) }}" style="width:1920px;height:350px;object-fit:cover;" class="img-fluid" alt="profile cover">
+                <img src="{{ asset('image/' . $user->timeline_picture) }}"
+                    style="width:1920px;height:350px;object-fit:cover;" class="img-fluid" alt="profile cover">
             @else
                 <img src="{{ asset('image/timelinephoto.jpg') }}" class="img-fluid" alt="profile cover">
             @endif
@@ -58,7 +59,10 @@
                 <a class="nav-link" href="{{ url('admin_survey') }}">Survey</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ url('admin_reports') }}">Reports</a>
+                <a class="nav-link" href="{{ url('admin_reports') }}">Survey Reports</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('admin_career_reports') }}">Career Reports</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('logout') }}">Logout</a>

@@ -452,7 +452,7 @@
         channel.bind('comment_event', function(data) {
             // toastr.info(JSON.stringify(data.name));
             toastr["success"]('<div><a href="' + data.link +
-                '" target="_blank">'+ JSON.stringify(data.name) +'</a>')
+                '" target="_blank">' + JSON.stringify(data.name) + '</a>')
         });
     </script>
 </head>
@@ -553,8 +553,16 @@
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div class="d-flex justify-content-between align-items-center">
                                                 <div class="mr-2">
-                                                    <img class="rounded-circle" width="45"
-                                                        src="{{ asset('/image/' . $user->profile_picture) }}" alt>
+
+                                                    @if ($user->profile_picture != null)
+                                                        <img class="rounded-circle" width="45"
+                                                            src="{{ asset('image/' . $user->profile_picture) }}"
+                                                            alt="profile">
+                                                    @else
+                                                        <img class="rounded-circle" width="45"
+                                                            src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                            alt="profile">
+                                                    @endif
                                                 </div>
                                                 <div class="ml-2">
                                                     <div class="h5 m-0">{{ '@' . Str::ucfirst($user->name) }}</div>

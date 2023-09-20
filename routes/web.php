@@ -121,3 +121,7 @@ Route::post('/graduate_registration', [App\Http\Controllers\Graduates_registrati
 Route::get('/career_path/{id}', [App\Http\Controllers\Graduates_registration_controller::class, 'career_path'])->name('career_path');
 Route::post('/career_path_save/', [App\Http\Controllers\Graduates_registration_controller::class, 'career_path_save'])->name('career_path_save');
 
+Route::post('/user_year_graduated_process/', [App\Http\Controllers\HomeController::class, 'user_year_graduated_process'])->name('user_year_graduated_process');
+
+
+

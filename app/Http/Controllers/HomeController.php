@@ -95,7 +95,6 @@ class HomeController extends Controller
                     ->where('user_id', auth()->user()->id)
                     ->where('survey_id', $survey->id)
                     ->count();
-
                 if ($user_survey_checker == 0) {
                     return redirect('user_survey');
                 } else {
@@ -287,13 +286,27 @@ class HomeController extends Controller
 
         $channel = $user->id . '_comment_channel';
 
-        return view('user_welcome', [
-            'channel' => $channel,
-            'user' => $user,
-            'wall' => $wall,
-            'date_now' => $date_now,
-            'latest_wall_photos' => $latest_wall_photos,
-        ]);
+        if ($user->year_graduated != null) {
+            return view('user_welcome', [
+                'channel' => $channel,
+                'user' => $user,
+                'wall' => $wall,
+                'date_now' => $date_now,
+                'latest_wall_photos' => $latest_wall_photos,
+            ]);
+        } else {
+            return view('user_year_graduated', [
+                'user' => $user,
+            ]);
+        }
+    }
+
+    public function user_year_graduated_process(Request $request)
+    {
+        User::where('id', $request->input('user_id'))
+            ->update(['year_graduated' => $request->input('year_graduated')]);
+
+        return redirect('user_welcome');
     }
 
     public function user_feed()
@@ -1451,17 +1464,16 @@ class HomeController extends Controller
     public function admin_year_graduated_show(Request $request)
     {
         $users = User::select('id')
-                    ->where('year_graduated',$request->input('year_graduated'))
-                    ->get()
-                    ->toArray();
+            ->where('year_graduated', $request->input('year_graduated'))
+            ->get()
+            ->toArray();
 
-        $career_path = Career_path::where('career',$request->input('career'))
-                            ->whereIn('user_id',$users)
-                            ->get();
+        $career_path = Career_path::where('career', $request->input('career'))
+            ->whereIn('user_id', $users)
+            ->get();
 
-        return view('admin_year_graduated_show',[
+        return view('admin_year_graduated_show', [
             'career_path' => $career_path,
         ]);
-        
     }
 }

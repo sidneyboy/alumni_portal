@@ -1276,6 +1276,7 @@ class HomeController extends Controller
         $current_user_id = User::select('id')->where('id', auth()->user()->id)
             ->first();
 
+       
         return view('admin_get_news_feed', [
             'current_user_id' => $current_user_id,
             'wall' => $wall,

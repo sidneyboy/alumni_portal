@@ -18,7 +18,7 @@ class Announcements extends Model
 
     public function attachments()
     {
-        return $this->hasMany('App\Models\Announcements_attachments', 'announcements_id')->skip(1)->limit(3);
+        return $this->hasMany('App\Models\Announcements_attachments', 'announcements_id')->limit(3);
     }
 
     public function attachments_one()

@@ -63,16 +63,22 @@
                                     </a>
                                 </div>
                             @elseif(count($announcement->attachments) <= 5)
-                                <div class="profile-img-list-item main"><a href="#"
+                                {{-- <div class="profile-img-list-item main"><a href="#"
                                         class="profile-img-list-link"><span class="profile-img-content"
                                             style="background-image: url({{ asset('announcement_photos/' . $announcement->attachments_one->attachment) }})"></span></a>
-                                </div>
+                                </div> --}}
                                 @foreach ($announcement->attachments as $item)
-                                    <div class="profile-img-list-item"><a href="#"
+                                    {{-- <div class="profile-img-list-item"><a href="#"
+                                            class="profile-img-list-link"><span class="profile-img-content"
+                                                style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
+                                    </div> --}}
+                                    <div class="profile-img-list-item main"><a href="#"
                                             class="profile-img-list-link"><span class="profile-img-content"
                                                 style="background-image: url({{ asset('announcement_photos/' . $item->attachment) }})"></span></a>
                                     </div>
                                 @endforeach
+
+
                             @endif
                         </div>
                     </div>
@@ -180,10 +186,10 @@
                                     </a>
                                 </div>
                             @elseif(count($wall_item->attachments) <= 5)
-                                <div class="profile-img-list-item main"><a href="#"
+                                {{-- <div class="profile-img-list-item main"><a href="#"
                                         class="profile-img-list-link"><span class="profile-img-content"
                                             style="background-image: url({{ asset('announcement_photos/' . $wall_item->attachments_one->attachment) }})"></span></a>
-                                </div>
+                                </div> --}}
                                 @foreach ($wall_item->attachments as $item)
                                     <div class="profile-img-list-item"><a href="#"
                                             class="profile-img-list-link"><span class="profile-img-content"
@@ -191,11 +197,6 @@
                                     </div>
                                 @endforeach
                             @endif
-
-
-
-
-
                         </div>
                     </div>
                     <a class="card-link" data-toggle="collapse"

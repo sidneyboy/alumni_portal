@@ -584,12 +584,8 @@
                                                                             </option>
                                                                             @if ($data->user_type == 'admin')
                                                                                 <option value="user">User</option>
-                                                                                <option value="coordinator">Coordinator
-                                                                                </option>
                                                                             @elseif($data->user_type == 'user')
                                                                                 <option value="admin">Admin</option>
-                                                                                <option value="coordinator">Coordinator
-                                                                                </option>
                                                                             @elseif($data->user_type == 'coordinator')
                                                                                 <option value="admin">Admin</option>
                                                                                 <option value="user">User</option>
